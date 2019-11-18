@@ -48,7 +48,7 @@ function get_all_sights( $data ) {
             'image_small' => '',
             'image_medium' => ''
         ];
-        $item['images'] = imageObject;
+        $item['images'] = $imageObject;
         $result[] = $item;
     }
     $mainData['sights'] = $result;
