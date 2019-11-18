@@ -2,7 +2,7 @@
 //Custom API requests
 
 add_action( 'rest_api_init', function () {
-    register_rest_route( 'brutmaps/data/v1', '/sights', array(
+    register_rest_route( 'brutmaps/data/v1/api', '/sights', array(
       'methods' => 'GET',
       'callback' => 'get_all_sights',
     ) );
