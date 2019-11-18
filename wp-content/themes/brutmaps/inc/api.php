@@ -39,16 +39,18 @@ function get_all_sights( $data ) {
         $item = [];
         $item['id'] = $sightID;
         $item['title'] = get_the_title($sightID);
-        $item['coordinates'] = $location;
-        $item['address'] = $location;
+        $item['coordinates'] = [
+            'lat' => $location['lat'],
+            'long' => $location['lng']
+        ];
+        $item['address'] = $location['address'];
         $item['year'] = get_field('established', $sightID);
         $imageObject = get_field('main_image', $sightID);
         $images = [
-            'image_full' => '',
-            'image_small' => '',
-            'image_medium' => ''
+            'image_full' => $imageObject['url'],
+            'image_small' => $imageObject['sizes']['thumbnail'],
+            'image_medium' => $imageObject['sizes']['medium']
         ];
-        $item['images'] = $imageObject;
         $result[] = $item;
     }
     $mainData['sights'] = $result;
