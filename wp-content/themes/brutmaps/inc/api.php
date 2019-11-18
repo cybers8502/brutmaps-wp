@@ -44,7 +44,7 @@ function get_all_sights( $data ) {
             'long' => $location['lng']
         ];
         $item['address'] = $location['address'];
-        $item['year'] = get_field('established', $sightID);
+        $item['year'] = intval(get_field('established', $sightID));
         $imageObject = get_field('main_image', $sightID);
         $images = [
             'image_full' => $imageObject['url'],
