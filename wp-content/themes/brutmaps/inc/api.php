@@ -21,5 +21,12 @@ function getSights() {
 
 function get_all_sights( $data ) {
     $ids = getSights();
-    return json_encode(ids);
+    $result = [];
+    foreach ($ids as $sightID) {
+        $item = [];
+        $item['id'] = $sightID;
+        $item['title'] = get_the_title($sightID);
+        $result[] = $item;
+    }
+    return json_encode($result);
 }
