@@ -56,5 +56,5 @@ function get_all_sights( $data ) {
     }
     $mainData['sights'] = [];
     $mainWrap['data'] = $mainData;
-    return _format_json(stripcslashes(json_encode($mainWrap)));
+    return stripcslashes(json_encode($mainWrap));
 }
