@@ -4,19 +4,22 @@
 add_action( 'rest_api_init', function () {
     register_rest_route( 'brutmaps/data/v1', '/sights', array(
       'methods' => 'GET',
-      'callback' => 'my_awesome_func',
+      'callback' => 'get_all_sights',
     ) );
   } );
 
-  function my_awesome_func( $data ) {
-    $posts = get_posts();
-   
-    if ( empty( $posts ) ) {
-      return null;
-    }
-   
-    return '{
-        "data": true,
-        "message": "Hello"
-    }';
-  }
+function getSights() {
+    $args = array( 
+        'numberposts'		=> -1,
+        'post_type'		=> 'sight',
+        'orderby' 		=> 'title',
+        'order' 		=> 'ASC',
+        'fields'        => 'ids'
+      );
+    return get_posts($args);
+}
+
+function get_all_sights( $data ) {
+    $ids = getSights();
+    return json_encode(ids);
+}
