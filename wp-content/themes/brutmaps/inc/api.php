@@ -54,7 +54,7 @@ function get_all_sights( $data ) {
         $item['images'] = $images;
         $result[] = $item;
     }
-    $mainData['sights'] = [];
+    $mainData['sights'] = $result;
     $mainWrap['data'] = $mainData;
     $response = new WP_REST_Response( $mainWrap );
     $response->set_status( 200 );
