@@ -21,12 +21,37 @@ function getSights() {
 
 function get_all_sights( $data ) {
     $ids = getSights();
+    $mainWrap = ['done' => true];
+    $mainData = [
+        'sights' => [],
+        'settings' => [
+            'default_center' => [
+                'coordinates' => [
+                    'lat' => 40.6971494,
+                    'long' => -74.2598626
+                ]
+            ]
+        ]
+    ];
     $result = [];
     foreach ($ids as $sightID) {
+        $location = get_field('location');
         $item = [];
         $item['id'] = $sightID;
         $item['title'] = get_the_title($sightID);
+        $item['coordinates'] = $location;
+        $item['address'] = $location;
+        $item['year'] = get_field('established');
+        $imageObject = get_field('main_image');
+        $images = [
+            'image_full' => '',
+            'image_small' => '',
+            'image_medium' => ''
+        ];
+        $item['images'] = imageObject;
         $result[] = $item;
     }
-    return json_encode($result);
+    $mainData['sights'] = $result;
+    $mainWrap['data'] = $mainData;
+    return json_encode($mainWrap);
 }
