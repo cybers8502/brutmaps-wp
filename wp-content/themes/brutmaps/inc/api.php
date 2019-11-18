@@ -54,7 +54,7 @@ function get_all_sights( $data ) {
         $item['images'] = $images;
         $result[] = $item;
     }
-    $mainData['sights'] = $result;
+    $mainData['sights'] = [];
     $mainWrap['data'] = $mainData;
     return json_encode($mainWrap);
 }
