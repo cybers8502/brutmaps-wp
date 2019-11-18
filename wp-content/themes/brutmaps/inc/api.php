@@ -56,5 +56,9 @@ function get_all_sights( $data ) {
     }
     $mainData['sights'] = [];
     $mainWrap['data'] = $mainData;
-    return stripcslashes(json_encode($mainWrap));
+    $response = new WP_REST_Response( $mainWrap );
+    $response->set_status( 200 );
+    $response->header( 'Content-type', 'application/json' );
+
+    return $response;
 }
