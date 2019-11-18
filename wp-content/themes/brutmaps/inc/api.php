@@ -40,8 +40,8 @@ function get_all_sights( $data ) {
         $item['id'] = $sightID;
         $item['title'] = get_the_title($sightID);
         $item['coordinates'] = [
-            'lat' => $location['lat'],
-            'long' => $location['lng']
+            'lat' => doubleval($location['lat']),
+            'long' => doubleval($location['lng'])
         ];
         $item['address'] = $location['address'];
         $item['year'] = intval(get_field('established', $sightID));
