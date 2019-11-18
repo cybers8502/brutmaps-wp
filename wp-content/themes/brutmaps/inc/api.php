@@ -35,14 +35,14 @@ function get_all_sights( $data ) {
     ];
     $result = [];
     foreach ($ids as $sightID) {
-        $location = get_field('location');
+        $location = get_field('location', $sightID);
         $item = [];
         $item['id'] = $sightID;
         $item['title'] = get_the_title($sightID);
         $item['coordinates'] = $location;
         $item['address'] = $location;
-        $item['year'] = get_field('established');
-        $imageObject = get_field('main_image');
+        $item['year'] = get_field('established', $sightID);
+        $imageObject = get_field('main_image', $sightID);
         $images = [
             'image_full' => '',
             'image_small' => '',
