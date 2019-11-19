@@ -4,22 +4,23 @@
 add_action( 'rest_api_init', function () {
     register_rest_route( 'brutmaps/data/v1/api', '/sights', array(
       'methods' => 'GET',
-      'callback' => 'get_all_sights',
+      'callback' => 'getAllSights',
     ) );
-  } );
+} );
 
 function getSights() {
     $args = array( 
-        'numberposts'		=> -1,
+        'numberposts'		=> 100,
         'post_type'		=> 'sight',
         'orderby' 		=> 'title',
         'order' 		=> 'ASC',
-        'fields'        => 'ids'
+        'fields'        => 'ids',
+	    'post_status'   => 'draft'
       );
     return get_posts($args);
 }
 
-function get_all_sights( $data ) {
+function getAllSights( $data ) {
     $ids = getSights();
     $mainWrap = ['done' => true];
     $mainData = [
@@ -59,6 +60,54 @@ function get_all_sights( $data ) {
     $response = new WP_REST_Response( $mainWrap );
     $response->set_status( 200 );
     $response->header( 'Content-type', 'application/json' );
-
     return $response;
+}
+
+function createFakeSight($inputData) {
+	$data = array(
+		'post_type'     => 'sight',
+		'post_status'   => 'draft',
+		'post_title'    => $inputData['post_title'],
+	);
+	$newID = wp_insert_post($data);
+	if (is_int($newID)) {
+		update_field('field_5dce8b9776ae7', $inputData['year'], $newID);
+		update_field('field_5dce8c6f76aed', $inputData['address'], $newID);
+	}
+}
+
+function createFakeSights() {
+	echo get_template_directory_uri();
+	$str = file_get_contents(get_template_directory_uri().'/inc/BrutData.json');
+	$json = json_decode($str, true);
+	$collection = array_filter($json, function($obj)
+	{
+		static $idList = array();
+		if(in_array($obj['id'], $idList)) {
+			return false;
+		}
+		$idList[]= $obj['id'];
+		return true;
+	});
+	//Only 1 item for test
+	$output = array_slice($collection, 0, 1);
+	$GOOGLE_KEY = '***REMOVED-GOOGLE-API-KEY***';
+	foreach ($output as $item) {
+		$geolocation = $item['lat'].','.$item['lng'];
+		$request = 'https://maps.googleapis.com/maps/api/geocode/json?latlng='.$geolocation.'&sensor=false&key='.$GOOGLE_KEY.'';
+		$file_contents = file_get_contents($request);
+		$addressString = json_decode($file_contents)->results[0]->formatted_address;
+		echo $addressString;
+		$address = [
+			'lng' => $item['lng'],
+			'lat' => $item['lat'],
+			'address' => $addressString
+		];
+		$data = array(
+			'year'          => intval($item['ende_jahr']),
+			'post_title'    => $item['titel'],
+			'address'       => $address
+		);
+		createFakeSight($data);
+	}
 }

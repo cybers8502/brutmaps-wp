@@ -1,4 +1,2 @@
 <?php
-get_header();
-
-get_footer();
+echo "BRUTMAPS 1.0";
