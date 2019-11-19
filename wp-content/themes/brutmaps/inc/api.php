@@ -47,11 +47,20 @@ function getAllSights( $data ) {
         $item['address'] = $location['address'];
         $item['year'] = intval(get_field('established', $sightID));
         $imageObject = get_field('main_image', $sightID);
-        $images = [
-            'image_full' => $imageObject['url'],
-            'image_small' => $imageObject['sizes']['thumbnail'],
-            'image_medium' => $imageObject['sizes']['medium']
-        ];
+        if (is_null($imageObject)) {
+        	$testImage = 'https://brutmaps.designstudio.ag/wp-content/uploads/2019/11/brutalist-architecture-7-1024x567.jpg';
+	        $images = [
+		        'image_full' => $testImage,
+		        'image_small' => $testImage,
+		        'image_medium' => $testImage
+	        ];
+        } else {
+	        $images = [
+		        'image_full' => $imageObject['url'],
+		        'image_small' => $imageObject['sizes']['thumbnail'],
+		        'image_medium' => $imageObject['sizes']['medium']
+	        ];
+        }
         $item['images'] = $images;
         $result[] = $item;
     }
