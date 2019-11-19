@@ -10,7 +10,7 @@ add_action( 'rest_api_init', function () {
 
 function getSights() {
     $args = array( 
-        'numberposts'		=> 100,
+        'numberposts'   => -1,
         'post_type'		=> 'sight',
         'orderby' 		=> 'title',
         'order' 		=> 'ASC',
