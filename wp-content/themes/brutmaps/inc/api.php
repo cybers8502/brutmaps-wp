@@ -71,7 +71,7 @@ function API_GET_SIGHT_BY_ID( $data ) {
 	$sightID = $data['id'];
 	$sight = get_post($sightID);
 	$statusCode = 200;
-	if (!is_null($sight) && $sight->post_status === 'publish' && $sight->post_type == 'sight') {
+	if (!is_null($sight) && $sight->post_status === 'publish' && $sight->post_type == 'sight' && is_int($sight)) {
 		$location = get_field('location', $sightID);
 		$galleryField = get_field('gallery', $sightID);
 		$gallery = [];
@@ -88,7 +88,7 @@ function API_GET_SIGHT_BY_ID( $data ) {
 			$mainImage = $imageObject['url'];
 		}
 		$mainData = [
-			'id'            => $sightID,
+			'id'            => intval($sightID),
 			'main_data'     => [
 				'title'     => get_the_title($sightID),
 				'sub_title' => $location['address'],
