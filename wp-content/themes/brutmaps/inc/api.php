@@ -43,11 +43,10 @@ function API_GET_SIGHTS() {
         $item['year'] = intval(get_field('established', $sightID));
         $imageObject = get_field('main_image', $sightID);
         if (is_null($imageObject)) {
-        	$testImage = PLACEHOLDER;
 	        $images = [
-		        'image_full' => $testImage,
-		        'image_small' => $testImage,
-		        'image_medium' => $testImage
+		        'image_full' => PLACEHOLDER,
+		        'image_small' => PLACEHOLDER,
+		        'image_medium' => PLACEHOLDER
 	        ];
         } else {
 	        $images = [
