@@ -10,7 +10,7 @@ add_action( 'rest_api_init', function () {
     ) );
 	register_rest_route( BASE_URL, '/sights/(?P<id>\d+)', array(
 		'methods' => 'GET',
-		'callback' => 'getAllSights',
+		'callback' => 'API_GET_SIGHTS',
 	) );
 } );
 
