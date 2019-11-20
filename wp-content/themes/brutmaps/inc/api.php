@@ -1,26 +1,20 @@
 <?php 
 //Custom API requests
 
+define('BASE_URL', 'brutmaps/data/v1/api/');
+
 add_action( 'rest_api_init', function () {
-    register_rest_route( 'brutmaps/data/v1/api', '/sights', array(
+    register_rest_route( BASE_URL, '/sights', array(
       'methods' => 'GET',
-      'callback' => 'getAllSights',
+      'callback' => 'API_GET_SIGHTS',
     ) );
+	register_rest_route( BASE_URL, '/sights/(?P<id>\d+)', array(
+		'methods' => 'GET',
+		'callback' => 'getAllSights',
+	) );
 } );
 
-function getSights() {
-    $args = array( 
-        'numberposts'   => -1,
-        'post_type'		=> 'sight',
-        'orderby' 		=> 'title',
-        'order' 		=> 'ASC',
-        'fields'        => 'ids',
-	    'post_status'   => 'publish'
-      );
-    return get_posts($args);
-}
-
-function getAllSights( $data ) {
+function API_GET_SIGHTS( $data ) {
     $ids = getSights();
     $mainWrap = ['done' => true];
     $mainData = [
@@ -72,51 +66,14 @@ function getAllSights( $data ) {
     return $response;
 }
 
-function createFakeSight($inputData) {
-	$data = array(
-		'post_type'     => 'sight',
-		'post_status'   => 'draft',
-		'post_title'    => $inputData['post_title'],
+function getSights() {
+	$args = array(
+		'numberposts'   => -1,
+		'post_type'		=> 'sight',
+		'orderby' 		=> 'title',
+		'order' 		=> 'ASC',
+		'fields'        => 'ids',
+		'post_status'   => 'publish'
 	);
-	$newID = wp_insert_post($data);
-	if (is_int($newID)) {
-		update_field('field_5dce8b9776ae7', $inputData['year'], $newID);
-		update_field('field_5dce8c6f76aed', $inputData['address'], $newID);
-	}
-}
-
-function createFakeSights() {
-	echo get_template_directory_uri();
-	$str = file_get_contents(get_template_directory_uri().'/inc/BrutData.json');
-	$json = json_decode($str, true);
-	$collection = array_filter($json, function($obj)
-	{
-		static $idList = array();
-		if(in_array($obj['id'], $idList)) {
-			return false;
-		}
-		$idList[]= $obj['id'];
-		return true;
-	});
-	//Only 1 item for test
-	$output = array_slice($collection, 0, 1);
-	$GOOGLE_KEY = '***REMOVED-GOOGLE-API-KEY***';
-	foreach ($output as $item) {
-		$geolocation = $item['lat'].','.$item['lng'];
-		$request = 'https://maps.googleapis.com/maps/api/geocode/json?latlng='.$geolocation.'&sensor=false&key='.$GOOGLE_KEY.'';
-		$file_contents = file_get_contents($request);
-		$addressString = json_decode($file_contents)->results[0]->formatted_address;
-		echo $addressString;
-		$address = [
-			'lng' => $item['lng'],
-			'lat' => $item['lat'],
-			'address' => $addressString
-		];
-		$data = array(
-			'year'          => intval($item['ende_jahr']),
-			'post_title'    => $item['titel'],
-			'address'       => $address
-		);
-		createFakeSight($data);
-	}
+	return get_posts($args);
 }
