@@ -71,7 +71,7 @@ function API_GET_SIGHT_BY_ID( $data ) {
 	$sightID = $data['id'];
 	$sight = get_post($sightID);
 	$statusCode = 200;
-	if (!is_null($sight) && $sight->post_status === 'publish' && $sight->post_type == 'sight' && is_int($sight)) {
+	if (!is_null($sight) && $sight->post_status === 'publish' && $sight->post_type == 'sight' && is_int($sightID)) {
 		$location = get_field('location', $sightID);
 		$galleryField = get_field('gallery', $sightID);
 		$gallery = [];
