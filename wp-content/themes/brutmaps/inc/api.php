@@ -10,7 +10,7 @@ add_action( 'rest_api_init', function () {
     ) );
 	register_rest_route( BASE_URL, '/sights/(?P<id>\d+)', array(
 		'methods' => 'GET',
-		'callback' => 'API_GET_SIGHTS',
+		'callback' => 'API_GET_SIGHT_BY_ID',
 	) );
 } );
 
@@ -64,6 +64,18 @@ function API_GET_SIGHTS( $data ) {
     $response->set_status( 200 );
     $response->header( 'Content-type', 'application/json' );
     return $response;
+}
+
+function API_GET_SIGHT_BY_ID( $data ) {
+	$sightID = $data['id'];
+	$mainWrap = ['done' => true];
+	$mainData = [
+	];
+	$mainWrap['data'] = $mainData;
+	$response = new WP_REST_Response( $mainWrap );
+	$response->set_status( 200 );
+	$response->header( 'Content-type', 'application/json' );
+	return $response;
 }
 
 function getSights() {
