@@ -67,11 +67,37 @@ function API_GET_SIGHTS( $data ) {
 }
 
 function API_GET_SIGHT_BY_ID( $data ) {
-	$sightID = $data['id'];
 	$mainWrap = ['done' => true];
-	$mainData = [
-	];
-	$mainWrap['data'] = $mainData;
+	$sightID = $data['id'];
+	$sight = get_post($sightID);
+	if (!is_null($sight) && $sight->post_status === 'publish') {
+		$location = get_field('location', $sightID);
+		$galleryField = get_field('gallery', $sightID);
+		$gallery = [];
+		foreach ($galleryField as $item) {
+			$gallery[] = $item[''];
+		}
+		$mainData = [
+			'id'            => $sightID,
+			'main_data'     => [
+				'title'     => get_the_title($sightID),
+				'sub_title' => $location['address'],
+				'image'     => get_field('main_image', $sightID)
+			],
+			'year'          => get_field('established', $sightID),
+			'description'   => get_field('main_content', $sightID),
+			'image_gallery' => $galleryField,
+			'extra_data'    => get_field('extra_date', $sightID),
+			'coordinates'   => [
+				'lat' => doubleval($location['lat']),
+				'long' => doubleval($location['lng'])
+			]
+		];
+		$mainWrap['data'] = $mainData;
+	} else {
+		$mainWrap['done'] = false;
+		$mainWrap['message'] = 'Sight does not exist';
+	}
 	$response = new WP_REST_Response( $mainWrap );
 	$response->set_status( 200 );
 	$response->header( 'Content-type', 'application/json' );
