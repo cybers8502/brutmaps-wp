@@ -75,7 +75,10 @@ function API_GET_SIGHT_BY_ID( $data ) {
 		$galleryField = get_field('gallery', $sightID);
 		$gallery = [];
 		foreach ($galleryField as $item) {
-			$gallery[] = $item[''];
+			$image = $item['gallery_image'];
+			if (!is_null($image)) {
+				$gallery[] = $image;
+			}
 		}
 		$mainData = [
 			'id'            => $sightID,
@@ -86,7 +89,7 @@ function API_GET_SIGHT_BY_ID( $data ) {
 			],
 			'year'          => get_field('established', $sightID),
 			'description'   => get_field('main_content', $sightID),
-			'image_gallery' => $galleryField,
+			'image_gallery' => $gallery,
 			'extra_data'    => get_field('extra_date', $sightID),
 			'coordinates'   => [
 				'lat' => doubleval($location['lat']),
