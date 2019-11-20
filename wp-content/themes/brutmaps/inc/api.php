@@ -2,6 +2,7 @@
 //Custom API requests
 
 define('BASE_URL', 'brutmaps/data/v1/api/');
+define('PLACEHOLDER', 'https://brutmaps.designstudio.ag/wp-content/uploads/2019/11/brutalist-architecture-7-1024x567.jpg');
 
 add_action( 'rest_api_init', function () {
     register_rest_route( BASE_URL, '/sights', array(
@@ -14,7 +15,7 @@ add_action( 'rest_api_init', function () {
 	) );
 } );
 
-function API_GET_SIGHTS( $data ) {
+function API_GET_SIGHTS() {
     $ids = getSights();
     $mainWrap = ['done' => true];
     $mainData = [
@@ -42,7 +43,7 @@ function API_GET_SIGHTS( $data ) {
         $item['year'] = intval(get_field('established', $sightID));
         $imageObject = get_field('main_image', $sightID);
         if (is_null($imageObject)) {
-        	$testImage = 'https://brutmaps.designstudio.ag/wp-content/uploads/2019/11/brutalist-architecture-7-1024x567.jpg';
+        	$testImage = PLACEHOLDER;
 	        $images = [
 		        'image_full' => $testImage,
 		        'image_small' => $testImage,
@@ -70,7 +71,8 @@ function API_GET_SIGHT_BY_ID( $data ) {
 	$mainWrap = ['done' => true];
 	$sightID = $data['id'];
 	$sight = get_post($sightID);
-	if (!is_null($sight) && $sight->post_status === 'publish') {
+	$statusCode = 200;
+	if (!is_null($sight) && $sight->post_status === 'publish' && $sight->post_type == 'sight') {
 		$location = get_field('location', $sightID);
 		$galleryField = get_field('gallery', $sightID);
 		$gallery = [];
@@ -80,12 +82,18 @@ function API_GET_SIGHT_BY_ID( $data ) {
 				$gallery[] = $image;
 			}
 		}
+		$imageObject = get_field('main_image', $sightID);
+		if (is_null($imageObject) || is_null($imageObject['url'])) {
+			$mainImage = PLACEHOLDER;
+		} else {
+			$mainImage = $imageObject['url'];
+		}
 		$mainData = [
 			'id'            => $sightID,
 			'main_data'     => [
 				'title'     => get_the_title($sightID),
 				'sub_title' => $location['address'],
-				'image'     => get_field('main_image', $sightID)
+				'image'     => $mainImage
 			],
 			'year'          => get_field('established', $sightID),
 			'description'   => get_field('main_content', $sightID),
@@ -100,9 +108,10 @@ function API_GET_SIGHT_BY_ID( $data ) {
 	} else {
 		$mainWrap['done'] = false;
 		$mainWrap['message'] = 'Sight does not exist';
+		$statusCode = 422;
 	}
 	$response = new WP_REST_Response( $mainWrap );
-	$response->set_status( 200 );
+	$response->set_status( $statusCode );
 	$response->header( 'Content-type', 'application/json' );
 	return $response;
 }
