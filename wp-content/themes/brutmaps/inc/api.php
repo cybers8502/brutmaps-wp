@@ -97,7 +97,7 @@ function API_GET_SIGHT_BY_ID( $data ) {
 			'year'          => get_field('established', $sightID),
 			'description'   => get_field('main_content', $sightID),
 			'image_gallery' => $gallery,
-			'extra_data'    => get_field('extra_date', $sightID),
+			'extra_data'    => get_field('source', $sightID),
 			'coordinates'   => [
 				'lat' => doubleval($location['lat']),
 				'long' => doubleval($location['lng'])
