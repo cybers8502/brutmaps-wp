@@ -136,7 +136,8 @@ function API_POST_SIGHT ( $data ) {
 	}
 	$args = [
 		'post_title'    => 'New Sight',
-		'post_type'     => 'sight'
+		'post_type'     => 'sight',
+		'post_status'   => 'pending'
 	];
 	$sightID = wp_insert_post($args);
 	if (!is_null($sightID)) {
