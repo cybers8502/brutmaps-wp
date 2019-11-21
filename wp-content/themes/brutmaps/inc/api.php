@@ -143,23 +143,29 @@ function API_POST_SIGHT ( $data ) {
 		'post_status'   => 'pending'
 	];
 	$sightID = wp_insert_post($args);
-	if (!is_null($sightID)) {
-		update_field('main_content', $description, $sightID);
-	}
 	$imageNames = ['image_1', 'image_2', 'image_3', 'image_4', 'image_5'];
-	$loadResponses = [];
+	$imagesIDs = [];
 	foreach ($imageNames as $imageName) {
 		if (!is_null($_FILES[$imageName])) {
 			$uploadData = uploadFile($_FILES[$imageName]);
 			if ( !isset( $upload['error'] ) ){
-				$loadResponses[$imageName] = $uploadData;
+				$imagesIDs[$imageName] = $uploadData;
 			}
+		}
+	}
+	if (!is_null($sightID)) {
+		update_field('main_content', $description, $sightID);
+		foreach ($imagesIDs as $imageID) {
+			$row = array(
+				'gallery_image' => $imageID
+			);
+			add_row('gallery', $row, $sightID);
 		}
 	}
 	$output = [
 		'done' => true,
 		'message' => null,
-		'images' => count($loadResponses)
+		'images' => $imagesIDs
 	];
 	$response = new WP_REST_Response( $output );
 	$response->set_status( $statusCode );
@@ -194,7 +200,7 @@ function uploadFile($file) {
 	$id = wp_insert_attachment( $attachment, $upload['file'],0);
 	$attach_data = wp_generate_attachment_metadata( $id, $upload['file'] );
 	wp_update_attachment_metadata( $id, $attach_data );
-	return $upload;
+	return $id;
 }
 
 function getSights() {
@@ -204,7 +210,7 @@ function getSights() {
 		'orderby' 		=> 'title',
 		'order' 		=> 'ASC',
 		'fields'        => 'ids',
-		'post_status' => array('publish', 'pending', 'draft')
+		'post_status' => array('publish')
 	);
 	return get_posts($args);
 }
