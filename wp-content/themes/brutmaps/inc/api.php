@@ -140,7 +140,7 @@ function API_POST_SIGHT ( $data ) {
 	];
 	$sightID = wp_insert_post($args);
 	if (!is_null($sightID)) {
-		update_field('main_description', $description, $sightID);
+		update_field('main_content', $description, $sightID);
 	}
 	$result = [
 		'done' => true,
