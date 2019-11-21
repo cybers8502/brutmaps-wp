@@ -157,21 +157,21 @@ function API_POST_SIGHT ( $data ) {
 		'mimes'     => $mimes,
 		'test_form' => false
 	);
-	$upload = wp_handle_upload( $_FILES['image'] );
+//	$upload = wp_handle_upload( $_FILES['image'] );
 //	remove_filter( 'upload_dir', array($this, 'change_upload_dir') );
-	if ( isset( $upload['error'] ) ){
-		$result = $upload['error'];
-		$statusCode = 422;
-	} else {
-		// File uploaded successfully.
-		$uploadedFileURL = $upload['url'];
-		$uploadedFileName = basename($upload['url']);
-		$result = '$uploadedFileURL - '.$uploadedFileURL;
-	}
+//	if ( isset( $upload['error'] ) ){
+//		$result = $upload['error'];
+//		$statusCode = 422;
+//	} else {
+//		// File uploaded successfully.
+//		$uploadedFileURL = $upload['url'];
+//		$uploadedFileName = basename($upload['url']);
+//		$result = '$uploadedFileURL - '.$uploadedFileURL;
+//	}
 	$output = [
 		'done' => true,
 		'message' => null,
-		'result' => $result
+		'result' => $_FILES['image']
 	];
 	$response = new WP_REST_Response( $output );
 	$response->set_status( $statusCode );
