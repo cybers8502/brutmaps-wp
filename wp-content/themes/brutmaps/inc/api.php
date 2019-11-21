@@ -120,34 +120,60 @@ function API_GET_SIGHT_BY_ID( $data ) {
 }
 
 function API_POST_SIGHT ( $data ) {
-	$name = $data['name'];
-	$email = $data['email'];
-	$link = $data['link'];
+//	$name = $data['name'];
+//	$email = $data['email'];
+//	$link = $data['link'];
 	$statusCode = 200;
-	$description = $data['description'];
-	if (is_null($name)) {
-		$name = "";
+//	$description = $data['description'];
+//	if (is_null($name)) {
+//		$name = "";
+//	}
+//	if (is_null($email)) {
+//		$email = "";
+//	}
+//	if (is_null($link)) {
+//		$link = "";
+//	}
+//	$args = [
+//		'post_title'    => 'New Sight',
+//		'post_type'     => 'sight',
+//		'post_status'   => 'pending'
+//	];
+//	$sightID = wp_insert_post($args);
+//	if (!is_null($sightID)) {
+//		update_field('main_content', $description, $sightID);
+//	}
+	$mimes = array(
+		'bmp'  => 'image/bmp',
+		'gif'  => 'image/gif',
+		'jpe'  => 'image/jpeg',
+		'jpeg' => 'image/jpeg',
+		'jpg'  => 'image/jpeg',
+		'png'  => 'image/png',
+		'tif'  => 'image/tiff',
+		'tiff' => 'image/tiff'
+	);
+	$overrides = array(
+		'mimes'     => $mimes,
+		'test_form' => false
+	);
+	$upload = wp_handle_upload( $_FILES['image'] );
+//	remove_filter( 'upload_dir', array($this, 'change_upload_dir') );
+	if ( isset( $upload['error'] ) ){
+		$result = $upload['error'];
+		$statusCode = 422;
+	} else {
+		// File uploaded successfully.
+		$uploadedFileURL = $upload['url'];
+		$uploadedFileName = basename($upload['url']);
+		$result = '$uploadedFileURL - '.$uploadedFileURL;
 	}
-	if (is_null($email)) {
-		$email = "";
-	}
-	if (is_null($link)) {
-		$link = "";
-	}
-	$args = [
-		'post_title'    => 'New Sight',
-		'post_type'     => 'sight',
-		'post_status'   => 'pending'
-	];
-	$sightID = wp_insert_post($args);
-	if (!is_null($sightID)) {
-		update_field('main_content', $description, $sightID);
-	}
-	$result = [
+	$output = [
 		'done' => true,
-		'message' => null
+		'message' => null,
+		'result' => $result
 	];
-	$response = new WP_REST_Response( $result );
+	$response = new WP_REST_Response( $output );
 	$response->set_status( $statusCode );
 	$response->header( 'Content-type', 'application/json' );
 	return $response;
