@@ -3,6 +3,9 @@
 
 define('BASE_URL', 'brutmaps/data/v1/api/');
 define('PLACEHOLDER', 'https://brutmaps.designstudio.ag/wp-content/uploads/2019/11/brutalist-architecture-7-1024x567.jpg');
+require_once(ABSPATH . 'wp-admin/includes/image.php');
+require_once(ABSPATH . 'wp-admin/includes/file.php');
+require_once(ABSPATH . 'wp-admin/includes/media.php');
 
 add_action( 'rest_api_init', function () {
     register_rest_route( BASE_URL, '/sights', array(
@@ -120,29 +123,51 @@ function API_GET_SIGHT_BY_ID( $data ) {
 }
 
 function API_POST_SIGHT ( $data ) {
-//	$name = $data['name'];
-//	$email = $data['email'];
-//	$link = $data['link'];
+	$name = $data['name'];
+	$email = $data['email'];
+	$link = $data['link'];
 	$statusCode = 200;
-//	$description = $data['description'];
-//	if (is_null($name)) {
-//		$name = "";
-//	}
-//	if (is_null($email)) {
-//		$email = "";
-//	}
-//	if (is_null($link)) {
-//		$link = "";
-//	}
-//	$args = [
-//		'post_title'    => 'New Sight',
-//		'post_type'     => 'sight',
-//		'post_status'   => 'pending'
-//	];
-//	$sightID = wp_insert_post($args);
-//	if (!is_null($sightID)) {
-//		update_field('main_content', $description, $sightID);
-//	}
+	$description = $data['description'];
+	if (is_null($name)) {
+		$name = "";
+	}
+	if (is_null($email)) {
+		$email = "";
+	}
+	if (is_null($link)) {
+		$link = "";
+	}
+	$args = [
+		'post_title'    => 'New Sight',
+		'post_type'     => 'sight',
+		'post_status'   => 'pending'
+	];
+	$sightID = wp_insert_post($args);
+	if (!is_null($sightID)) {
+		update_field('main_content', $description, $sightID);
+	}
+	$imageNames = ['image_1', 'image_2', 'image_3', 'image_4', 'image_5'];
+	$loadResponses = [];
+	foreach ($imageNames as $imageName) {
+		if (!is_null($_FILES[$imageName])) {
+			$uploadData = uploadFile($_FILES[$imageName]);
+			if ( !isset( $upload['error'] ) ){
+				$loadResponses[$imageName] = $uploadData;
+			}
+		}
+	}
+	$output = [
+		'done' => true,
+		'message' => null,
+		'images' => count($loadResponses)
+	];
+	$response = new WP_REST_Response( $output );
+	$response->set_status( $statusCode );
+	$response->header( 'Content-type', 'application/json' );
+	return $response;
+}
+
+function uploadFile($file) {
 	$mimes = array(
 		'bmp'  => 'image/bmp',
 		'gif'  => 'image/gif',
@@ -157,26 +182,19 @@ function API_POST_SIGHT ( $data ) {
 		'mimes'     => $mimes,
 		'test_form' => false
 	);
-	$upload = wp_handle_upload( $_FILES['image'] );
-	remove_filter( 'upload_dir', array($this, 'change_upload_dir') );
-	if ( isset( $upload['error'] ) ){
-		$result = $upload['error'];
-		$statusCode = 422;
-	} else {
-		// File uploaded successfully.
-		$uploadedFileURL = $upload['url'];
-		$uploadedFileName = basename($upload['url']);
-		$result = '$uploadedFileURL - '.$uploadedFileURL;
-	}
-	$output = [
-		'done' => true,
-		'message' => null,
-		'result' => $result
-	];
-	$response = new WP_REST_Response( $output );
-	$response->set_status( $statusCode );
-	$response->header( 'Content-type', 'application/json' );
-	return $response;
+	$upload = wp_handle_upload( $file, $overrides );
+	$attachment = array(
+		"guid" => $upload['file'],
+		"post_mime_type" => $upload['type'],
+		"post_title" => $_POST['who'],
+		"post_content" => "",
+		"post_status" => "draft",
+		"post_author" => 1
+	);
+	$id = wp_insert_attachment( $attachment, $upload['file'],0);
+	$attach_data = wp_generate_attachment_metadata( $id, $upload['file'] );
+	wp_update_attachment_metadata( $id, $attach_data );
+	return $upload;
 }
 
 function getSights() {
@@ -186,7 +204,7 @@ function getSights() {
 		'orderby' 		=> 'title',
 		'order' 		=> 'ASC',
 		'fields'        => 'ids',
-		'post_status'   => 'publish'
+		'post_status' => array('publish', 'pending', 'draft')
 	);
 	return get_posts($args);
 }
