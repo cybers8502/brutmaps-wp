@@ -13,6 +13,10 @@ add_action( 'rest_api_init', function () {
 		'methods' => 'GET',
 		'callback' => 'API_GET_SIGHT_BY_ID',
 	) );
+	register_rest_route( BASE_URL, '/submit_sight', array(
+		'methods' => 'POST',
+		'callback' => 'API_POST_SIGHT',
+	) );
 } );
 
 function API_GET_SIGHTS() {
@@ -110,6 +114,38 @@ function API_GET_SIGHT_BY_ID( $data ) {
 		$statusCode = 422;
 	}
 	$response = new WP_REST_Response( $mainWrap );
+	$response->set_status( $statusCode );
+	$response->header( 'Content-type', 'application/json' );
+	return $response;
+}
+
+function API_POST_SIGHT ( $data ) {
+	$name = $data['name'];
+	$email = $data['email'];
+	$link = $data['link'];
+	$statusCode = 200;
+	$description = $data['description'];
+	if (is_null($name)) {
+		$name = "";
+	}
+	if (is_null($email)) {
+		$email = "";
+	}
+	if (is_null($link)) {
+		$link = "";
+	}
+	$args = [
+		'post_title'    => 'New Sight'
+	];
+	$sightID = wp_insert_post($args);
+	if (!is_null($sightID)) {
+		update_field('main_description', $description, $sightID);
+	}
+	$result = [
+		'done' => true,
+		'message' => null
+	];
+	$response = new WP_REST_Response( $result );
 	$response->set_status( $statusCode );
 	$response->header( 'Content-type', 'application/json' );
 	return $response;
