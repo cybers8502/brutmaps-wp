@@ -129,7 +129,7 @@ function API_GET_SIGHT_BY_ID( $data ) {
 		} else {
 			$mainImage = $imageObject['url'];
 		}
-		$architects = get_field('', $sightID);
+		$architects = get_field('choose_architects', $sightID);
 		$mainData = [
 			'id'            => $sightID,
 			'main_data'     => [
