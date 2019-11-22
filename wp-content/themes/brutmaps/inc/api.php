@@ -264,11 +264,13 @@ function getSights() {
 
 function notifyAboutNewSight() {
 	$emails = get_field('notifiedUsers', 'options');
+	var_dump($emails);
 	if (is_array($emails) && count($emails) > 0) {
 		$emailsArray = [];
 		foreach ($emails as $item) {
 			$emailsArray[] = $item['email'];
 		}
+		var_dump($emailsArray);
 		$to = $emailsArray;
 		$subject = 'New sight offer on BRUTMAPS';
 		$body = 'We have a new offered sight';
