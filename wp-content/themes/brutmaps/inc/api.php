@@ -261,3 +261,18 @@ function getSights() {
 	);
 	return get_posts($args);
 }
+
+function notifyAboutNewSight() {
+	$emails = get_field('notifiedUsers', 'options');
+	if (is_array($emails) && count($emails) > 0) {
+		$emailsArray = [];
+		foreach ($emails as $item) {
+			$emailsArray[] = $item['email'];
+		}
+		$to = $emailsArray;
+		$subject = 'New sight offer on BRUTMAPS';
+		$body = 'We have a new offered sight';
+		$headers = array('Content-Type: text/html; charset=UTF-8');
+		wp_mail( $to, $subject, $body, $headers );
+	}
+}
