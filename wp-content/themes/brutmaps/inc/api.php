@@ -306,6 +306,7 @@ function createUpdateContributor($name, $email, $link, $sightID) {
 		$linkedSights = [$sightID];
 	}
 	$contributorID = intval($contributorID);
+	var_dump($linkedSights, $contributorID);
 	if (is_int($contributorID) && $contributorID > 0) {
 		update_field('name', $name, $contributorID);
 		update_field('email', $email, $contributorID);
