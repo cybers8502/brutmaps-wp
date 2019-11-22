@@ -47,6 +47,7 @@ function API_GET_ABOUT_DATA() {
 			'main_description'     => get_field('main_description', ABOUT),
 			'gallery'     => $gallery,
 		];
+		$mainWrap['data'] = $mainData;
 	} else {
 		$mainWrap['false'] = false;
 		$mainWrap['message'] = 'Something went wrong';
