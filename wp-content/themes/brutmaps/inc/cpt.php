@@ -43,7 +43,7 @@ function custom_post_type() {
 		'all_items' => 'Architects',
 		'view_item' => 'Architect',
 		'add_new_item' => 'Add Architect',
-		'add_new' => 'New Showplace',
+		'add_new' => 'New Architect',
 		'edit_item' => 'Edit',
 		'update_item' => 'Update',
 		'search_items' => 'Search'

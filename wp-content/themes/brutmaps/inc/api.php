@@ -27,7 +27,34 @@ add_action( 'rest_api_init', function () {
 } );
 
 function API_GET_ABOUT_DATA() {
-
+	$status = 200;
+	$mainWrap = ['done' => true];
+	if ( 'publish' == get_post_status ( ABOUT ) ) {
+		$galleryField = get_field('gallery', ABOUT);
+		$gallery = [];
+		foreach ($galleryField as $item) {
+			$image = $item['gallery_image'];
+			if (!is_null($image)) {
+				$gallery[] = $image;
+			}
+		}
+		$mainData = [
+			'title'     => get_the_title(ABOUT),
+			'main_image'     => get_field('main_image', ABOUT),
+			'sub_description'     => get_field('sub_description', ABOUT),
+			'main_blockquote'     => get_field('main_blockquote', ABOUT),
+			'gallery_sub_text'     => get_field('gallery_sub_text', ABOUT),
+			'main_description'     => get_field('main_description', ABOUT),
+			'gallery'     => $gallery,
+		];
+	} else {
+		$mainWrap['false'] = false;
+		$mainWrap['message'] = 'Something went wrong';
+	}
+	$response = new WP_REST_Response( $mainWrap );
+	$response->set_status( 200 );
+	$response->header( 'Content-type', 'application/json' );
+	return $response;
 }
 
 function API_GET_SIGHTS() {
