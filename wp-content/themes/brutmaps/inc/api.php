@@ -41,10 +41,9 @@ function API_GET_ABOUT_DATA() {
 		$mainData = [
 			'title'     => get_the_title(ABOUT),
 			'main_image'     => get_field('main_image', ABOUT),
-			'sub_description'     => get_field('sub_description', ABOUT),
-			'main_blockquote'     => get_field('main_blockquote', ABOUT),
+			'description_1'     => get_field('description_1', ABOUT),
 			'gallery_sub_text'     => get_field('gallery_sub_text', ABOUT),
-			'main_description'     => get_field('main_description', ABOUT),
+			'description_2'     => get_field('description_2', ABOUT),
 			'gallery'     => $gallery,
 		];
 		$mainWrap['data'] = $mainData;
