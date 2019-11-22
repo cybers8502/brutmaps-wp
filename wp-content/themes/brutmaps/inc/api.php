@@ -134,7 +134,7 @@ function API_GET_SIGHT_BY_ID( $data ) {
 		if (is_array($architectsIDs) && count($architectsIDs) > 0) {
 			foreach ($architectsIDs as $architectID) {
 				$item = [];
-				$item['id'] = $architectID;
+				$item['id'] = intval($architectID);
 				$item['first_name'] = get_field('first_name', $architectID);
 				$item['last_name'] = get_field('last_name', $architectID);
 				$architects[] = $item;
