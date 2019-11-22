@@ -277,8 +277,35 @@ function notifyAboutNewSight() {
 	}
 }
 function createUpdateContributor($name, $email, $link, $sightID) {
-	update_field('name', $name);
-	update_field('email', $email);
-	update_field('link', $link);
-	update_field('linked_sights', [$sightID]);
+	$args = array(
+		'numberposts'   => 1,
+		'post_type'		=> 'contributor',
+		'fields'        => 'ids',
+		'post_status'   => array('publish', 'pending', 'draft'),
+		'meta_key'		=> 'email',
+		'meta_value'	=> $email
+	);
+	$contributor = get_posts($args);
+	if (count($contributor) > 0) {
+		//Existed Contributor
+		$contributorID = $contributor[0];
+		$linkedSights = get_field('linked_sights', $contributorID);
+		$linkedSights[] = $sightID;
+	} else {
+		//New Contributor
+		$args = [
+			'post_title'    => $email,
+			'post_type'     => 'contributor',
+			'post_status'   => 'publish'
+		];
+		$contributorID = wp_insert_post($args);
+		$linkedSights = [$sightID];
+	}
+	$contributorID = intval($contributorID);
+	if (is_int($contributorID) && $contributorID > 0) {
+		update_field('name', $name, $contributorID);
+		update_field('email', $email, $contributorID);
+		update_field('link', $link, $contributorID);
+		update_field('linked_sights', $linkedSights, $contributorID);
+	}
 }
