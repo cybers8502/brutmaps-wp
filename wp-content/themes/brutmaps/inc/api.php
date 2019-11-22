@@ -291,6 +291,9 @@ function createUpdateContributor($name, $email, $link, $sightID) {
 		//Existed Contributor
 		$contributorID = $contributor[0];
 		$linkedSights = get_field('linked_sights', $contributorID);
+		if (is_null($linkedSights)) {
+			$linkedSights = [];
+		}
 		$linkedSights[] = $sightID;
 	} else {
 		//New Contributor
