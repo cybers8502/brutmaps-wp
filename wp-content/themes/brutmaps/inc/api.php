@@ -135,8 +135,8 @@ function API_GET_SIGHT_BY_ID( $data ) {
 			foreach ($architectsIDs as $architectID) {
 				$item = [];
 				$item['id'] = $architectID;
-				$item['first_name'] = get_field('first_name', $sightID);
-				$item['last_name'] = get_field('last_name', $sightID);
+				$item['first_name'] = get_field('first_name', $architectID);
+				$item['last_name'] = get_field('last_name', $architectID);
 				$architects[] = $item;
 			}
 		}
