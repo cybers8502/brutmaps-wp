@@ -37,3 +37,18 @@ function my_acf_init() {
 }
 
 add_action( 'acf/init', 'my_acf_init' );
+
+function register_acf_options_pages() {
+	if( !function_exists('acf_add_options_page') )
+		return;
+	$option_page = acf_add_options_page(array(
+		'page_title'    => __('Global'),
+		'menu_title'    => __('Global'),
+		'menu_slug'     => 'theme-global',
+		'capability'    => 'edit_posts',
+		'redirect'      => false
+	));
+}
+
+// Hook into acf initialization.
+add_action('acf/init', 'register_acf_options_pages');
