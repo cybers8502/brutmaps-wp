@@ -52,3 +52,10 @@ function register_acf_options_pages() {
 
 // Hook into acf initialization.
 add_action('acf/init', 'register_acf_options_pages');
+
+add_filter( 'wp_mail_from_name', 'wpb_sender_name' );
+
+// Function to change sender name
+function wpb_sender_name( $original_email_from ) {
+	return 'BRUTMAPS';
+}
