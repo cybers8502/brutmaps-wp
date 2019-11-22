@@ -209,6 +209,7 @@ function API_POST_SIGHT ( $data ) {
 			add_row('gallery', $row, $sightID);
 		}
 		notifyAboutNewSight();
+		createUpdateContributor($name, $email, $link, $sightID);
 	}
 	$output = [
 		'done' => true,
@@ -307,5 +308,6 @@ function createUpdateContributor($name, $email, $link, $sightID) {
 		update_field('email', $email, $contributorID);
 		update_field('link', $link, $contributorID);
 		update_field('linked_sights', $linkedSights, $contributorID);
+		update_field('contributor', $contributorID, $sightID);
 	}
 }
