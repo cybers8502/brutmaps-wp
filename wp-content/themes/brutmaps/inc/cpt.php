@@ -39,10 +39,10 @@ function custom_post_type() {
 	$labels1 = array(
 		'name' => 'Architect',
 		'singular_name' => 'Architect',
-		'menu_name' => 'Architect',
-		'all_items' => 'Architect',
+		'menu_name' => 'Architects',
+		'all_items' => 'Architects',
 		'view_item' => 'Architect',
-		'add_new_item' => 'Add Showplace',
+		'add_new_item' => 'Add Architect',
 		'add_new' => 'New Showplace',
 		'edit_item' => 'Edit',
 		'update_item' => 'Update',

@@ -20,7 +20,15 @@ add_action( 'rest_api_init', function () {
 		'methods' => 'POST',
 		'callback' => 'API_POST_SIGHT',
 	) );
+	register_rest_route( BASE_URL, '/about', array(
+		'methods' => 'GET',
+		'callback' => 'API_GET_ABOUT_DATA',
+	) );
 } );
+
+function API_GET_ABOUT_DATA() {
+
+}
 
 function API_GET_SIGHTS() {
     $ids = getSights();
