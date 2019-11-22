@@ -276,3 +276,9 @@ function notifyAboutNewSight() {
 		wp_mail( $to, $subject, $body, $headers );
 	}
 }
+function createUpdateContributor($name, $email, $link, $sightID) {
+	update_field('name', $name);
+	update_field('email', $email);
+	update_field('link', $link);
+	update_field('linked_sights', [$sightID]);
+}
