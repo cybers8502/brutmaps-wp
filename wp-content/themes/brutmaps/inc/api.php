@@ -129,7 +129,17 @@ function API_GET_SIGHT_BY_ID( $data ) {
 		} else {
 			$mainImage = $imageObject['url'];
 		}
-		$architects = get_field('choose_architects', $sightID);
+		$architectsIDs = get_field('choose_architects', $sightID);
+		$architects = [];
+		if (is_array($architectsIDs) && count($architectsIDs) > 0) {
+			foreach ($architectsIDs as $architectID) {
+				$item = [];
+				$item['id'] = $architectID;
+				$item['first_name'] = get_field('first_name', $sightID);
+				$item['last_name'] = get_field('last_name', $sightID);
+				$architects[] = $item;
+			}
+		}
 		$mainData = [
 			'id'            => $sightID,
 			'main_data'     => [
