@@ -129,6 +129,7 @@ function API_GET_SIGHT_BY_ID( $data ) {
 		} else {
 			$mainImage = $imageObject['url'];
 		}
+		$architects = get_field('', $sightID);
 		$mainData = [
 			'id'            => $sightID,
 			'main_data'     => [
@@ -136,6 +137,7 @@ function API_GET_SIGHT_BY_ID( $data ) {
 				'sub_title' => $location['address'],
 				'image'     => $mainImage
 			],
+			'architects'    => $architects,
 			'year'          => intval(get_field('established', $sightID)),
 			'description'   => get_field('main_content', $sightID),
 			'image_gallery' => $gallery,
