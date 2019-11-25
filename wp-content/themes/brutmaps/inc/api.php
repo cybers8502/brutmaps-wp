@@ -34,13 +34,17 @@ function API_GET_ABOUT_DATA() {
 		$gallery = [];
 		foreach ($galleryField as $item) {
 			$image = $item['gallery_image'];
-			if (!is_null($image)) {
+			if ($image) {
 				$gallery[] = $image;
 			}
 		}
+		$mainImage = get_field('main_image', ABOUT);
+		if (!$mainImage) {
+			$mainImage = null;
+		}
 		$mainData = [
 			'title'     => get_the_title(ABOUT),
-			'main_image'     => get_field('main_image', ABOUT),
+			'main_image'     => $mainImage,
 			'description_1'     => get_field('description_1', ABOUT),
 			'gallery_sub_text'     => get_field('gallery_sub_text', ABOUT),
 			'description_2'     => get_field('description_2', ABOUT),
@@ -84,7 +88,7 @@ function API_GET_SIGHTS() {
         $item['address'] = $location['address'];
         $item['year'] = intval(get_field('established', $sightID));
         $imageObject = get_field('main_image', $sightID);
-        if (is_null($imageObject)) {
+        if (is_null($imageObject) || !$imageObject) {
 	        $images = [
 		        'image_full' => PLACEHOLDER,
 		        'image_small' => PLACEHOLDER,
@@ -119,7 +123,7 @@ function API_GET_SIGHT_BY_ID( $data ) {
 		$gallery = [];
 		foreach ($galleryField as $item) {
 			$image = $item['gallery_image'];
-			if (!is_null($image)) {
+			if ($image) {
 				$gallery[] = $image;
 			}
 		}
