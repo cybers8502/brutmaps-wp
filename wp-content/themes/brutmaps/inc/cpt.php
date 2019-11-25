@@ -5,7 +5,7 @@ function custom_post_type() {
     $labels = array(
         'name' => 'Object',
         'singular_name' => 'Object',
-        'menu_name' => 'Object',
+        'menu_name' => 'Objects',
         'all_items' => 'Objects',
         'view_item' => 'Object',
         'add_new_item' => 'Add Object',
