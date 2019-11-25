@@ -42,9 +42,9 @@ function register_acf_options_pages() {
 	if( !function_exists('acf_add_options_page') )
 		return;
 	$option_page = acf_add_options_page(array(
-		'page_title'    => __('Global'),
-		'menu_title'    => __('Global'),
-		'menu_slug'     => 'theme-global',
+		'page_title'    => __('Setup'),
+		'menu_title'    => __('Setup'),
+		'menu_slug'     => 'theme-setup',
 		'capability'    => 'edit_posts',
 		'redirect'      => false
 	));

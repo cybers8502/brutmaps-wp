@@ -3,13 +3,13 @@
 function custom_post_type() {
 
     $labels = array(
-        'name' => 'Sight',
-        'singular_name' => 'Sight',
-        'menu_name' => 'Sight',
-        'all_items' => 'Sight',
-        'view_item' => 'Sight',
-        'add_new_item' => 'Add Showplace',
-        'add_new' => 'New Showplace',
+        'name' => 'Object',
+        'singular_name' => 'Object',
+        'menu_name' => 'Object',
+        'all_items' => 'Objects',
+        'view_item' => 'Object',
+        'add_new_item' => 'Add Object',
+        'add_new' => 'New Object',
         'edit_item' => 'Edit',
         'update_item' => 'Update',
         'search_items' => 'Search'
