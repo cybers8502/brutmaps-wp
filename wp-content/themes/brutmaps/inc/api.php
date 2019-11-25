@@ -174,13 +174,17 @@ function API_GET_SIGHT_BY_ID( $data ) {
 }
 
 function API_POST_SIGHT ( $data ) {
-	$name = $data['name'];
+	$firstName = $data['first_name'];
+	$lastName = $data['last_name'];
 	$email = $data['email'];
 	$link = $data['link'];
 	$statusCode = 200;
 	$description = $data['description'];
-	if (is_null($name)) {
-		$name = "";
+	if (is_null($firstName)) {
+		$firstName = "";
+	}
+	if (is_null($lastName)) {
+		$lastName = "";
 	}
 	if (is_null($email)) {
 		$email = "";
@@ -213,7 +217,7 @@ function API_POST_SIGHT ( $data ) {
 			add_row('gallery', $row, $sightID);
 		}
 		notifyAboutNewSight();
-		createUpdateContributor($name, $email, $link, $sightID);
+		createUpdateContributor($firstName, $lastName, $email, $link, $sightID);
 	}
 	$output = [
 		'done' => true,
@@ -281,7 +285,7 @@ function notifyAboutNewSight() {
 		wp_mail( $to, $subject, $body, $headers );
 	}
 }
-function createUpdateContributor($name, $email, $link, $sightID) {
+function createUpdateContributor($firstName, $lastName, $email, $link, $sightID) {
 	$args = array(
 		'numberposts'   => 1,
 		'post_type'		=> 'contributor',
@@ -311,7 +315,8 @@ function createUpdateContributor($name, $email, $link, $sightID) {
 	}
 	$contributorID = intval($contributorID);
 	if (is_int($contributorID) && $contributorID > 0) {
-		update_field('name', $name, $contributorID);
+		update_field('first_name', $firstName, $contributorID);
+		update_field('last_name', $lastName, $contributorID);
 		update_field('email', $email, $contributorID);
 		update_field('link', $link, $contributorID);
 		update_field('linked_sights', $linkedSights, $contributorID);
