@@ -181,27 +181,26 @@
 
                 clustersOnScreen = curClustersArr;
 
-                var mapCluster = document.querySelectorAll( '.map__cluster' );
-
-                for ( id in mapCluster ){
-
-                    var ( mapCluster[id] );
-
-                    mapCluster[id].addEventListener( 'click', function (e) {
-                        console.log('dd');
-                        var features = _mapFrame.queryRenderedFeatures(e.point, { layers: ['clusters'] });
-                        var clusterId = features[0].properties.cluster_id;
-                        _mapFrame.getSource('earthquakes').getClusterExpansionZoom(clusterId, function (err, zoom) {
-                            if (err)
-                                return;
-
-                            _mapFrame.easeTo({
-                                center: features[0].geometry.coordinates,
-                                zoom: zoom
-                            });
-                        });
-                    });
-                }
+                // var mapCluster = document.querySelectorAll( '.map__cluster' );
+                //
+                // for ( id in mapCluster ){
+                //
+                //
+                //     mapCluster[id].addEventListener( 'click', function (e) {
+                //         console.log('dd');
+                //         var features = _mapFrame.queryRenderedFeatures(e.point, { layers: ['clusters'] });
+                //         var clusterId = features[0].properties.cluster_id;
+                //         _mapFrame.getSource('earthquakes').getClusterExpansionZoom(clusterId, function (err, zoom) {
+                //             if (err)
+                //                 return;
+                //
+                //             _mapFrame.easeTo({
+                //                 center: features[0].geometry.coordinates,
+                //                 zoom: zoom
+                //             });
+                //         });
+                //     });
+                // }
 
             }
 
