@@ -1,0 +1,33 @@
+.add-new-obj {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+
+  .btn{
+    height: 60px;
+  }
+
+}
+@media (min-width: $phone-landscape) {
+  .add-new-obj {
+
+  }
+}
+@media (min-width: $tablet-portrait) {
+  .add-new-obj {
+    position: absolute;
+
+  }
+}
+@media (min-width: $tablet-landscape) {
+  .add-new-obj {
+
+  }
+}
+@media (min-width: $desktop) {
+  .add-new-obj {
+
+  }
+}
+

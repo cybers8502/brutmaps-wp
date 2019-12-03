@@ -1,0 +1,73 @@
+.objects-list {
+
+  &__item{
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    margin-bottom: 20px;
+    background-color: #F5F4F1;
+  }
+
+  &__picture{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100px;
+    height: 140px;
+
+    img{
+      display: block;
+      height: 140px;
+    }
+
+  }
+
+  &__info{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: calc( 100% - 100px );
+    padding: 15px 14px;
+    font-size: 16px;
+    line-height: 21px;
+
+    h2, h3, h4{
+      margin-bottom: 2px;
+      @include ttfirsneue-medium;
+      font-size: 18px;
+      line-height: 23px;
+    }
+
+    strong{
+      @include ttfirsneue-medium;
+    }
+
+    address{
+      font-style: normal;
+    }
+
+  }
+
+}
+@media (min-width: $phone-landscape) {
+  .objects-list {
+
+  }
+}
+@media (min-width: $tablet-portrait) {
+  .objects-list {
+
+  }
+}
+@media (min-width: $tablet-landscape) {
+  .objects-list {
+
+  }
+}
+@media (min-width: $desktop) {
+  .objects-list {
+
+  }
+}
+

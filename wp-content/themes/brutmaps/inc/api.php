@@ -266,7 +266,7 @@ function getSights() {
 		'orderby' 		=> 'title',
 		'order' 		=> 'ASC',
 		'fields'        => 'ids',
-		'post_status' => array('publish')
+		'post_status' => array('publish', 'draft')
 	);
 	return get_posts($args);
 }
