@@ -285,6 +285,7 @@ function notifyAboutNewSight() {
 		wp_mail( $to, $subject, $body, $headers );
 	}
 }
+
 function createUpdateContributor($firstName, $lastName, $email, $link, $sightID) {
 	$args = array(
 		'numberposts'   => 1,
