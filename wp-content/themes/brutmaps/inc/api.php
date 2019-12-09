@@ -43,7 +43,7 @@ function API_GET_ABOUT_DATA() {
 			$mainImage = null;
 		}
 		$mainData = [
-			'title'     => get_the_title(ABOUT),
+			'title'     => wp_json_encode(get_the_title(ABOUT)),
 			'main_image'     => $mainImage,
 			'description_1'     => get_field('description_1', ABOUT),
 			'gallery_sub_text'     => get_field('gallery_sub_text', ABOUT),
@@ -55,7 +55,7 @@ function API_GET_ABOUT_DATA() {
 		$mainWrap['false'] = false;
 		$mainWrap['message'] = 'Something went wrong';
 	}
-	$response = new WP_REST_Response( wp_json_encode($mainWrap) );
+	$response = new WP_REST_Response( $mainWrap );
 	$response->set_status( 200 );
 	$response->header( 'Content-type', 'application/json' );
 	return $response;
@@ -106,7 +106,7 @@ function API_GET_SIGHTS() {
     }
     $mainData['sights'] = $result;
     $mainWrap['data'] = $mainData;
-    $response = new WP_REST_Response( wp_json_encode($mainWrap) );
+    $response = new WP_REST_Response( $mainWrap );
     $response->set_status( 200 );
     $response->header( 'Content-type', 'application/json' );
     return $response;
@@ -167,7 +167,7 @@ function API_GET_SIGHT_BY_ID( $data ) {
 		$mainWrap['message'] = 'Sight does not exist';
 		$statusCode = 422;
 	}
-	$response = new WP_REST_Response( wp_json_encode($mainWrap) );
+	$response = new WP_REST_Response( $mainWrap );
 	$response->set_status( $statusCode );
 	$response->header( 'Content-type', 'application/json' );
 	return $response;
@@ -223,7 +223,7 @@ function API_POST_SIGHT ( $data ) {
 		'done' => true,
 		'message' => null
 	];
-	$response = new WP_REST_Response( wp_json_encode($output) );
+	$response = new WP_REST_Response( $output );
 	$response->set_status( $statusCode );
 	$response->header( 'Content-type', 'application/json' );
 	return $response;
