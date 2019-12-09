@@ -1,29 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-
-    <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1">
-
-    <meta name="format-detection" content="telephone=no">
-    <meta name="format-detection" content="address=no">
-
-    <title>Brutmaps | Interactive map with brutalist objects | official open in October 2019</title>
-
-    <link rel='stylesheet' href='https://api.tiles.mapbox.com/mapbox-gl-js/v1.5.0/mapbox-gl.css' />
-    <link rel="stylesheet" href="<?= DIRECT ?>css/common.css">
-
-    <style>
-        .mapboxgl-ctrl-geocoder { min-width:100%; }
-    </style>
-
-
-</head>
-<body data-action="<?= admin_url( 'admin-ajax.php' );?>">
-
-<!-- site -->
-<div class="site">
+<?php
+    get_header();
+?>
 
     <!-- site__aside -->
     <aside class="site__aside">
@@ -56,7 +33,7 @@
             Recently viewed
         </div>
 
-        <div class="objects-list" style="background-color: #007aff" id="feature-listing">
+        <div class="objects-list" id="feature-listing">
 
         </div>
 
@@ -75,12 +52,4 @@
     </div>
     <!-- /site__wrap -->
 
-</div>
-<!-- /site -->
-
-<script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.5.0/mapbox-gl.js'></script>
-<script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.4.2/mapbox-gl-geocoder.min.js'></script>
-<script src="<?= DIRECT ?>js/common.min.js"></script>
-
-</body>
-</html>
+<?php get_footer();
