@@ -80,7 +80,7 @@ function API_GET_SIGHTS() {
         $location = get_field('location', $sightID);
         $item = [];
         $item['id'] = $sightID;
-        $item['title'] = get_the_title($sightID);
+        $item['title'] = html_entity_decode(get_the_title($sightID));
         $item['coordinates'] = [
             'lat' => doubleval($location['lat']),
             'long' => doubleval($location['lng'])
