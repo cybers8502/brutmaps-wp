@@ -56,7 +56,7 @@ function API_GET_ABOUT_DATA() {
 		$mainWrap['false'] = false;
 		$mainWrap['message'] = 'Something went wrong';
 	}
-	$response = new WP_REST_Response( $mainWrap );
+	$response = new WP_REST_Response( wp_json_encode($mainWrap) );
 	$response->set_status( 200 );
 	$response->header( 'Content-type', 'application/json; charset=utf-8' );
 	return $response;
