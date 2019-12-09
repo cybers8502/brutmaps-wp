@@ -42,8 +42,9 @@ function API_GET_ABOUT_DATA() {
 		if (!$mainImage) {
 			$mainImage = null;
 		}
+		$title = get_the_title(ABOUT);
 		$mainData = [
-			'title'             =>      get_the_title(ABOUT),
+			'title'             => wp_json_encode($title),
 			'main_image'        => $mainImage,
 			'description_1'     => get_field('description_1', ABOUT),
 			'gallery_sub_text'  => get_field('gallery_sub_text', ABOUT),
