@@ -43,12 +43,12 @@ function API_GET_ABOUT_DATA() {
 			$mainImage = null;
 		}
 		$mainData = [
-			'title'     => get_the_title(ABOUT),
-			'main_image'     => $mainImage,
+			'title'             =>      get_the_title(ABOUT),
+			'main_image'        => $mainImage,
 			'description_1'     => get_field('description_1', ABOUT),
-			'gallery_sub_text'     => get_field('gallery_sub_text', ABOUT),
+			'gallery_sub_text'  => get_field('gallery_sub_text', ABOUT),
 			'description_2'     => get_field('description_2', ABOUT),
-			'gallery'     => $gallery,
+			'gallery'           => $gallery,
 		];
 		$mainWrap['data'] = $mainData;
 	} else {
@@ -57,7 +57,7 @@ function API_GET_ABOUT_DATA() {
 	}
 	$response = new WP_REST_Response( $mainWrap );
 	$response->set_status( 200 );
-	$response->header( 'Content-type', 'application/json' );
+	$response->header( 'Content-type', 'application/json; charset=utf-8' );
 	return $response;
 }
 
