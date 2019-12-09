@@ -45,9 +45,9 @@ function API_GET_ABOUT_DATA() {
 		$mainData = [
 			'title'             => html_entity_decode(get_the_title(ABOUT)),
 			'main_image'        => $mainImage,
-			'description_1'     => get_field('description_1', ABOUT),
-			'gallery_sub_text'  => get_field('gallery_sub_text', ABOUT),
-			'description_2'     => get_field('description_2', ABOUT),
+			'description_1'     => html_entity_decode(get_field('description_1', ABOUT)),
+			'gallery_sub_text'  => html_entity_decode(get_field('gallery_sub_text', ABOUT)),
+			'description_2'     => html_entity_decode(get_field('description_2', ABOUT)),
 			'gallery'           => $gallery,
 		];
 		$mainWrap['data'] = $mainData;
@@ -85,7 +85,7 @@ function API_GET_SIGHTS() {
             'lat' => doubleval($location['lat']),
             'long' => doubleval($location['lng'])
         ];
-        $item['address'] = $location['address'];
+        $item['address'] = html_entity_decode($location['address']);
         $item['year'] = intval(get_field('established', $sightID));
         $imageObject = get_field('main_image', $sightID);
         if (is_null($imageObject) || !$imageObject) {
@@ -108,7 +108,7 @@ function API_GET_SIGHTS() {
     $mainWrap['data'] = $mainData;
     $response = new WP_REST_Response( $mainWrap );
     $response->set_status( 200 );
-    $response->header( 'Content-type', 'application/json' );
+    $response->header( 'Content-type', 'application/json; charset=utf-8' );
     return $response;
 }
 
@@ -139,23 +139,23 @@ function API_GET_SIGHT_BY_ID( $data ) {
 			foreach ($architectsIDs as $architectID) {
 				$item = [];
 				$item['id'] = intval($architectID);
-				$item['first_name'] = get_field('first_name', $architectID);
-				$item['last_name'] = get_field('last_name', $architectID);
+				$item['first_name'] = html_entity_decode(get_field('first_name', $architectID));
+				$item['last_name'] = html_entity_decode(get_field('last_name', $architectID));
 				$architects[] = $item;
 			}
 		}
 		$mainData = [
 			'id'            => $sightID,
 			'main_data'     => [
-				'title'     => get_the_title($sightID),
-				'sub_title' => $location['address'],
+				'title'     => html_entity_decode(get_the_title($sightID)),
+				'sub_title' => html_entity_decode($location['address']),
 				'image'     => $mainImage
 			],
 			'architects'    => $architects,
 			'year'          => intval(get_field('established', $sightID)),
-			'description'   => get_field('main_content', $sightID),
+			'description'   => html_entity_decode(get_field('main_content', $sightID)),
 			'image_gallery' => $gallery,
-			'extra_data'    => get_field('source', $sightID),
+			'extra_data'    => html_entity_decode(get_field('source', $sightID)),
 			'coordinates'   => [
 				'lat' => doubleval($location['lat']),
 				'long' => doubleval($location['lng'])
@@ -169,7 +169,7 @@ function API_GET_SIGHT_BY_ID( $data ) {
 	}
 	$response = new WP_REST_Response( $mainWrap );
 	$response->set_status( $statusCode );
-	$response->header( 'Content-type', 'application/json' );
+	$response->header( 'Content-type', 'application/json; charset=utf-8' );
 	return $response;
 }
 
@@ -225,7 +225,7 @@ function API_POST_SIGHT ( $data ) {
 	];
 	$response = new WP_REST_Response( $output );
 	$response->set_status( $statusCode );
-	$response->header( 'Content-type', 'application/json' );
+	$response->header( 'Content-type', 'application/json; charset=utf-8' );
 	return $response;
 }
 
