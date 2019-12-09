@@ -110,10 +110,9 @@
 
         }
 
-        function _cutText( obj ) {
+        function _cutText( obj, maxH ) {
 
             var text = obj.textContent,
-                height = obj.offsetHeight,
                 clone = obj.cloneNode(true);
 
             clone.style.position = 'absolute';
@@ -122,9 +121,9 @@
 
             obj.parentNode.insertBefore( clone, obj.nextSibling );
 
-            var l = text.length - 1
+            var l = text.length - 1;
 
-            for (; l >= 0 && clone.offsetHeight > height; --l ) {
+            for (; l >= 0 && clone.offsetHeight > maxH; --l ) {
                 clone.textContent = text.substring( 0, l ) +'...';
             }
 
@@ -262,8 +261,8 @@
 
                     listingEl.appendChild( item );
 
-                    _cutText( item.querySelector( 'h3' ) );
-                    _cutText( item.querySelector( 'p' ) );
+                    _cutText( item.querySelector( 'h3' ), 47 );
+                    _cutText( item.querySelector( 'p' ), 43 );
 
                 } );
             } else {
