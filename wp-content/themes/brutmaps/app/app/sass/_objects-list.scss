@@ -14,6 +14,8 @@
     align-items: center;
     width: 100px;
     height: 140px;
+    overflow: hidden;
+    background-color: #DFDDD8;
 
     img{
       display: block;
@@ -33,6 +35,7 @@
     line-height: 21px;
 
     h2, h3, h4{
+      max-height: 47px;
       margin-bottom: 2px;
       @include ttfirsneue-medium;
       font-size: 18px;
@@ -44,7 +47,13 @@
     }
 
     address{
+      position: relative;
       font-style: normal;
+
+      p{
+        height: 43px;
+      }
+
     }
 
   }

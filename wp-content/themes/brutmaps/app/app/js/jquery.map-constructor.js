@@ -110,6 +110,29 @@
 
         }
 
+        function _cutText( obj ) {
+
+            var text = obj.textContent,
+                height = obj.offsetHeight,
+                clone = obj.cloneNode(true);
+
+            clone.style.position = 'absolute';
+            clone.style.visibility = 'hidden';
+            clone.style.height = 'auto';
+
+            obj.parentNode.insertBefore( clone, obj.nextSibling );
+
+            var l = text.length - 1
+
+            for (; l >= 0 && clone.offsetHeight > height; --l ) {
+                clone.textContent = text.substring( 0, l ) +'...';
+            }
+
+            obj.textContent = clone.textContent;
+            clone.remove();
+
+        }
+
         function _initGeocoder() {
 
             var geocoder = new MapboxGeocoder( {
@@ -238,6 +261,10 @@
                     } );
 
                     listingEl.appendChild( item );
+
+                    _cutText( item.querySelector( 'h3' ) );
+                    _cutText( item.querySelector( 'p' ) );
+
                 } );
             } else {
                 var empty = document.createElement('p');
