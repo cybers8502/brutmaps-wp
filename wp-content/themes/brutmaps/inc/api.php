@@ -174,6 +174,12 @@ function API_GET_SIGHT_BY_ID( $data ) {
 	return $response;
 }
 
+function getSmartImage($acfImage) {
+	$result = [];
+	$result['link'] = '';
+	return $result;
+}
+
 function API_POST_SIGHT ( $data ) {
 	$firstName = $data['first_name'];
 	$lastName = $data['last_name'];
