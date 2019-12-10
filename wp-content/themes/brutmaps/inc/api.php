@@ -128,7 +128,12 @@ function API_GET_SIGHT_BY_ID( $data ) {
 		foreach ($galleryField as $item) {
 			$image = $item['gallery_image'];
 			if ($image) {
-				$gallery[] = $image;
+				if ($image) {
+					$newImage = getSmartImage($image);
+					if (!is_null($newImage)) {
+						$gallery[] = $newImage;
+					}
+				}
 			}
 		}
 		$imageObject = get_field('main_image', $sightID);
