@@ -7,7 +7,7 @@
 <?php
 $gallery = get_field('gallery', ABOUT);
 foreach ($gallery as $item) {
-	var_dump(wp_get_attachment_image_sizes( $item['gallery_image']['ID'], 'full' ));
+	var_dump(wp_get_attachment_image_src( $item['gallery_image']['ID'], 'full' ));
 }
 //var_dump( get_field('capital_and_state') );
 //var_dump( get_field('established') );
