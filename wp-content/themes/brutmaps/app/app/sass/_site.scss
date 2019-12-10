@@ -14,7 +14,8 @@
   }
 
   &__header{
-    margin-bottom: 16px;
+    position: relative;
+    margin-bottom: 15px;
     font-size: 12px;
     line-height: 18px;
 
@@ -26,8 +27,9 @@
 
   &__aside{
     position: relative;
-    padding: 40px 16px 12px;
-    z-index: 1;
+    padding: 41px 16px 8px;
+    background-color: inherit;
+    z-index: 3;
   }
 
   &__wrap{
@@ -70,13 +72,17 @@
     flex-direction: row;
 
     &__aside{
-      position: relative;
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
       width: 433px;
-      padding: 52px 43px 12px 45px;
+      padding: 52px 43px 60px 45px;
     }
 
     &__wrap{
       width: calc( 100% - 435px );
+      margin-left: auto;
     }
 
   }

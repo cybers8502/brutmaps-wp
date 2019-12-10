@@ -33,10 +33,6 @@
     <link rel='stylesheet' href='https://api.tiles.mapbox.com/mapbox-gl-js/v1.5.0/mapbox-gl.css' />
     <link rel="stylesheet" href="<?= DIRECT ?>css/common.css">
 
-    <style>
-        .mapboxgl-ctrl-geocoder { min-width:100%; }
-    </style>
-
 </head>
 <body data-action="<?= admin_url( 'admin-ajax.php' );?>">
 

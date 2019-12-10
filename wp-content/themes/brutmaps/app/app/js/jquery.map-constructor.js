@@ -24,26 +24,46 @@
                     var coords = features[i].geometry.coordinates;
                     var props = features[i].properties;
 
-                    if ( !props.cluster )
-                        continue;
+                    if ( props.cluster ){
 
-                    var id = props.cluster_id;
+                        var id = props.cluster_id;
 
-                    var clusterMarker = clustersArr[id];
+                        var clusterMarker = clustersArr[id];
 
-                    if (!clusterMarker) {
-                        var el = document.createElement('div');
-                        el.className = 'map__cluster';
-                        el.dataset.id = id;
-                        el.dataset.coordinates = coords;
-                        el.innerHTML = props.point_count;
-                        clusterMarker = clustersArr[id] = new mapboxgl.Marker({element: el}).setLngLat(coords);
+                        if (!clusterMarker) {
+                            var el = document.createElement('div');
+                            el.className = 'map__cluster';
+                            el.dataset.id = id;
+                            el.dataset.coordinates = coords;
+                            el.innerHTML = props.point_count;
+                            clusterMarker = clustersArr[id] = new mapboxgl.Marker({element: el}).setLngLat(coords);
+                        }
+
+                        curClustersArr[id] = clusterMarker;
+
+                        if (!clustersOnScreen[id])
+                            clusterMarker.addTo(_mapFrame);
+
+                    } else {
+
+                        var id = props.id;
+
+                        var clusterMarker = clustersArr[id];
+
+                        if (!clusterMarker) {
+                            var el = document.createElement('div');
+                            el.className = 'marker';
+                            el.dataset.id = id;
+                            el.dataset.coordinates = coords;
+                            clusterMarker = clustersArr[id] = new mapboxgl.Marker({element: el}).setLngLat(coords);
+                        }
+
+                        curClustersArr[id] = clusterMarker;
+
+                        if (!clustersOnScreen[id])
+                            clusterMarker.addTo(_mapFrame);
+
                     }
-
-                    curClustersArr[id] = clusterMarker;
-
-                    if (!clustersOnScreen[id])
-                        clusterMarker.addTo(_mapFrame);
 
                 }
 
@@ -61,7 +81,7 @@
             _mapFrame.on( 'data', function (e) {
                 if (e.sourceId !== 'earthquakes' || !e.isSourceLoaded) return;
 
-                _mapFrame.on( 'move', _updateMarkers );
+                // _mapFrame.on( 'move', _updateMarkers );
                 _mapFrame.on( 'moveend', _updateMarkers );
 
                 _updateMarkers();
@@ -94,7 +114,7 @@
                         "coordinates": [ marker.coordinates.long, marker.coordinates.lat, 0.0 ]
                     },
                     "properties": {
-                        "id": marker.id,
+                        "id": 'id_'+ marker.id,
                         "title": marker.title,
                         "address": marker.address,
                         "year": marker.year,
@@ -117,11 +137,12 @@
 
             clone.style.position = 'absolute';
             clone.style.visibility = 'hidden';
-            clone.style.height = 'auto';
+            clone.style.maxHeight = 'none';
 
             obj.parentNode.insertBefore( clone, obj.nextSibling );
 
             var l = text.length - 1;
+
 
             for (; l >= 0 && clone.offsetHeight > maxH; --l ) {
                 clone.textContent = text.substring( 0, l ) +'...';
@@ -155,7 +176,7 @@
 
             _mapFrame = new mapboxgl.Map( {
                 container: 'map',
-                zoom: defaultData.zoom || .2,
+                zoom: defaultData.zoom || 9,
                 style: 'mapbox://styles/cybers8502/cjpb47lj66ufh2spadk5auttp',
                 center: [ defaultData.coordinates.long, defaultData.coordinates.lat]
             } );
@@ -167,15 +188,8 @@
                     data: _createMarkersData( data.sights ),
                     cluster: true,
                     clusterRadius: 40,
-                    clusterMaxZoom: 14
+                    clusterMaxZoom: 11
                 } );
-
-                _mapFrame.addLayer({
-                    id: "clusters",
-                    type: "circle",
-                    source: "earthquakes",
-                    filter: ["has", "point_count"]
-                });
 
                 _mapFrame.addLayer( {
                     id: "brut-obj",
@@ -261,7 +275,7 @@
 
                     listingEl.appendChild( item );
 
-                    _cutText( item.querySelector( 'h3' ), 47 );
+                    _cutText( item.querySelector( 'h3' ), 46 );
                     _cutText( item.querySelector( 'p' ), 43 );
 
                 } );
@@ -331,51 +345,3 @@
     }
 
 } )();
-
-
-
-// var geojson = {
-//     type: 'FeatureCollection',
-//     features: [ {
-//         type: 'Feature',
-//         geometry: {
-//             type: 'Point',
-//             coordinates: [data[0].coordinates.long, data[0].coordinates.lat]
-//         },
-//         properties: {
-//             title: 'Mapbox',
-//             description: 'Washington, D.C.'
-//         }
-//     }]
-// };
-//
-// features.forEach(function( marker ) {
-//
-//     var el = document.createElement('div');
-//     el.className = 'marker';
-//
-//     new mapboxgl.Marker(el)
-//         .setLngLat(marker.geometry.coordinates)
-//         .addTo( _mapFrame );
-// });
-
-// add clusrers
-// _mapFrame.addLayer({
-//     id: "clusters",
-//     type: "circle",
-//     source: "earthquakes",
-//     filter: ["has", "point_count"]
-// });
-
-// _mapFrame.addLayer({
-//     id: "cluster-count",
-//     type: "symbol",
-//     source: "earthquakes",
-//     filter: ["has", "point_count"],
-//     layout: {
-//         "text-field": "{point_count_abbreviated}",
-//         "text-font": ["DIN Offc Pro Medium", "Arial Unicode MS Bold"],
-//         "text-size": 12
-//     }
-// });
-

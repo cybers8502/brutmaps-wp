@@ -1,6 +1,7 @@
 .search{
   position: relative;
-  margin-bottom: 22px;
+  height: 34px;
+  margin-bottom: 28px;
   border-bottom: 2px solid $text;
 
   > span{
@@ -29,6 +30,7 @@
 }
 .mapboxgl-ctrl-geocoder {
   position: relative;
+  z-index: 1;
   width: 100%;
 
   input {
@@ -157,6 +159,7 @@
 }
 @media (min-width: $tablet-portrait) {
   .search{
+    height: 41px;
     margin-bottom: 63px;
     padding-bottom: 7px;
 

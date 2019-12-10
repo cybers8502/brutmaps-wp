@@ -1,6 +1,7 @@
 .map {
   width: 100%;
-  height: calc( 100vh - 277px );
+  height: calc( 100vh - 251px );
+  min-height: 375px;
   overflow: hidden;
 
   .marker {
@@ -57,12 +58,14 @@
 }
 @media (min-width: $tablet-portrait) {
   .map {
-    height: auto;
+    height: calc( 100vh - 317px);
+    min-height: 707px;
 
   }
 }
 @media (min-width: $tablet-landscape) {
   .map {
+    height: auto;
 
   }
 }
