@@ -35,7 +35,10 @@ function API_GET_ABOUT_DATA() {
 		foreach ($galleryField as $item) {
 			$image = $item['gallery_image'];
 			if ($image) {
-				$gallery[] = $image;
+				$newImage = getSmartImage($image);
+				if (!is_null($newImage)) {
+					$gallery[] = $newImage;
+				}
 			}
 		}
 		$mainImage = get_field('main_image', ABOUT);
@@ -45,9 +48,9 @@ function API_GET_ABOUT_DATA() {
 		$mainData = [
 			'title'             => html_entity_decode(get_the_title(ABOUT)),
 			'main_image'        => $mainImage,
-			'description_1'     => get_field('description_1', ABOUT),
-			'gallery_sub_text'  => get_field('gallery_sub_text', ABOUT),
-			'description_2'     => get_field('description_2', ABOUT),
+			'description_1'     => html_entity_decode(get_field('description_1', ABOUT)),
+			'gallery_sub_text'  => html_entity_decode(get_field('gallery_sub_text', ABOUT)),
+			'description_2'     => html_entity_decode(get_field('description_2', ABOUT)),
 			'gallery'           => $gallery,
 		];
 		$mainWrap['data'] = $mainData;
@@ -80,12 +83,13 @@ function API_GET_SIGHTS() {
         $location = get_field('location', $sightID);
         $item = [];
         $item['id'] = $sightID;
+        $item['link'] = get_permalink($sightID);
         $item['title'] = html_entity_decode(get_the_title($sightID));
         $item['coordinates'] = [
             'lat' => doubleval($location['lat']),
             'long' => doubleval($location['lng'])
         ];
-        $item['address'] = $location['address'];
+        $item['address'] = html_entity_decode($location['address']);
         $item['year'] = intval(get_field('established', $sightID));
         $imageObject = get_field('main_image', $sightID);
         if (is_null($imageObject) || !$imageObject) {
@@ -108,7 +112,7 @@ function API_GET_SIGHTS() {
     $mainWrap['data'] = $mainData;
     $response = new WP_REST_Response( $mainWrap );
     $response->set_status( 200 );
-    $response->header( 'Content-type', 'application/json' );
+    $response->header( 'Content-type', 'application/json; charset=utf-8' );
     return $response;
 }
 
@@ -124,7 +128,12 @@ function API_GET_SIGHT_BY_ID( $data ) {
 		foreach ($galleryField as $item) {
 			$image = $item['gallery_image'];
 			if ($image) {
-				$gallery[] = $image;
+				if ($image) {
+					$newImage = getSmartImage($image);
+					if (!is_null($newImage)) {
+						$gallery[] = $newImage;
+					}
+				}
 			}
 		}
 		$imageObject = get_field('main_image', $sightID);
@@ -139,23 +148,23 @@ function API_GET_SIGHT_BY_ID( $data ) {
 			foreach ($architectsIDs as $architectID) {
 				$item = [];
 				$item['id'] = intval($architectID);
-				$item['first_name'] = get_field('first_name', $architectID);
-				$item['last_name'] = get_field('last_name', $architectID);
+				$item['first_name'] = html_entity_decode(get_field('first_name', $architectID));
+				$item['last_name'] = html_entity_decode(get_field('last_name', $architectID));
 				$architects[] = $item;
 			}
 		}
 		$mainData = [
 			'id'            => $sightID,
 			'main_data'     => [
-				'title'     => get_the_title($sightID),
-				'sub_title' => $location['address'],
+				'title'     => html_entity_decode(get_the_title($sightID)),
+				'sub_title' => html_entity_decode($location['address']),
 				'image'     => $mainImage
 			],
 			'architects'    => $architects,
 			'year'          => intval(get_field('established', $sightID)),
-			'description'   => get_field('main_content', $sightID),
+			'description'   => html_entity_decode(get_field('main_content', $sightID)),
 			'image_gallery' => $gallery,
-			'extra_data'    => get_field('source', $sightID),
+			'extra_data'    => html_entity_decode(get_field('source', $sightID)),
 			'coordinates'   => [
 				'lat' => doubleval($location['lat']),
 				'long' => doubleval($location['lng'])
@@ -169,8 +178,20 @@ function API_GET_SIGHT_BY_ID( $data ) {
 	}
 	$response = new WP_REST_Response( $mainWrap );
 	$response->set_status( $statusCode );
-	$response->header( 'Content-type', 'application/json' );
+	$response->header( 'Content-type', 'application/json; charset=utf-8' );
 	return $response;
+}
+
+function getSmartImage($imageID) {
+	$size = wp_get_attachment_image_src( $imageID, 'full' );
+	if (!$size || count($size) < 3) {
+		return null;
+	}
+	$result = [];
+	$result['source'] = $size[0];
+	$result['width'] = $size[1];
+	$result['height'] = $size[2];
+	return $result;
 }
 
 function API_POST_SIGHT ( $data ) {
@@ -193,7 +214,7 @@ function API_POST_SIGHT ( $data ) {
 		$link = "";
 	}
 	$args = [
-		'post_title'    => 'New Sight',
+		'post_title'    => 'New Object',
 		'post_type'     => 'sight',
 		'post_status'   => 'pending'
 	];
@@ -225,7 +246,7 @@ function API_POST_SIGHT ( $data ) {
 	];
 	$response = new WP_REST_Response( $output );
 	$response->set_status( $statusCode );
-	$response->header( 'Content-type', 'application/json' );
+	$response->header( 'Content-type', 'application/json; charset=utf-8' );
 	return $response;
 }
 
@@ -279,7 +300,7 @@ function notifyAboutNewSight() {
 			$emailsArray[] = $item['email'];
 		}
 		$to = $emailsArray;
-		$subject = 'New sight offer on BRUTMAPS';
+		$subject = 'New object offer on BRUTMAPS';
 		$body = 'We have a new offered sight';
 		$headers = array('Content-Type: text/html; charset=UTF-8');
 		wp_mail( $to, $subject, $body, $headers );
