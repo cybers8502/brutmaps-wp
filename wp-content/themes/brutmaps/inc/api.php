@@ -35,7 +35,10 @@ function API_GET_ABOUT_DATA() {
 		foreach ($galleryField as $item) {
 			$image = $item['gallery_image'];
 			if ($image) {
-				$gallery[] = $image;
+				$newImage = getSmartImage($image);
+				if (!is_null($newImage)) {
+					$gallery[] = $newImage;
+				}
 			}
 		}
 		$mainImage = get_field('main_image', ABOUT);
@@ -174,9 +177,15 @@ function API_GET_SIGHT_BY_ID( $data ) {
 	return $response;
 }
 
-function getSmartImage($acfImage) {
+function getSmartImage($imageID) {
+	$size = wp_get_attachment_image_src( $imageID, 'full' );
+	if (!$size || count($size) < 3) {
+		return null;
+	}
 	$result = [];
-	$result['link'] = '';
+	$result['source'] = $size[0];
+	$result['width'] = $size[1];
+	$result['height'] = $size[2];
 	return $result;
 }
 
