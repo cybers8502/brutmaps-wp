@@ -7,6 +7,7 @@
 <?php
 $gallery = get_field('gallery', ABOUT);
 foreach ($gallery as $item) {
+    var_dump($item['ID']);
 	echo wp_get_attachment_image( $item['ID'], 'full' );
 //    var_dump($item);
 }
