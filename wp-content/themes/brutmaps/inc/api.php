@@ -214,7 +214,7 @@ function API_POST_SIGHT ( $data ) {
 		$link = "";
 	}
 	$args = [
-		'post_title'    => 'New Sight',
+		'post_title'    => 'New Object',
 		'post_type'     => 'sight',
 		'post_status'   => 'pending'
 	];
@@ -300,7 +300,7 @@ function notifyAboutNewSight() {
 			$emailsArray[] = $item['email'];
 		}
 		$to = $emailsArray;
-		$subject = 'New sight offer on BRUTMAPS';
+		$subject = 'New object offer on BRUTMAPS';
 		$body = 'We have a new offered sight';
 		$headers = array('Content-Type: text/html; charset=UTF-8');
 		wp_mail( $to, $subject, $body, $headers );
