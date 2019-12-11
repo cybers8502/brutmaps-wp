@@ -96,8 +96,13 @@
 
             var popup = new mapboxgl.Popup( { closeOnClick: false } )
                 .setLngLat( currentFeature.geometry.coordinates )
-                .setHTML(`<h3>${currentFeature.properties.title}</h3>(${currentFeature.properties.address})`)
+                .setHTML(`<a  class="mapboxgl-popup-picture" href="${currentFeature.properties.link}">
+                    <img src="${currentFeature.properties.images}" alt="${currentFeature.properties.title}"/></a>
+                    <div class="mapboxgl-popup-text"><div><p>${currentFeature.properties.address}</p></div></div>`)
                 .addTo(_mapFrame);
+
+            _cutText( document.querySelector('.mapboxgl-popup p'), 61 );
+
         }
 
         function _createMarkersData( data ) {
@@ -118,7 +123,13 @@
                         "title": marker.title,
                         "address": marker.address,
                         "year": marker.year,
-                        "images": marker.images.image_small
+                        "images": marker.images.image_small,
+                        "link": marker.link,
+                        "icon": {
+                            className: 'marker', // class name to style
+                            html: '★', // add content inside the marker, in this case a star
+                            iconSize: null // size of icon, use null to set the size in CSS
+                        }
                     }
                 } );
 
@@ -177,6 +188,7 @@
             _mapFrame = new mapboxgl.Map( {
                 container: 'map',
                 zoom: defaultData.zoom || 9,
+                hash: true,
                 style: 'mapbox://styles/cybers8502/cjpb47lj66ufh2spadk5auttp',
                 center: [ defaultData.coordinates.long, defaultData.coordinates.lat]
             } );
@@ -267,7 +279,11 @@
 
                     var item = document.createElement('div');
                     item.className = 'objects-list__item';
-                    item.innerHTML = '<div class="objects-list__picture"><img src="'+ prop.images +'" alt="'+ prop.title +'"/></div><div class="objects-list__info"><address><h3>'+ prop.title +'</h3><p>'+ prop.address +'</p></address><p><strong>'+ prop.year +'</strong></p></div>';
+                    item.innerHTML = '<a href="'+ prop.link +'" class="objects-list__picture">' +
+                        '<img src="'+ prop.images +'" alt="'+ prop.title +'"/></a>' +
+                        '<div class="objects-list__info"><address>' +
+                        '<h3>'+ prop.title +'</h3><p>'+ prop.address +'</p>' +
+                        '</address><p><strong>'+ prop.year +'</strong></p></div>';
 
                     item.addEventListener( 'mouseover', function () {
                         _createPopUp( feature );
@@ -284,6 +300,7 @@
                 empty.textContent = 'Drag the map to results';
                 listingEl.appendChild(empty);
             }
+
         }
 
         function _removePopups() {
