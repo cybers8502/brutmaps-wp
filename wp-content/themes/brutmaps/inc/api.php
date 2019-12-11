@@ -80,6 +80,7 @@ function API_GET_SIGHTS() {
         $location = get_field('location', $sightID);
         $item = [];
         $item['id'] = $sightID;
+	    $item['link'] = get_permalink($sightID);
         $item['title'] = html_entity_decode(get_the_title($sightID));
         $item['coordinates'] = [
             'lat' => doubleval($location['lat']),
@@ -102,7 +103,6 @@ function API_GET_SIGHTS() {
 	        ];
         }
         $item['images'] = $images;
-        $item['link'] = get_permalink($sightID);
         $result[] = $item;
     }
     $mainData['sights'] = $result;
