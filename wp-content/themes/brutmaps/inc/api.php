@@ -158,7 +158,7 @@ function API_GET_SIGHT_BY_ID( $data ) {
 			'main_data'     => [
 				'title'     => html_entity_decode(get_the_title($sightID)),
 				'sub_title' => html_entity_decode($location['address']),
-				'image'     => $mainImage
+				'image'     => html_entity_decode($mainImage)
 			],
 			'architects'    => $architects,
 			'year'          => intval(get_field('established', $sightID)),
