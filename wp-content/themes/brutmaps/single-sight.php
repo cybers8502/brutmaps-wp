@@ -2,9 +2,9 @@
     get_header();
 
     $title = get_the_title();
-    $content = get_field('main_image');
+    $main_image = get_field('main_image')[url];
+    $content = get_field('main_content');
     $est = get_field('established');
-    $images = get_field('gallery');
 
 ?>
 
@@ -79,40 +79,38 @@
 
                 <a href="#" class="btn btn--color-1"><span>show on the map</span></a>
 
-                <!-- blog-article__text -->
-                <div class="blog-article__text">
-
-                    <div class="blog-article__preview">
-                        <img src="<?= get_field('main_image') ?>" alt="img"/>
-                    </div>
-
-                    <?= $content ?>
-
-                    <?php if ( $images ): ?>
-                        <div class="swiper-container">
-                            <div class="swiper-wrapper">
-                                <?php foreach( $images as $image_id ): ?>
-                                    <div class="swiper-slide">
-                                        <img src="<?= wp_get_attachment_image( $image_id ); ?>" alt="img"/>
-                                    </div>
-                                <?php endforeach; ?>
-                            </div>
-                            <span class="swiper-pagination"></span>
-                        </div>
-                    <?php endif; ?>
-
-                    <h2>Where can you see it</h2>
-
-                    <address>
-                        <p>Mexico-city, Mexico</p>
-                        <p>Mexican street 78</p>
-                        <p>to the right from 7eleven</p>
-                    </address>
-
-                    <div class="blog-article__map map" id="map" data-map='{"point":[40.7532886, -73.97542709999999]}'></div>
-
+                <div class="blog-article__preview">
+                    <img src="<?= $main_image ?>" alt="img"/>
                 </div>
-                <!-- /blog-article__text -->
+
+                <?= $content ?>
+
+                <?php if( have_rows('gallery' ) ): ?>
+                    <div class="swiper-container">
+                        <div class="swiper-wrapper">
+                            <?php
+                            while ( have_rows('gallery') ) : the_row();
+                                $imgSRC = get_sub_field('gallery_image');
+                                $authorID = get_sub_field('gallery_image_author_id');
+                                ?>
+                                <div class="swiper-slide">
+                                    <img src="<?= $imgSRC ?>" alt="<?= get_the_title( $authorID ) ?>" />
+                                </div>
+                            <?php endwhile; ?>
+                        </div>
+                        <span class="swiper-pagination"></span>
+                    </div>
+                <?php endif; ?>
+
+                <h2>Where can you see it</h2>
+
+                <address>
+                    <p>Mexico-city, Mexico</p>
+                    <p>Mexican street 78</p>
+                    <p>to the right from 7eleven</p>
+                </address>
+
+                <div class="blog-article__map map" id="map" data-map='{"point":[40.7532886, -73.97542709999999]}'></div>
 
             </article>
 

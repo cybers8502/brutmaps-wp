@@ -31,6 +31,7 @@
     <?php wp_head() ?>
 
     <link rel='stylesheet' href='https://api.tiles.mapbox.com/mapbox-gl-js/v1.5.0/mapbox-gl.css' />
+    <link rel="stylesheet" href="<?= DIRECT ?>css/swiper.min.css">
     <link rel="stylesheet" href="<?= DIRECT ?>css/common.css">
 
 </head>

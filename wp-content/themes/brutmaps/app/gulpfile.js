@@ -22,8 +22,9 @@ let paths = {
         {
             dist: 'common.min.js',
             contains: [
-                'app/js/vendors/perfect-scrollbar.min.js',
-                'app/js/jquery.map-constructor.js'
+                'app/js/vendors/swiper.min.js',
+                'app/js/js.main.js',
+                'app/js/js.map-constructor.js'
             ]
         }
     ],
