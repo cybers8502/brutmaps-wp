@@ -24,7 +24,8 @@
                     var coords = features[i].geometry.coordinates;
                     var props = features[i].properties;
 
-                    if ( props.cluster ){
+                    if ( !props.cluster )
+                        continue;
 
                         var id = props.cluster_id;
 
@@ -43,27 +44,6 @@
 
                         if (!clustersOnScreen[id])
                             clusterMarker.addTo(_mapFrame);
-
-                    } else {
-
-                        var id = props.id;
-
-                        var clusterMarker = clustersArr[id];
-
-                        if (!clusterMarker) {
-                            var el = document.createElement('div');
-                            el.className = 'marker';
-                            el.dataset.id = id;
-                            el.dataset.coordinates = coords;
-                            clusterMarker = clustersArr[id] = new mapboxgl.Marker({element: el}).setLngLat(coords);
-                        }
-
-                        curClustersArr[id] = clusterMarker;
-
-                        if (!clustersOnScreen[id])
-                            clusterMarker.addTo(_mapFrame);
-
-                    }
 
                 }
 
@@ -98,7 +78,7 @@
                 .setLngLat( currentFeature.geometry.coordinates )
                 .setHTML(`<a  class="mapboxgl-popup-picture" href="${currentFeature.properties.link}">
                     <img src="${currentFeature.properties.images}" alt="${currentFeature.properties.title}"/></a>
-                    <div class="mapboxgl-popup-text"><div><p>${currentFeature.properties.address}</p></div></div>`)
+                    <a href="${currentFeature.properties.link}" class="mapboxgl-popup-text"><div><p>${currentFeature.properties.address}</p></div></a>`)
                 .addTo(_mapFrame);
 
             _cutText( document.querySelector('.mapboxgl-popup p'), 61 );
@@ -277,10 +257,11 @@
 
                     var prop = feature.properties;
 
-                    var item = document.createElement('div');
+                    var item = document.createElement('a');
                     item.className = 'objects-list__item';
-                    item.innerHTML = '<a href="'+ prop.link +'" class="objects-list__picture">' +
-                        '<img src="'+ prop.images +'" alt="'+ prop.title +'"/></a>' +
+                    item.href = prop.link;
+                    item.innerHTML = '<div class="objects-list__picture">' +
+                        '<img src="'+ prop.images +'" alt="'+ prop.title +'"/></div>' +
                         '<div class="objects-list__info"><address>' +
                         '<h3>'+ prop.title +'</h3><p>'+ prop.address +'</p>' +
                         '</address><p><strong>'+ prop.year +'</strong></p></div>';
