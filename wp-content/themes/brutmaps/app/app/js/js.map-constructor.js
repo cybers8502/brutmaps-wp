@@ -2,19 +2,19 @@
 
     let _mapWrap;
 
-    ( _mapWrap = document.querySelector( '#map' ) ) && InitMapBox();
+    ( _mapWrap = document.querySelector( '#common-map' ) ) && InitMapBox();
 
     function InitMapBox() {
 
         let _mapFrame;
         mapboxgl.accessToken = 'pk.eyJ1IjoiY3liZXJzODUwMiIsImEiOiJjanBiM3I5ancyMHB5M3FuNGg0M2Rub25pIn0.UMgICyxLhWOZ2S4lb2cIJQ';
 
-        function _drawMarkers() {
+        function _drawClusters() {
 
             var clustersArr = {};
             var clustersOnScreen = {};
 
-            function _updateMarkers() {
+            function _updateClusters() {
 
                 var curClustersArr = {};
                 var features = _mapFrame.querySourceFeatures( 'earthquakes' );
@@ -27,23 +27,23 @@
                     if ( !props.cluster )
                         continue;
 
-                        var id = props.cluster_id;
+                    var id = props.cluster_id;
 
-                        var clusterMarker = clustersArr[id];
+                    var clusterMarker = clustersArr[id];
 
-                        if (!clusterMarker) {
-                            var el = document.createElement('div');
-                            el.className = 'map__cluster';
-                            el.dataset.id = id;
-                            el.dataset.coordinates = coords;
-                            el.innerHTML = props.point_count;
-                            clusterMarker = clustersArr[id] = new mapboxgl.Marker({element: el}).setLngLat(coords);
-                        }
+                    if (!clusterMarker) {
+                        var el = document.createElement('div');
+                        el.className = 'map__cluster';
+                        el.dataset.id = id;
+                        el.dataset.coordinates = coords;
+                        el.innerHTML = props.point_count;
+                        clusterMarker = clustersArr[id] = new mapboxgl.Marker({element: el}).setLngLat(coords);
+                    }
 
-                        curClustersArr[id] = clusterMarker;
+                    curClustersArr[id] = clusterMarker;
 
-                        if (!clustersOnScreen[id])
-                            clusterMarker.addTo(_mapFrame);
+                    if (!clustersOnScreen[id])
+                        clusterMarker.addTo(_mapFrame);
 
                 }
 
@@ -61,7 +61,65 @@
             _mapFrame.on( 'data', function (e) {
                 if (e.sourceId !== 'earthquakes' || !e.isSourceLoaded) return;
 
-                // _mapFrame.on( 'move', _updateMarkers );
+                _mapFrame.on( 'move', _updateClusters );
+                _mapFrame.on( 'moveend', _updateClusters );
+
+                _updateClusters();
+
+            } );
+
+        }
+
+        function _drawMarkers() {
+
+            var markersArr = {};
+            var markersOnScreen = {};
+
+            function _updateMarkers() {
+
+                var curMarkersArr = {};
+                var features = _mapFrame.querySourceFeatures( 'earthquakes' );
+
+                for (var i = 0; i < features.length; i++) {
+
+                    var coords = features[i].geometry.coordinates;
+                    var props = features[i].properties;
+
+                    if ( props.cluster )
+                        continue;
+
+                    var id = props.id;
+
+                    var clusterMarker = markersArr[id];
+
+                    if (!clusterMarker) {
+                        var el = document.createElement('div');
+                        el.className = `map__marker ${id}`;
+                        el.dataset.id = id;
+                        el.dataset.properties = JSON.stringify( { 'geometry': { 'coordinates': coords }, 'properties': props } );
+                        clusterMarker = markersArr[id] = new mapboxgl.Marker({element: el}).setLngLat(coords);
+                    }
+
+                    curMarkersArr[id] = clusterMarker;
+
+                    if (!markersOnScreen[id])
+                        clusterMarker.addTo(_mapFrame);
+
+                }
+
+                for (id in markersOnScreen) {
+                    if (!curMarkersArr[id])
+                        markersOnScreen[id].remove();
+                }
+
+                markersOnScreen = curMarkersArr;
+
+            }
+
+            _mapFrame.on( 'data', function (e) {
+                if (e.sourceId !== 'earthquakes' || !e.isSourceLoaded) return;
+
+                _mapFrame.on( 'move', _updateMarkers );
                 _mapFrame.on( 'moveend', _updateMarkers );
 
                 _updateMarkers();
@@ -80,6 +138,8 @@
                     <img src="${currentFeature.properties.images}" alt="${currentFeature.properties.title}"/></a>
                     <a href="${currentFeature.properties.link}" class="mapboxgl-popup-text"><div><p>${currentFeature.properties.address}</p></div></a>`)
                 .addTo(_mapFrame);
+
+            document.querySelector( `.${currentFeature.properties.id}` ).classList.add( 'is-active' );
 
             _cutText( document.querySelector('.mapboxgl-popup p'), 61 );
 
@@ -166,7 +226,7 @@
             let defaultData = data.settings.default_center;
 
             _mapFrame = new mapboxgl.Map( {
-                container: 'map',
+                container: 'common-map',
                 zoom: defaultData.zoom || 9,
                 hash: true,
                 style: 'mapbox://styles/cybers8502/cjpb47lj66ufh2spadk5auttp',
@@ -187,9 +247,15 @@
                     id: "brut-obj",
                     type: "circle",
                     source: "earthquakes",
-                    filter: ["!", ["has", "point_count"]]
+                    filter: ["!", ["has", "point_count"]],
+                    paint: {
+                        'circle-radius': 10,
+                        "circle-color": "transparent"
+                    }
                 } );
 
+
+                _drawClusters();
                 _drawMarkers();
                 _onEvents();
 
@@ -204,8 +270,7 @@
             var features = _mapFrame.queryRenderedFeatures(e.point, { layers: ['brut-obj'] });
 
             if (features.length) {
-                var clickedPoint = features[0];
-                _createPopUp( clickedPoint );
+                _createPopUp( features[0] );
             }
 
         }
@@ -288,7 +353,10 @@
 
             var popUps = document.getElementsByClassName('mapboxgl-popup');
 
-            if ( popUps[0] ) popUps[0].remove();
+            if ( popUps[0] ){
+                popUps[0].remove();
+                document.querySelector( '.is-active' ).classList.remove( 'is-active' );
+            }
 
         }
 
@@ -319,7 +387,7 @@
                 mapCluster.addEventListener( 'click', function (e) {
 
                     var curClustr = this;
-                    var clusterId = +( this.dataset.id );
+                    var clusterId = +( curClustr.dataset.id );
 
                     _mapFrame.getSource('earthquakes').getClusterExpansionZoom(clusterId, function ( err, zoom ) {
                         if (err)
