@@ -13,6 +13,7 @@
 
             var clustersArr = {};
             var clustersOnScreen = {};
+            let timer = null;
 
             function _updateClusters() {
 
@@ -62,7 +63,15 @@
                 if (e.sourceId !== 'earthquakes' || !e.isSourceLoaded) return;
 
                 _mapFrame.on( 'move', _updateClusters );
-                _mapFrame.on( 'moveend', _updateClusters );
+                _mapFrame.on( 'moveend', () => {
+                    _updateClusters();
+
+                    timer = setTimeout( function () {
+                        _updateClusters();
+                        clearTimeout( timer );
+                    }, 300 );
+
+                } );
 
                 _updateClusters();
 
