@@ -94,7 +94,7 @@
                                 $authorID = get_sub_field('gallery_image_author_id');
                                 ?>
                                 <div class="swiper-slide">
-                                    <img src="<?= $imgSRC ?>" alt="<?= get_the_title( $authorID ) ?>" />
+                                    <img src="<?= wp_get_attachment_image_url( $imgSRC ) ?>" alt="<?= get_the_title( $authorID ) ?>" />
                                 </div>
                             <?php endwhile; ?>
                         </div>
