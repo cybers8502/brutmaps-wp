@@ -31,7 +31,7 @@
 .mapboxgl-ctrl-geocoder {
   position: relative;
   z-index: 1;
-  width: 100%;
+  width: calc( 100% - 25px );
 
   input {
     width: 100%;
@@ -55,8 +55,9 @@
     right: 0;
     width: 21px;
     height: 32px;
+    background-color: $back;
 
-    & > *{
+    & > * {
       position: absolute;
       top: 50%;
       left: 50%;
@@ -129,7 +130,7 @@
     position: absolute;
     top: calc( 100% + 2px );
     left: 0;
-    width: 100%;
+    width: calc( 100% + 25px );
     background-color: #F5F4F1;
     overflow: hidden;
     @include ttfirsneue-regular;
@@ -165,6 +166,7 @@
 
     > span{
       top: 7px;
+      padding-bottom: 13px;
     }
 
   }

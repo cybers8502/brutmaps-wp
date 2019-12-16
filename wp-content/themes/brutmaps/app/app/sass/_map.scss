@@ -109,7 +109,7 @@
   }
 
   &--common{
-    height: calc( 100vh - 251px );
+    height: calc( 100vh - 180px );
     min-height: 375px;
   }
 
@@ -139,6 +139,12 @@
 
     &--common{
       height: auto;
+    }
+
+    &--single{
+      max-width: 851px;
+      margin-left: 81px;
+      width: calc( 100% - 104px );
     }
 
   }

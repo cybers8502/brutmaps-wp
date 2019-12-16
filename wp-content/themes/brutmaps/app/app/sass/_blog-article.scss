@@ -10,13 +10,14 @@
 
   &__info{
     display: flex;
-    align-items: center;
+    align-items: baseline;
     justify-content: space-between;
     margin-bottom: 17px;
     padding-right: 13px;
     font-size: 17px;
 
     time{
+      margin-left: 30px;
       @include ttfirsneue-medium;
     }
 
@@ -28,6 +29,8 @@
   }
 
   &__back{
+    position: sticky;
+    top: 0;
     width: 24px;
     height: 11px;
 
@@ -79,6 +82,7 @@
 @media (min-width: $tablet-portrait) {
   .blog-article {
     padding-top: 46px;
+    padding-bottom: 63px;
 
     &__wrap{
       position: relative;
@@ -94,7 +98,6 @@
 
     &__info{
       margin-bottom: 54px;
-      margin-right: -22px;
       padding-right: 0;
       font-size: 24px;
     }
@@ -107,7 +110,7 @@
     .btn{
       position: absolute;
       top: 5px;
-      right: 0;
+      right: 22px;
     }
 
     .swiper-container{
@@ -124,6 +127,19 @@
 }
 @media (min-width: $desktop) {
   .blog-article {
+
+  }
+}
+@media (min-width: 1410px) {
+  .blog-article {
+
+    &__info{
+      margin-right: -22px;
+    }
+
+    .btn{
+      right: 0;
+    }
 
   }
 }

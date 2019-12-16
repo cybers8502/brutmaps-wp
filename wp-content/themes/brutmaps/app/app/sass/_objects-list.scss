@@ -1,4 +1,10 @@
 .objects-list {
+  top: 180px;
+
+  &__layout{
+    height: 100%;
+    overflow-y: auto;
+  }
 
   &__item{
     display: flex;
@@ -68,31 +74,44 @@
 
   }
 }
+@media (max-width: $tablet-portrait - 1) {
+  .objects-list {
+
+  }
+}
 @media (min-width: $tablet-portrait) {
   .objects-list {
+    top: 258px;
 
   }
 }
 @media (max-width: $tablet-landscape - 1) {
   .objects-list {
-    position: absolute;
-    top: 191px;
+    position: fixed;
     left: 0;
-    bottom: 60px;
-    padding: 14px 16px 0;
+    bottom: 180px;
+    width: 100%;
+    padding: 0 16px;
     background-color: inherit;
     visibility: hidden;
     opacity: 0;
-    transition: visibility .3s ease, opacity .3s ease;
+    transition: bottom .3s ease, visibility .3s ease, opacity .3s ease;
 
     &__header{
       display: none;
+    }
+
+    &.is-show{
+      bottom: 0;
+      visibility: visible;
+      opacity: 1;
     }
 
   }
 }
 @media (min-width: $tablet-landscape) {
   .objects-list {
+    top: auto;
     height: calc( 100% - 191px );
 
     &__header{
@@ -102,7 +121,6 @@
 
     &__layout{
       height: calc( 100% - 40px );
-      overflow-y: auto;
     }
 
   }

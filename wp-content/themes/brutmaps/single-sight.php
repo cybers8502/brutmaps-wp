@@ -24,7 +24,7 @@
                     <time><?= $est ?></time>
                 </div>
 
-                <a href="<?= get_permalink(1) ?>#9/<?= $location['lat'] ?>/<?= $location['lng'] ?>" class="btn btn--color-1"><span>show on the map</span></a>
+                <a href="<?= get_permalink(1) ?>#12/<?= $location['lat'] ?>/<?= $location['lng'] ?>" class="btn btn--color-1"><span>show on the map</span></a>
 
                 <div class="blog-article__preview">
                     <img src="<?= $main_image ?>" alt="img"/>
@@ -55,9 +55,9 @@
                     <?= $address ?>
                 </address>
 
-                <div class="map map--single" id="single-map" data-point='[<?= $location['lng'] ?>, <?= $location['lat'] ?>]'></div>
-
             </article>
+
+            <div class="map map--single" id="single-map" data-point='[<?= $location['lng'] ?>, <?= $location['lat'] ?>]'></div>
 
         </div>
 

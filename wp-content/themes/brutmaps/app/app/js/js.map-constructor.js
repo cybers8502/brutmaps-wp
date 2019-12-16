@@ -7,6 +7,8 @@
     function InitMapBox() {
 
         let _mapFrame;
+        let _device = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test( navigator.userAgent );
+
         mapboxgl.accessToken = 'pk.eyJ1IjoiY3liZXJzODUwMiIsImEiOiJjanBiM3I5ancyMHB5M3FuNGg0M2Rub25pIn0.UMgICyxLhWOZ2S4lb2cIJQ';
 
         function _drawClusters() {
@@ -173,12 +175,7 @@
                         "address": marker.address,
                         "year": marker.year,
                         "images": marker.images.image_small,
-                        "link": marker.link,
-                        "icon": {
-                            className: 'marker', // class name to style
-                            html: '★', // add content inside the marker, in this case a star
-                            iconSize: null // size of icon, use null to set the size in CSS
-                        }
+                        "link": marker.link
                     }
                 } );
 
@@ -350,11 +347,14 @@
                     _cutText( item.querySelector( 'p' ), 43 );
 
                 } );
+
             } else {
                 var empty = document.createElement('p');
-                empty.textContent = 'Drag the map to results';
+                empty.textContent = 'Drag or zoom the map to results';
                 listingEl.appendChild(empty);
             }
+
+            localStorage.setItem( 'brutList', listingEl.outerHTML );
 
         }
 
@@ -402,10 +402,22 @@
                         if (err)
                             return;
 
-                        _mapFrame.flyTo({
-                            center: JSON.parse("[" + curClustr.dataset.coordinates + "]"),
-                            zoom: zoom + .1
-                        });
+                        if ( _device ){
+
+                            _mapFrame.flyTo({
+                                center: JSON.parse("[" + curClustr.dataset.coordinates + "]"),
+                                zoom: zoom + .1
+                            });
+
+                        } else {
+
+                            _mapFrame.jumpTo({
+                                center: JSON.parse("[" + curClustr.dataset.coordinates + "]"),
+                                zoom: zoom + .1
+                            });
+
+                        }
+
 
                     });
 

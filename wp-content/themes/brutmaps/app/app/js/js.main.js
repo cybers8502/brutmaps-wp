@@ -2,11 +2,56 @@
 
     let _articleGallery;
     let _articleMap;
+    let _controlViewBtn;
+    let _nearest0bjects;
 
     ( _articleGallery = document.querySelector( '.blog-article .swiper-container' ) ) && InitArticleSlider();
     ( _articleMap = document.querySelector( '#single-map' ) ) && InitSingleArticle();
+    ( _controlViewBtn = document.querySelector( '.js-view-btn' ) ) && ControlListView();
+    ( _nearest0bjects = document.querySelector( '#nearest-objects' ) ) && Nearest0bjects();
+
+    function ControlListView() {
+
+        let tableViewStatus = false;
+        let objTable = document.querySelector( '.objects-list' );
+        let btnImg = _controlViewBtn.querySelector( 'img' );
+        let btnImgSrc = btnImg.src;
+        let btnImgSrcArr = btnImgSrc.split('/');
+
+        _controlViewBtn.addEventListener( 'click', (e) => {
+            e.preventDefault();
+            _changeView();
+        } );
+
+        function _changeView() {
+
+            if ( tableViewStatus ){
+
+                objTable.classList.remove( 'is-show' );
+                btnImgSrcArr[ btnImgSrcArr.length - 1 ] = 'icon-list-view.svg';
+                btnImg.src = btnImgSrcArr.join( '/' );
+                tableViewStatus = false;
+
+            } else {
+
+                objTable.classList.add( 'is-show' );
+                btnImgSrcArr[ btnImgSrcArr.length - 1 ] = 'icon-map-view.svg';
+                btnImg.src = btnImgSrcArr.join( '/' );
+                tableViewStatus = true;
+
+            }
+
+        }
+
+
+    }
 
     function InitArticleSlider() {
+
+        let slide = _articleGallery.querySelectorAll( '.swiper-slide' );
+
+        if( slide.length === 1 )
+            return;
 
         let _swiper = new Swiper( _articleGallery, {
             slidesPerView: 1,
@@ -46,8 +91,17 @@
             .setLngLat( _object )
             .addTo( _mapFrame );
 
-        console.log( marker )
+    }
 
-    };
+    function Nearest0bjects() {
+
+        let data = localStorage.getItem( 'brutList' );
+
+        if ( !data )
+            return;
+
+        _nearest0bjects.innerHTML = data;
+
+    }
 
 } )();

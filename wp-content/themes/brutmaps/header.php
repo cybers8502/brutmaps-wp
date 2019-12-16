@@ -87,25 +87,12 @@
         <!-- /search -->
 
         <!-- control-view -->
-        <div class="control-view">
-            Map viewed
-
-            <a href="#" class="">
-                <svg xmlns="http://www.w3.org/2000/svg" width="37" height="24" viewBox="0 0 37 24" fill="none">
-                    <rect x="13.5" y="0.5" width="23" height="9" stroke="#2D2D2D"/>
-                    <rect x="13.5" y="13.5371" width="23" height="9" stroke="#2D2D2D"/>
-                    <rect x="0.5" y="0.5" width="9" height="9" stroke="#2D2D2D"/>
-                    <rect x="0.5" y="13.5371" width="9" height="9" stroke="#2D2D2D"/>
-                </svg>
-            </a>
-
-        </div>
+        <?php  get_template_part('components/content', 'control-view'); ?>
         <!-- /control-view -->
 
-        <div class="objects-list">
-            <div class="objects-list__header">Recently viewed</div>
-            <div class="objects-list__layout" id="feature-listing"></div>
-        </div>
+        <!-- control-view -->
+        <?php  get_template_part('components/content', 'objects-list'); ?>
+        <!-- /control-view -->
 
 <!--        <div class="add-new-obj">-->
 <!--            <span role="button" class="btn btn--color-2"><span>contribute a brutalist building</span></span>-->
