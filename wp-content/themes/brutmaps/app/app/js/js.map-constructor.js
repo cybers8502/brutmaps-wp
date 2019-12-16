@@ -404,14 +404,14 @@
 
                         if ( _device ){
 
-                            _mapFrame.flyTo({
+                            _mapFrame.jumpTo({
                                 center: JSON.parse("[" + curClustr.dataset.coordinates + "]"),
                                 zoom: zoom + .1
                             });
 
                         } else {
 
-                            _mapFrame.jumpTo({
+                            _mapFrame.flyTo({
                                 center: JSON.parse("[" + curClustr.dataset.coordinates + "]"),
                                 zoom: zoom + .1
                             });
