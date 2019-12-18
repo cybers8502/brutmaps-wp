@@ -94,6 +94,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      position: relative;
       width: 86px;
       height: 88px;
       overflow: hidden;
@@ -101,7 +102,9 @@
 
       img{
         display: block;
+        position: relative;
         height: 88px;
+        z-index: 1;
       }
 
     }

@@ -35,6 +35,7 @@
 
   &__wrap{
     display: flex;
+    position: relative;
     background-color: $back-text;
     overflow: hidden;
   }

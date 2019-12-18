@@ -8,6 +8,8 @@
     function InitMapBox() {
 
         let _mapFrame;
+        let _listWrap = document.querySelector( '.objects-list' );
+        let _listingEl = document.getElementById( 'js-feature-listing' );
         let _device = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test( navigator.userAgent );
         let _duration = 400;
 
@@ -159,6 +161,7 @@
             var popup = new mapboxgl.Popup( { closeOnClick: false } )
                 .setLngLat( currentFeature.geometry.coordinates )
                 .setHTML(`<a  class="mapboxgl-popup-picture" href="${currentFeature.properties.link}">
+                    <div class="loader"><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/></div>
                     <img src="${currentFeature.properties.images}" alt="${currentFeature.properties.title}"/></a>
                     <a href="${currentFeature.properties.link}" class="mapboxgl-popup-text"><div><p>${currentFeature.properties.address}</p></div></a>`)
                 .addTo(_mapFrame);
@@ -256,11 +259,11 @@
             function _behaviorSearchInput() {
                 clearTimeout( _timer );
 
-                var data = localStorage.getItem( 'searchGeo' );
+                var data = sessionStorage.getItem( 'searchGeo' );
 
                 if ( data ){
                     _input.value = data;
-                    localStorage.removeItem( 'searchGeo' );
+                    sessionStorage.removeItem( 'searchGeo' );
                 }
 
             }
@@ -357,9 +360,9 @@
 
         function _renderListings( features ) {
 
-            var listingEl = document.getElementById( 'feature-listing' );
+            _listWrap.classList.add( 'is-loading' );
 
-            listingEl.innerHTML = '';
+            _listingEl.innerHTML = '';
 
             if (features.length) {
                 features.forEach( function( feature ) {
@@ -370,6 +373,7 @@
                     item.className = 'objects-list__item';
                     item.href = prop.link;
                     item.innerHTML = '<div class="objects-list__picture">' +
+                        '<div class="loader"><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/></div>'+
                         '<img src="'+ prop.images +'" alt="'+ prop.title +'"/></div>' +
                         '<div class="objects-list__info"><address>' +
                         '<h3>'+ prop.title +'</h3><p>'+ prop.address +'</p>' +
@@ -379,7 +383,7 @@
                         _createPopUp( feature );
                     } );
 
-                    listingEl.appendChild( item );
+                    _listingEl.appendChild( item );
 
                     _cutText( item.querySelector( 'h3' ), 46 );
                     _cutText( item.querySelector( 'p' ), 43 );
@@ -389,10 +393,11 @@
             } else {
                 var empty = document.createElement('p');
                 empty.textContent = 'Drag or zoom the map to results';
-                listingEl.appendChild(empty);
+                _listingEl.appendChild(empty);
             }
 
-            localStorage.setItem( 'brutList', listingEl.outerHTML );
+            localStorage.setItem( 'brutList', _listingEl.outerHTML );
+            _listWrap.classList.remove( 'is-loading' );
 
         }
 

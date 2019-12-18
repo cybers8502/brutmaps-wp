@@ -2,6 +2,7 @@ let articleGallery;
 let articleMap;
 let controlViewBtn;
 let nearest0bjects;
+let blogBackRails;
 
 if ( articleGallery = document.querySelector( '.blog-article .swiper-container' ) )
     InitArticleSlider();
@@ -12,8 +13,11 @@ if ( articleMap = document.querySelector( '#single-map' ) )
 if ( controlViewBtn = document.querySelector( '.js-view-btn' ) )
     ControlListView();
 
-if ( nearest0bjects = document.querySelector( '#nearest-objects' ) )
+if ( nearest0bjects = document.querySelector( '#js-nearest-objects' ) )
     Nearest0bjects();
+
+if ( blogBackRails = document.querySelector( '.blog-article__rails' ) )
+    BlogBackRails();
 
 function BehaviorSearchForm( e, obj ) {
 
@@ -26,6 +30,14 @@ function BehaviorSearchForm( e, obj ) {
     e.on( 'results', () => {
         _btn.style.setProperty( 'opacity', 1 );
     } );
+
+}
+
+function BlogBackRails() {
+
+    var _backBtn = blogBackRails.querySelector( '.blog-article__back' );
+
+    // window.scrollX()
 
 }
 
@@ -126,7 +138,7 @@ function InitSingleArticleMap() {
 
     _geocoder.on( 'result', (e) => {
         var homeURL = document.body.dataset.url;
-        localStorage.setItem( 'searchGeo', e.result.place_name );
+        sessionStorage.setItem( 'searchGeo', e.result.place_name );
         window.location.replace( `${homeURL}#12/${e.result.center[1]}/${e.result.center[0]}` );
     } );
 
@@ -140,5 +152,7 @@ function Nearest0bjects() {
         return;
 
     nearest0bjects.innerHTML = _data;
+
+    document.querySelector( '.objects-list' ).classList.remove( 'is-loading' );
 
 }
