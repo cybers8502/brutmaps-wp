@@ -49,6 +49,12 @@
 
     <?php wp_head() ?>
 
+    <?php if ( is_front_page() ): ?>
+        <title><?= get_bloginfo( 'name' ) ?> | <?= get_bloginfo( 'description' ) ?></title>
+    <?php else:  ?>
+        <title><?php wp_title(''); ?> | <?= get_bloginfo( 'name' ) ?></title>
+    <?php endif; ?>
+
     <link rel='stylesheet' href='https://api.tiles.mapbox.com/mapbox-gl-js/v1.5.0/mapbox-gl.css' />
     <link rel="stylesheet" href="<?= DIRECT ?>css/swiper.min.css">
     <link rel="stylesheet" href="<?= DIRECT ?>css/common.css">
@@ -65,9 +71,19 @@
         <!-- site__header -->
         <header class="site__header">
 
-            <h1 class="logo">
-                <img src="<?= DIRECT ?>img/logo_brutmaps.svg" alt="brutmaps"/>
-            </h1>
+            <?php if( is_front_page() ): ?>
+
+                <h1 class="logo">
+                    <img src="<?= DIRECT ?>img/logo_brutmaps.svg" alt="brutmaps"/>
+                </h1>
+
+            <?php else: ?>
+
+                <a href="<?= get_home_url() ?>" class="logo">
+                    <img src="<?= DIRECT ?>img/logo_brutmaps.svg" alt="brutmaps"/>
+                </a>
+
+            <?php endif; ?>
 
             <p>Global guide to the masterpieces  of brutalist architecture.</p>
 
@@ -75,15 +91,7 @@
         <!-- /site__header -->
 
         <!-- search -->
-        <div class="search" id="geocoder">
-            <span>
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 8" fill="none">
-                    <path d="M0 3.5044H18V4.4956H0V3.5044Z" fill="#2D2D2D"/>
-                    <path d="M14.3634 0L18 3.5044L17.2727 4.20529L13.6361 0.700882L14.3634 0Z" />
-                    <path d="M14.3634 8L18 4.4956L17.2727 3.7947L13.6361 7.29912L14.3634 8Z" />
-                </svg>
-            </span>
-        </div>
+        <?php  get_template_part('components/content', 'search'); ?>
         <!-- /search -->
 
         <!-- control-view -->

@@ -71,7 +71,7 @@
                     timer = setTimeout( function () {
                         _updateClusters();
                         clearTimeout( timer );
-                    }, 300 );
+                    }, 400 );
 
                 } );
 
@@ -85,6 +85,7 @@
 
             var markersArr = {};
             var markersOnScreen = {};
+            let timer = null;
 
             function _updateMarkers() {
 
@@ -131,7 +132,15 @@
                 if (e.sourceId !== 'earthquakes' || !e.isSourceLoaded) return;
 
                 _mapFrame.on( 'move', _updateMarkers );
-                _mapFrame.on( 'moveend', _updateMarkers );
+                _mapFrame.on( 'moveend', () => {
+                    _updateMarkers();
+
+                    timer = setTimeout( function () {
+                        _updateMarkers();
+                        clearTimeout( timer );
+                    }, 400 );
+
+                } );
 
                 _updateMarkers();
 
@@ -216,14 +225,16 @@
                 accessToken: mapboxgl.accessToken,
                 mapboxgl: mapboxgl,
                 placeholder: "Type address",
-                marker: false
+                marker: false,
+                setLanguage: 'en-GB',
+                on: {
+                    results: function() {
+                        console.log('dd')
+                    }
+                }
             } );
 
             document.getElementById( 'geocoder' ).appendChild( geocoder.onAdd( _mapFrame ) );
-
-            geocoder.setLanguage = () => {
-                return 'en-GB'
-            };
 
         }
 

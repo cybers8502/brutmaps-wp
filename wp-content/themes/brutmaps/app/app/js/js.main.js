@@ -4,11 +4,19 @@
     let _articleMap;
     let _controlViewBtn;
     let _nearest0bjects;
+    let _singleGeocoder;
 
-    ( _articleGallery = document.querySelector( '.blog-article .swiper-container' ) ) && InitArticleSlider();
-    ( _articleMap = document.querySelector( '#single-map' ) ) && InitSingleArticle();
-    ( _controlViewBtn = document.querySelector( '.js-view-btn' ) ) && ControlListView();
-    ( _nearest0bjects = document.querySelector( '#nearest-objects' ) ) && Nearest0bjects();
+    if ( _articleGallery = document.querySelector( '.blog-article .swiper-container' ) )
+        InitArticleSlider();
+
+    if ( _articleMap = document.querySelector( '#single-map' ) )
+        InitSingleArticleMap();
+
+    if ( _controlViewBtn = document.querySelector( '.js-view-btn' ) )
+        ControlListView();
+
+    if ( _nearest0bjects = document.querySelector( '#nearest-objects' ) )
+        Nearest0bjects();
 
     function ControlListView() {
 
@@ -70,7 +78,7 @@
 
     }
 
-    function InitSingleArticle() {
+    function InitSingleArticleMap() {
 
         let _object = JSON.parse( _articleMap.dataset.point );
 
