@@ -137,6 +137,18 @@
 @media (min-width: $tablet-landscape) {
   .map {
 
+    .mapboxgl-popup{
+
+      &-text{
+        transition: color .3s ease;
+      }
+
+      &:hover .mapboxgl-popup-text{
+        color: #DB1313;
+      }
+
+    }
+
     &--common{
       height: auto;
     }

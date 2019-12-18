@@ -17,6 +17,16 @@
 
             <article class="blog-article__wrap article">
 
+                <div class="blog-article__rails">
+                    <a href="<?= get_home_url(); ?>" class="blog-article__back">
+                        <svg viewBox="0 0 35 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M35 9.07104L6.1817e-07 9.07104L7.93016e-07 7.07104L35 7.07104L35 9.07104Z" fill="#DB1313"/>
+                            <path d="M7.07108 16.1421L6.1817e-07 9.07104L1.41422 7.65681L8.48529 14.7279L7.07108 16.1421Z" fill="#DB1313"/>
+                            <path d="M7.07108 -2.44162e-06L7.93016e-07 7.07104L1.41422 8.48528L8.48529 1.41421L7.07108 -2.44162e-06Z" fill="#DB1313"/>
+                        </svg>
+                    </a>
+                </div>
+
                 <h1><?= $title ?></h1>
 
                 <div class="blog-article__info">

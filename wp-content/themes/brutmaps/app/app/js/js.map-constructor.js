@@ -1,14 +1,15 @@
 ( function(){
 
-    let _mapWrap;
+    let mapWrap;
 
-    if ( _mapWrap = document.querySelector( '#common-map' ) )
+    if ( mapWrap = document.querySelector( '#common-map' ) )
         InitMapBox();
 
     function InitMapBox() {
 
         let _mapFrame;
         let _device = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test( navigator.userAgent );
+        let _duration = 400;
 
         mapboxgl.accessToken = 'pk.eyJ1IjoiY3liZXJzODUwMiIsImEiOiJjanBiM3I5ancyMHB5M3FuNGg0M2Rub25pIn0.UMgICyxLhWOZ2S4lb2cIJQ';
 
@@ -71,9 +72,9 @@
 
                     timer = setTimeout( function () {
                         _updateClusters();
-                        clearTimeout( timer );
                         console.log('upd clusters')
-                    }, 400 );
+                        clearTimeout( timer );
+                    }, _duration );
 
                 } );
 
@@ -141,7 +142,7 @@
                         _updateMarkers();
                         console.log('upd markers')
                         clearTimeout( timer );
-                    }, 400 );
+                    }, _duration );
 
                 } );
 
@@ -224,20 +225,45 @@
 
         function _initGeocoder() {
 
+            var searchWrap = document.getElementById( 'geocoder' );
+            var _timer, _input;
+
             var geocoder = new MapboxGeocoder( {
                 accessToken: mapboxgl.accessToken,
                 mapboxgl: mapboxgl,
                 placeholder: "Type address",
                 marker: false,
-                setLanguage: 'en-GB',
-                on: {
-                    results: function() {
-                        console.log('dd')
-                    }
-                }
+                setLanguage: 'en-GB'
             } );
 
-            document.getElementById( 'geocoder' ).appendChild( geocoder.onAdd( _mapFrame ) );
+            BehaviorSearchForm( geocoder, searchWrap );
+
+            searchWrap.appendChild( geocoder.onAdd( _mapFrame ) );
+
+            geocoder.on( 'result', () => {
+                searchWrap.querySelector( 'input' ).blur();
+            } );
+
+            _timer = setTimeout( function () {
+
+                _input = searchWrap.querySelector( 'input' );
+
+                if(_input)
+                    _behaviorSearchInput();
+
+            }, 500 );
+
+            function _behaviorSearchInput() {
+                clearTimeout( _timer );
+
+                var data = localStorage.getItem( 'searchGeo' );
+
+                if ( data ){
+                    _input.value = data;
+                    localStorage.removeItem( 'searchGeo' );
+                }
+
+            }
 
         }
 
@@ -274,7 +300,6 @@
                     }
                 } );
 
-
                 _drawClusters();
                 _drawMarkers();
                 _onEvents();
@@ -289,9 +314,8 @@
 
             var features = _mapFrame.queryRenderedFeatures(e.point, { layers: ['brut-obj'] });
 
-            if (features.length) {
+            if ( features.length )
                 _createPopUp( features[0] );
-            }
 
         }
 

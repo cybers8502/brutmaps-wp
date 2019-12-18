@@ -1,115 +1,144 @@
-( function(){
+let articleGallery;
+let articleMap;
+let controlViewBtn;
+let nearest0bjects;
 
-    let _articleGallery;
-    let _articleMap;
-    let _controlViewBtn;
-    let _nearest0bjects;
-    let _singleGeocoder;
+if ( articleGallery = document.querySelector( '.blog-article .swiper-container' ) )
+    InitArticleSlider();
 
-    if ( _articleGallery = document.querySelector( '.blog-article .swiper-container' ) )
-        InitArticleSlider();
+if ( articleMap = document.querySelector( '#single-map' ) )
+    InitSingleArticleMap();
 
-    if ( _articleMap = document.querySelector( '#single-map' ) )
-        InitSingleArticleMap();
+if ( controlViewBtn = document.querySelector( '.js-view-btn' ) )
+    ControlListView();
 
-    if ( _controlViewBtn = document.querySelector( '.js-view-btn' ) )
-        ControlListView();
+if ( nearest0bjects = document.querySelector( '#nearest-objects' ) )
+    Nearest0bjects();
 
-    if ( _nearest0bjects = document.querySelector( '#nearest-objects' ) )
-        Nearest0bjects();
+function BehaviorSearchForm( e, obj ) {
 
-    function ControlListView() {
+    var _btn = obj.querySelector( '.objects-list__btn' );
 
-        let tableViewStatus = false;
-        let objTable = document.querySelector( '.objects-list' );
-        let btnImg = _controlViewBtn.querySelector( 'img' );
-        let btnImgSrc = btnImg.src;
-        let btnImgSrcArr = btnImgSrc.split('/');
+    e.on( 'loading', () => {
+        _btn.style.setProperty( 'opacity', 0 );
+    } );
 
-        _controlViewBtn.addEventListener( 'click', (e) => {
-            e.preventDefault();
-            _changeView();
-        } );
+    e.on( 'results', () => {
+        _btn.style.setProperty( 'opacity', 1 );
+    } );
 
-        function _changeView() {
+}
 
-            if ( tableViewStatus ){
+function ControlListView() {
 
-                objTable.classList.remove( 'is-show' );
-                btnImgSrcArr[ btnImgSrcArr.length - 1 ] = 'icon-list-view.svg';
-                btnImg.src = btnImgSrcArr.join( '/' );
-                tableViewStatus = false;
+    let _tableViewStatus = false;
+    let _objTable = document.querySelector( '.objects-list' );
+    let _btnImg = controlViewBtn.querySelector( 'img' );
+    let _btnImgSrc = _btnImg.src;
+    let _btnImgSrcArr = _btnImgSrc.split('/');
 
-            } else {
+    controlViewBtn.addEventListener( 'click', (e) => {
+        e.preventDefault();
+        _changeView();
+    } );
 
-                objTable.classList.add( 'is-show' );
-                btnImgSrcArr[ btnImgSrcArr.length - 1 ] = 'icon-map-view.svg';
-                btnImg.src = btnImgSrcArr.join( '/' );
-                tableViewStatus = true;
+    function _changeView() {
 
-            }
+        if ( _tableViewStatus ){
+
+            _objTable.classList.remove( 'is-show' );
+            _btnImgSrcArr[ _btnImgSrcArr.length - 1 ] = 'icon-list-view.svg';
+            _btnImg.src = _btnImgSrcArr.join( '/' );
+            _tableViewStatus = false;
+
+        } else {
+
+            _objTable.classList.add( 'is-show' );
+            _btnImgSrcArr[ _btnImgSrcArr.length - 1 ] = 'icon-map-view.svg';
+            _btnImg.src = _btnImgSrcArr.join( '/' );
+            _tableViewStatus = true;
 
         }
 
-
     }
 
-    function InitArticleSlider() {
+}
 
-        let slide = _articleGallery.querySelectorAll( '.swiper-slide' );
+function InitArticleSlider() {
 
-        if( slide.length === 1 )
-            return;
+    let _slide = articleGallery.querySelectorAll( '.swiper-slide' );
 
-        let _swiper = new Swiper( _articleGallery, {
-            slidesPerView: 1,
-            spaceBetween: 21,
-            threshold: 10,
-            pagination: {
-                el: '.swiper-pagination',
-                type: 'custom',
-            },
-            breakpoints: {
-                768: {
-                    spaceBetween: 10
-                }
+    if( _slide.length === 1 )
+        return;
+
+    let _swiper = new Swiper( articleGallery, {
+        slidesPerView: 1,
+        spaceBetween: 21,
+        threshold: 10,
+        pagination: {
+            el: '.swiper-pagination',
+            type: 'custom',
+        },
+        breakpoints: {
+            768: {
+                spaceBetween: 10
             }
-        } );
+        }
+    } );
 
-    }
+}
 
-    function InitSingleArticleMap() {
+function InitSingleArticleMap() {
 
-        let _object = JSON.parse( _articleMap.dataset.point );
+    let _object = JSON.parse( articleMap.dataset.point );
 
-        mapboxgl.accessToken = 'pk.eyJ1IjoiY3liZXJzODUwMiIsImEiOiJjanBiM3I5ancyMHB5M3FuNGg0M2Rub25pIn0.UMgICyxLhWOZ2S4lb2cIJQ';
+    mapboxgl.accessToken = 'pk.eyJ1IjoiY3liZXJzODUwMiIsImEiOiJjanBiM3I5ancyMHB5M3FuNGg0M2Rub25pIn0.UMgICyxLhWOZ2S4lb2cIJQ';
 
-        let _mapFrame = new mapboxgl.Map( {
-            container: 'single-map',
-            zoom: 9,
-            hash: false,
-            style: 'mapbox://styles/cybers8502/cjpb47lj66ufh2spadk5auttp',
-            center: _object
-        } );
+    let _mapFrame = new mapboxgl.Map( {
+        container: 'single-map',
+        zoom: 9,
+        hash: false,
+        style: 'mapbox://styles/cybers8502/cjpb47lj66ufh2spadk5auttp',
+        center: _object
+    } );
 
-        var marker = document.createElement( 'div' );
-        marker.className = 'map__marker';
+    var _marker = document.createElement( 'div' );
+    _marker.className = 'map__marker';
 
-        new mapboxgl.Marker( marker )
-            .setLngLat( _object )
-            .addTo( _mapFrame );
+    new mapboxgl.Marker( _marker )
+        .setLngLat( _object )
+        .addTo( _mapFrame );
 
-    }
+    var _geocoderWrap = document.getElementById( 'js-single-geocoder' );
 
-    function Nearest0bjects() {
+    var _geocoder = new MapboxGeocoder( {
+        accessToken: mapboxgl.accessToken,
+        mapboxgl: mapboxgl,
+        placeholder: "Type address",
+        marker: false,
+        flyTo: false,
+        setLanguage: 'en-GB'
+    } );
 
-        let data = localStorage.getItem( 'brutList' );
+    BehaviorSearchForm( _geocoder, _geocoderWrap );
 
-        if ( !data )
-            return;
+    _geocoderWrap.appendChild( _geocoder.onAdd( _mapFrame ) );
 
-        _nearest0bjects.innerHTML = data;
+    _geocoder.on( 'result', (e) => {
+        var homeURL = document.body.dataset.url;
+        localStorage.setItem( 'searchGeo', e.result.place_name );
+        window.location.replace( `${homeURL}#12/${e.result.center[1]}/${e.result.center[0]}` );
+    } );
 
-    }
+}
 
-} )();
+function Nearest0bjects() {
+
+    let _data = localStorage.getItem( 'brutList' );
+
+    if ( !_data )
+        return;
+
+    nearest0bjects.innerHTML = _data;
+
+}

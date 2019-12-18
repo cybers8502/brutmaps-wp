@@ -112,7 +112,8 @@
 @media (min-width: $tablet-landscape) {
   .objects-list {
     top: auto;
-    height: calc( 100% - 191px );
+    //height: calc( 100% - 191px );
+    height: calc( 100% - 110px );
 
     &__header{
       margin-bottom: 22px;
@@ -121,6 +122,26 @@
 
     &__layout{
       height: calc( 100% - 40px );
+    }
+
+    &__item {
+
+      .objects-list__info {
+
+        h2, h3, h4, strong{
+          transition: color .3s ease;
+        }
+
+      }
+
+      &:hover .objects-list__info{
+
+        h2, h3, h4, strong{
+          color: #DB1313;
+        }
+
+      }
+
     }
 
   }

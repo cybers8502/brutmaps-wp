@@ -60,7 +60,7 @@
     <link rel="stylesheet" href="<?= DIRECT ?>css/common.css">
 
 </head>
-<body data-action="<?= admin_url( 'admin-ajax.php' );?>">
+<body data-action="<?= admin_url( 'admin-ajax.php' );?>" data-url="<?= get_home_url() ?>">
 
 <!-- site -->
 <div class="site">
