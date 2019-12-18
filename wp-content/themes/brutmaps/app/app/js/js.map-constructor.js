@@ -2,7 +2,8 @@
 
     let _mapWrap;
 
-    ( _mapWrap = document.querySelector( '#common-map' ) ) && InitMapBox();
+    if ( _mapWrap = document.querySelector( '#common-map' ) )
+        InitMapBox();
 
     function InitMapBox() {
 
@@ -64,13 +65,14 @@
             _mapFrame.on( 'data', function (e) {
                 if (e.sourceId !== 'earthquakes' || !e.isSourceLoaded) return;
 
-                _mapFrame.on( 'move', _updateClusters );
+                // _mapFrame.on( 'move', _updateClusters );
                 _mapFrame.on( 'moveend', () => {
                     _updateClusters();
 
                     timer = setTimeout( function () {
                         _updateClusters();
                         clearTimeout( timer );
+                        console.log('upd clusters')
                     }, 400 );
 
                 } );
@@ -131,12 +133,13 @@
             _mapFrame.on( 'data', function (e) {
                 if (e.sourceId !== 'earthquakes' || !e.isSourceLoaded) return;
 
-                _mapFrame.on( 'move', _updateMarkers );
+                // _mapFrame.on( 'move', _updateMarkers );
                 _mapFrame.on( 'moveend', () => {
                     _updateMarkers();
 
                     timer = setTimeout( function () {
                         _updateMarkers();
+                        console.log('upd markers')
                         clearTimeout( timer );
                     }, 400 );
 
