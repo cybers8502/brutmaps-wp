@@ -35,9 +35,35 @@ function BehaviorSearchForm( e, obj ) {
 
 function BlogBackRails() {
 
-    var _backBtn = blogBackRails.querySelector( '.blog-article__back' );
+    let _backBtn = blogBackRails.querySelector( '.blog-article__back' );
+    let _btnHeight = _backBtn.getBoundingClientRect().height;
 
-    // window.scrollX()
+    window.addEventListener( 'scroll', _onScroll );
+    window.addEventListener( 'resize', () => {
+        _btnHeight = _backBtn.getBoundingClientRect().height;
+        _onScroll();
+    } );
+
+    function _onScroll() {
+        if ( blogBackRails.getBoundingClientRect().top - 40 <= 0 ){
+            _backBtn.style.position ='fixed';
+            _backBtn.style.top = '40px';
+            _backBtn.style.left = blogBackRails.getBoundingClientRect().left +'px';
+
+            if ( blogBackRails.getBoundingClientRect().bottom <= _btnHeight + 40 ){
+                _backBtn.style.position ='absolute';
+                _backBtn.style.top = 'auto';
+                _backBtn.style.bottom = '0px';
+                _backBtn.style.left = '0px';
+            } else {
+                _backBtn.style.bottom = 'auto';
+            }
+
+        } else {
+            _backBtn.removeAttribute( 'style' )
+        }
+
+    }
 
 }
 
@@ -79,22 +105,30 @@ function ControlListView() {
 function InitArticleSlider() {
 
     let _slide = articleGallery.querySelectorAll( '.swiper-slide' );
+    let _slidePaginarion = articleGallery.querySelector( '.swiper-pagination' );
 
     if( _slide.length === 1 )
         return;
+
+    let carriageWrap;
+    let carriageStep = _slidePaginarion.getBoundingClientRect().width / _slide.length;
 
     let _swiper = new Swiper( articleGallery, {
         slidesPerView: 1,
         spaceBetween: 21,
         threshold: 10,
-        pagination: {
-            el: '.swiper-pagination',
-            type: 'custom',
+        scrollbar: {
+            el: _slidePaginarion,
+            draggable: true
         },
         breakpoints: {
             768: {
                 spaceBetween: 10
             }
+        },
+        mousewheel: {
+            invert: true,
+            releaseOnEdges: true
         }
     } );
 

@@ -16,12 +16,14 @@
         mapboxgl.accessToken = 'pk.eyJ1IjoiY3liZXJzODUwMiIsImEiOiJjanBiM3I5ancyMHB5M3FuNGg0M2Rub25pIn0.UMgICyxLhWOZ2S4lb2cIJQ';
 
         function _drawClusters() {
+            console.log( '_drawClusters' )
 
             var clustersArr = {};
             var clustersOnScreen = {};
             let timer = null;
 
             function _updateClusters() {
+                console.log( 'fun // cluster' );
 
                 var curClustersArr = {};
                 var features = _mapFrame.querySourceFeatures( 'earthquakes' );
@@ -67,14 +69,17 @@
 
             _mapFrame.on( 'data', function (e) {
                 if (e.sourceId !== 'earthquakes' || !e.isSourceLoaded) return;
+                console.log( 'map data // cluster' );
 
                 // _mapFrame.on( 'move', _updateClusters );
                 _mapFrame.on( 'moveend', () => {
+                    console.log( 'map moveend // cluster' );
+
                     _updateClusters();
 
                     timer = setTimeout( function () {
+                        console.log('timeout upd clusters')
                         _updateClusters();
-                        console.log('upd clusters')
                         clearTimeout( timer );
                     }, _duration );
 
@@ -87,12 +92,14 @@
         }
 
         function _drawMarkers() {
+            console.log( '_drawMarkers' )
 
             var markersArr = {};
             var markersOnScreen = {};
             let timer = null;
 
             function _updateMarkers() {
+                console.log( 'fun // marker' );
 
                 var curMarkersArr = {};
                 var features = _mapFrame.querySourceFeatures( 'earthquakes' );
@@ -135,14 +142,17 @@
 
             _mapFrame.on( 'data', function (e) {
                 if (e.sourceId !== 'earthquakes' || !e.isSourceLoaded) return;
+                console.log( 'map data // marker' );
 
                 // _mapFrame.on( 'move', _updateMarkers );
                 _mapFrame.on( 'moveend', () => {
+                    console.log( 'map moveend // marker' );
+
                     _updateMarkers();
 
                     timer = setTimeout( function () {
+                        console.log('timeout upd markers');
                         _updateMarkers();
-                        console.log('upd markers')
                         clearTimeout( timer );
                     }, _duration );
 
@@ -283,6 +293,8 @@
             } );
 
             _mapFrame.on( 'load', function() {
+
+                console.log( 'map load' );
 
                 _mapFrame.addSource( 'earthquakes', {
                     type: "geojson",
@@ -445,21 +457,10 @@
                         if (err)
                             return;
 
-                        if ( _device ){
-
-                            _mapFrame.jumpTo({
-                                center: JSON.parse("[" + curClustr.dataset.coordinates + "]"),
-                                zoom: zoom + .1
-                            });
-
-                        } else {
-
-                            _mapFrame.flyTo({
-                                center: JSON.parse("[" + curClustr.dataset.coordinates + "]"),
-                                zoom: zoom + .1
-                            });
-
-                        }
+                        _mapFrame.flyTo({
+                            center: JSON.parse("[" + curClustr.dataset.coordinates + "]"),
+                            zoom: zoom + .1
+                        });
 
 
                     });
