@@ -288,7 +288,7 @@
                 container: 'common-map',
                 zoom: defaultData.zoom || 9,
                 hash: true,
-                style: 'mapbox://styles/cybers8502/cjpb47lj66ufh2spadk5auttp',
+                style: 'mapbox://styles/mapbox/dark-v10',
                 center: [ defaultData.coordinates.long, defaultData.coordinates.lat]
             } );
 
