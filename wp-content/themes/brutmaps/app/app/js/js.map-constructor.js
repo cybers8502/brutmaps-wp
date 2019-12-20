@@ -10,173 +10,26 @@
         let _mapFrame;
         let _listWrap = document.querySelector( '.objects-list' );
         let _listingEl = document.getElementById( 'js-feature-listing' );
-        let _device = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test( navigator.userAgent );
-        let _duration = 400;
+        let _timer;
 
         mapboxgl.accessToken = 'pk.eyJ1IjoiY3liZXJzODUwMiIsImEiOiJjanBiM3I5ancyMHB5M3FuNGg0M2Rub25pIn0.UMgICyxLhWOZ2S4lb2cIJQ';
-
-        function _drawClusters() {
-            // console.log( '_drawClusters' )
-
-            var clustersArr = {};
-            var clustersOnScreen = {};
-            let timer = null;
-
-            function _updateClusters() {
-                // console.log( 'fun // cluster' );
-
-                var curClustersArr = {};
-                var features = _mapFrame.querySourceFeatures( 'earthquakes' );
-
-                for (var i = 0; i < features.length; i++) {
-
-                    var coords = features[i].geometry.coordinates;
-                    var props = features[i].properties;
-
-                    if ( !props.cluster )
-                        continue;
-
-                    var id = props.cluster_id;
-
-                    var clusterMarker = clustersArr[id];
-
-                    if (!clusterMarker) {
-                        var el = document.createElement('div');
-                        el.className = 'map__cluster';
-                        el.dataset.id = id;
-                        el.dataset.coordinates = coords;
-                        el.innerHTML = props.point_count;
-                        clusterMarker = clustersArr[id] = new mapboxgl.Marker({element: el}).setLngLat(coords);
-                    }
-
-                    curClustersArr[id] = clusterMarker;
-
-                    if (!clustersOnScreen[id])
-                        clusterMarker.addTo(_mapFrame);
-
-                }
-
-                for (id in clustersOnScreen) {
-                    if (!curClustersArr[id])
-                        clustersOnScreen[id].remove();
-                }
-
-                clustersOnScreen = curClustersArr;
-
-                _setClustersEvent();
-
-            }
-
-            _mapFrame.on( 'data', function (e) {
-                if (e.sourceId !== 'earthquakes' || !e.isSourceLoaded) return;
-                // console.log( 'map data // cluster' );
-
-                // _mapFrame.on( 'move', _updateClusters );
-                _mapFrame.on( 'moveend', () => {
-                    // console.log( 'map moveend // cluster' );
-
-                    _updateClusters();
-
-                    timer = setTimeout( function () {
-                        // console.log('timeout upd clusters')
-                        _updateClusters();
-                        clearTimeout( timer );
-                    }, _duration );
-
-                } );
-
-                _updateClusters();
-
-            } );
-
-        }
-
-        function _drawMarkers() {
-            // console.log( '_drawMarkers' )
-
-            var markersArr = {};
-            var markersOnScreen = {};
-            let timer = null;
-
-            function _updateMarkers() {
-                // console.log( 'fun // marker' );
-
-                var curMarkersArr = {};
-                var features = _mapFrame.querySourceFeatures( 'earthquakes' );
-
-                for (var i = 0; i < features.length; i++) {
-
-                    var coords = features[i].geometry.coordinates;
-                    var props = features[i].properties;
-
-                    if ( props.cluster )
-                        continue;
-
-                    var id = props.id;
-
-                    var clusterMarker = markersArr[id];
-
-                    if (!clusterMarker) {
-                        var el = document.createElement('div');
-                        el.className = `map__marker ${id}`;
-                        el.dataset.id = id;
-                        el.dataset.properties = JSON.stringify( { 'geometry': { 'coordinates': coords }, 'properties': props } );
-                        clusterMarker = markersArr[id] = new mapboxgl.Marker({element: el}).setLngLat(coords);
-                    }
-
-                    curMarkersArr[id] = clusterMarker;
-
-                    if (!markersOnScreen[id])
-                        clusterMarker.addTo(_mapFrame);
-
-                }
-
-                for (id in markersOnScreen) {
-                    if (!curMarkersArr[id])
-                        markersOnScreen[id].remove();
-                }
-
-                markersOnScreen = curMarkersArr;
-
-            }
-
-            _mapFrame.on( 'data', function (e) {
-                if (e.sourceId !== 'earthquakes' || !e.isSourceLoaded) return;
-                // console.log( 'map data // marker' );
-
-                // _mapFrame.on( 'move', _updateMarkers );
-                _mapFrame.on( 'moveend', () => {
-                    // console.log( 'map moveend // marker' );
-
-                    _updateMarkers();
-
-                    timer = setTimeout( function () {
-                        // console.log('timeout upd markers');
-                        _updateMarkers();
-                        clearTimeout( timer );
-                    }, _duration );
-
-                } );
-
-                _updateMarkers();
-
-            } );
-
-        }
 
         function _createPopUp( currentFeature ) {
 
             _removePopups();
 
-            var popup = new mapboxgl.Popup( { closeOnClick: false } )
+            var popup = new mapboxgl.Popup( { closeOnClick: false, closeButton: false, anchor: 'bottom-right' } )
                 .setLngLat( currentFeature.geometry.coordinates )
-                .setHTML(`<a  class="mapboxgl-popup-picture" href="${currentFeature.properties.link}">
+                .setHTML(`<a class="mapboxgl-popup-picture" href="${currentFeature.properties.link}">
                     <div class="loader"><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/></div>
                     <img src="${currentFeature.properties.images}" alt="${currentFeature.properties.title}"/></a>
                     <a href="${currentFeature.properties.link}" class="mapboxgl-popup-text"><div><p>${currentFeature.properties.address}</p></div></a>`)
                 .addTo(_mapFrame);
 
-            document.querySelector( `.${currentFeature.properties.id}` ).classList.add( 'is-active' );
+            // _timer = setTimeout( () => {
+            //     document.getElementsByClassName( 'mapboxgl-popup' ).className.remove( 'is-hide' );
+            //     clearTimeout( _timer );
+            // }, 100 );
 
             _cutText( document.querySelector('.mapboxgl-popup p'), 61 );
 
@@ -294,8 +147,6 @@
 
             _mapFrame.on( 'load', function() {
 
-                // console.log( 'map load' );
-
                 _mapFrame.addSource( 'earthquakes', {
                     type: "geojson",
                     data: _createMarkersData( data.sights ),
@@ -310,13 +161,34 @@
                     source: "earthquakes",
                     filter: ["!", ["has", "point_count"]],
                     paint: {
-                        'circle-radius': 10,
-                        "circle-color": "transparent"
+                        'circle-radius': 5,
+                        "circle-color": '#EAE9E6'
                     }
                 } );
 
-                _drawClusters();
-                _drawMarkers();
+                _mapFrame.addLayer({
+                    id: 'clusters',
+                    type: 'circle',
+                    source: 'earthquakes',
+                    filter: ['has', 'point_count'],
+                    paint: {
+                        'circle-radius': 15,
+                        'circle-color': '#EAE9E6',
+                    }
+                });
+
+                _mapFrame.addLayer({
+                    id: 'cluster-count',
+                    type: 'symbol',
+                    source: 'earthquakes',
+                    filter: ['has', 'point_count'],
+                    layout: {
+                        'text-field': '{point_count_abbreviated}',
+                        'text-font': ['DIN Offc Pro Medium', 'Arial Unicode MS Bold'],
+                        'text-size': 12
+                    }
+                });
+
                 _onEvents();
 
             } );
@@ -359,6 +231,26 @@
                 _removePopups();
                 _initMarkerPopup(e);
             } );
+
+            _mapFrame.on('click', 'clusters', function(e) {
+
+                var features = _mapFrame.queryRenderedFeatures( e.point, { layers: ['clusters'] } );
+
+                var clusterId = features[0].properties.cluster_id;
+
+                _mapFrame.getSource('earthquakes').getClusterExpansionZoom(
+                    clusterId,
+                    function(err, zoom) {
+                        if (err) return;
+
+                        _mapFrame.easeTo({
+                            center: features[0].geometry.coordinates,
+                            zoom: zoom
+                        });
+                    }
+                );
+
+            });
 
             _mapFrame.on( 'move', function () {
                 _removePopups();
@@ -419,7 +311,6 @@
 
             if ( popUps[0] ){
                 popUps[0].remove();
-                document.querySelector( '.is-active' ).classList.remove( 'is-active' );
             }
 
         }
@@ -439,35 +330,6 @@
             };
             xhr.open('POST', action, true);
             xhr.send( formData );
-
-        }
-
-        function _setClustersEvent() {
-
-            var mapCluster = document.querySelectorAll( '.map__cluster' );
-
-            mapCluster.forEach ( function ( mapCluster ){
-
-                mapCluster.addEventListener( 'click', function (e) {
-
-                    var curClustr = this;
-                    var clusterId = +( curClustr.dataset.id );
-
-                    _mapFrame.getSource('earthquakes').getClusterExpansionZoom(clusterId, function ( err, zoom ) {
-                        if (err)
-                            return;
-
-                        _mapFrame.flyTo({
-                            center: JSON.parse("[" + curClustr.dataset.coordinates + "]"),
-                            zoom: zoom + .1
-                        });
-
-
-                    });
-
-                });
-
-            } );
 
         }
 
