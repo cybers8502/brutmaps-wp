@@ -67,13 +67,20 @@ function API_GET_ABOUT_DATA() {
 function API_GET_SIGHTS() {
 	$ids = getSights();
 	$mainWrap = ['done' => true];
+	$lat = 40.6971494;
+	$long = -74.2598626;
+	$address = html_entity_decode(get_field('initial_center_for_users', 'options'));
+	if ($address) {
+		$lat = doubleval($address['lat']);
+		$long = doubleval($address['lng']);
+	}
 	$mainData = [
 		'sights' => [],
 		'settings' => [
 			'default_center' => [
 				'coordinates' => [
-					'lat' => 40.6971494,
-					'long' => -74.2598626
+					'lat' => $lat,
+					'long' => $long
 				]
 			]
 		]
