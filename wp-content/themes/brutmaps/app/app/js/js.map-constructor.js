@@ -23,13 +23,8 @@
                 .setHTML(`<a class="mapboxgl-popup-picture" href="${currentFeature.properties.link}">
                     <div class="loader"><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/></div>
                     <img src="${currentFeature.properties.images}" alt="${currentFeature.properties.title}"/></a>
-                    <a href="${currentFeature.properties.link}" class="mapboxgl-popup-text"><div><p>${currentFeature.properties.address}</p></div></a>`)
+                    <a href="${currentFeature.properties.link}" class="mapboxgl-popup-text"><div><p>${currentFeature.properties.title}</p></div></a>`)
                 .addTo(_mapFrame);
-
-            // _timer = setTimeout( () => {
-            //     document.getElementsByClassName( 'mapboxgl-popup' ).className.remove( 'is-hide' );
-            //     clearTimeout( _timer );
-            // }, 100 );
 
             _cutText( document.querySelector('.mapboxgl-popup p'), 61 );
 
@@ -296,7 +291,7 @@
 
             } else {
                 var empty = document.createElement('p');
-                empty.textContent = 'Drag or zoom the map to results';
+                empty.textContent = 'Drag or zoom the map to see results';
                 _listingEl.appendChild(empty);
             }
 
