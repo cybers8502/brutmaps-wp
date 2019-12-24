@@ -164,12 +164,14 @@ function API_GET_SIGHT_BY_ID( $data ) {
 				$architects[] = $item;
 			}
 		}
+		$author = get_field('main_image_author_id', $sightID);
 		$mainData = [
 			'id'            => $sightID,
 			'main_data'     => [
 				'title'     => html_entity_decode(get_the_title($sightID)),
 				'sub_title' => html_entity_decode($location['address']),
-				'image'     => html_entity_decode($mainImage)
+				'image'     => html_entity_decode($mainImage),
+				'main_image_author' => getAuthorData($author)
 			],
 			'architects'    => $architects,
 			'year'          => intval(get_field('established', $sightID)),
