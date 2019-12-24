@@ -45,6 +45,7 @@ function API_GET_ABOUT_DATA() {
 		if (!$mainImage) {
 			$mainImage = null;
 		}
+		$mainImageAuthor = get_field('main_image_author', ABOUT);
 		$mainData = [
 			'title'             => html_entity_decode(get_the_title(ABOUT)),
 			'main_image'        => $mainImage,
@@ -52,6 +53,7 @@ function API_GET_ABOUT_DATA() {
 			'gallery_sub_text'  => html_entity_decode(get_field('gallery_sub_text', ABOUT)),
 			'description_2'     => html_entity_decode(get_field('description_2', ABOUT)),
 			'gallery'           => $gallery,
+			'main_image_author' => getAuthorData($mainImageAuthor)
 		];
 		$mainWrap['data'] = $mainData;
 	} else {
@@ -351,4 +353,20 @@ function createUpdateContributor($firstName, $lastName, $email, $link, $sightID)
 		update_field('linked_sights', $linkedSights, $contributorID);
 		update_field('contributor', $contributorID, $sightID);
 	}
+}
+
+function getAuthorData($authorID) {
+	if (!$authorID) {
+		return null;
+	}
+	$firstName = get_field('first_name_author', $authorID);
+	$lastName = get_field('second_name_author', $authorID);
+	$link = get_field('link', $authorID);
+	$instagram = get_field('instagram', $authorID);
+	return [
+		'first_name_author' => $firstName,
+		'second_name_author' => $lastName,
+		'link' => $link,
+		'instagram' => $instagram,
+	];
 }
