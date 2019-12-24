@@ -90,6 +90,7 @@
         </header>
         <!-- /site__header -->
 
+        <?php if ( !is_page_template( 'pages/article-page.php' ) ): ?>
         <!-- search -->
         <?php  get_template_part('components/content', 'search'); ?>
         <!-- /search -->
@@ -105,6 +106,8 @@
 <!--        <div class="add-new-obj">-->
 <!--            <span role="button" class="btn btn--color-2"><span>contribute a brutalist building</span></span>-->
 <!--        </div>-->
+
+        <?php endif; ?>
 
     </aside>
     <!-- /site__aside -->

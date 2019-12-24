@@ -97,7 +97,7 @@
             var geocoder = new MapboxGeocoder( {
                 accessToken: mapboxgl.accessToken,
                 mapboxgl: mapboxgl,
-                placeholder: "Type address",
+                placeholder: "Type address / location",
                 marker: false,
                 setLanguage: 'en-GB'
             } );

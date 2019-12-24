@@ -160,7 +160,7 @@ function InitSingleArticleMap() {
     var _geocoder = new MapboxGeocoder( {
         accessToken: mapboxgl.accessToken,
         mapboxgl: mapboxgl,
-        placeholder: "Type address",
+        placeholder: "Type address / location",
         marker: false,
         flyTo: false,
         setLanguage: 'en-GB'
