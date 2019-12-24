@@ -34,8 +34,9 @@ function API_GET_ABOUT_DATA() {
 		$gallery = [];
 		foreach ($galleryField as $item) {
 			$image = $item['gallery_image'];
+			$authorID = $item['gallery_image_author_id'];
 			if ($image) {
-				$newImage = getSmartImage($image);
+				$newImage = getSmartImage($image, $authorID);
 				if (!is_null($newImage)) {
 					$gallery[] = $newImage;
 				}
@@ -136,9 +137,10 @@ function API_GET_SIGHT_BY_ID( $data ) {
 		$gallery = [];
 		foreach ($galleryField as $item) {
 			$image = $item['gallery_image'];
+			$authorID = $item['gallery_image_author_id'];
 			if ($image) {
 				if ($image) {
-					$newImage = getSmartImage($image);
+					$newImage = getSmartImage($image, $authorID);
 					if (!is_null($newImage)) {
 						$gallery[] = $newImage;
 					}
@@ -191,7 +193,7 @@ function API_GET_SIGHT_BY_ID( $data ) {
 	return $response;
 }
 
-function getSmartImage($imageID) {
+function getSmartImage($imageID, $authorID) {
 	$size = wp_get_attachment_image_src( $imageID, 'full' );
 	if (!$size || count($size) < 3) {
 		return null;
@@ -200,6 +202,7 @@ function getSmartImage($imageID) {
 	$result['source'] = $size[0];
 	$result['width'] = $size[1];
 	$result['height'] = $size[2];
+	$result['author'] = getAuthorData($authorID);
 	return $result;
 }
 
