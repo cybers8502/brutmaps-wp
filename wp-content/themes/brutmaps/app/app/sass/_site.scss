@@ -27,19 +27,26 @@
 
   &__aside{
     position: relative;
-    padding: 41px 16px 8px;
+    height: 180px;
+    padding: 16px 16px 22px;
     background-color: inherit;
-    z-index: 3;
+    z-index: 4;
   }
 
   &__wrap{
     display: flex;
+    position: relative;
     background-color: $back-text;
     overflow: hidden;
   }
 
 }
 @media (min-width: $phone-landscape) {
+  .site{
+
+  }
+}
+@media (min-width: $tablet-portrait) {
   .site{
 
     &__header{
@@ -60,10 +67,9 @@
 
     }
 
-  }
-}
-@media (min-width: $tablet-portrait) {
-  .site{
+    &__aside{
+      height: 258px;
+    }
 
   }
 }
@@ -77,6 +83,7 @@
       left: 0;
       bottom: 0;
       width: 433px;
+      height: auto;
       padding: 52px 43px 60px 45px;
     }
 

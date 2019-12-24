@@ -5,39 +5,51 @@
   background-color: #fff;
 
   &__wrap{
+    position: relative;
     padding: 0 23px 0 54px;
   }
 
   &__info{
     display: flex;
-    align-items: center;
+    align-items: baseline;
     justify-content: space-between;
     margin-bottom: 17px;
     padding-right: 13px;
     font-size: 17px;
 
     time{
+      margin-left: 30px;
       @include ttfirsneue-medium;
     }
 
   }
 
   &__preview{
+    margin-bottom: 45px;
     margin-right: -23px;
   }
 
-  &__map{
-    height: 390px;
+  &__rails{
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 16px;
   }
 
   &__back{
+    display: flex;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 24px;
-    height: 11px;
+    height: 24px;
+    z-index: 4;
 
     svg{
       display: block;
       width: inherit;
-      height: inherit;
+      height: 11px;
     }
 
   }
@@ -71,6 +83,27 @@
       z-index: 2;
     }
 
+    .swiper-pagination{
+      position: absolute;
+      bottom: 40px;
+      right: -20px;
+      left: auto;
+      width: 175px;
+      border-bottom: 2px solid #DB1313;
+    }
+
+    .swiper-scrollbar-drag{
+      position: absolute;
+      top: auto;
+      left: 0;
+      bottom: 0;
+      height: 8px;
+      border-radius: 0;
+      background-color: #DB1313;
+      transition: transform .3s ease;
+      cursor: pointer;
+    }
+
   }
 
 }
@@ -82,6 +115,7 @@
 @media (min-width: $tablet-portrait) {
   .blog-article {
     padding-top: 46px;
+    padding-bottom: 63px;
 
     &__wrap{
       position: relative;
@@ -97,24 +131,51 @@
 
     &__info{
       margin-bottom: 54px;
-      margin-right: -22px;
       padding-right: 0;
       font-size: 24px;
     }
 
     &__preview{
+      margin-bottom: 81px;
       margin-right: -74px;
+    }
+
+    &__rails{
+      top: 11px;
+      bottom: 11px;
+      left: 18px;
+    }
+
+    &__back{
+      width: 35px;
+      height: 35px;
+
+      svg{
+        height: 17px;
+      }
+
     }
 
     .btn{
       position: absolute;
       top: 5px;
-      right: 0;
+      right: 22px;
     }
 
     .swiper-container{
       width: calc( 100% - 168px);
       margin: 106px 0 67px;
+
+      .swiper-pagination{
+        bottom: 80px;
+        right: -103px;
+        width: 315px;
+      }
+
+      .swiper-scrollbar-drag{
+        height: 13px;
+      }
+
     }
 
   }
@@ -122,10 +183,35 @@
 @media (min-width: $tablet-landscape) {
   .blog-article {
 
+    &__back{
+
+      svg{
+        transition: transform .3s ease;
+      }
+
+      &:hover svg{
+        transform: translateX(-5px);
+      }
+
+    }
+
   }
 }
 @media (min-width: $desktop) {
   .blog-article {
+
+  }
+}
+@media (min-width: 1410px) {
+  .blog-article {
+
+    &__info{
+      margin-right: -22px;
+    }
+
+    .btn{
+      right: 0;
+    }
 
   }
 }

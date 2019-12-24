@@ -1,4 +1,11 @@
 .objects-list {
+  position: relative;
+  top: 180px;
+
+  &__layout{
+    height: 100%;
+    overflow-y: auto;
+  }
 
   &__item{
     display: flex;
@@ -12,6 +19,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    position: relative;
     width: 100px;
     height: 140px;
     overflow: hidden;
@@ -19,7 +27,9 @@
 
     img{
       display: block;
+      position: relative;
       height: 140px;
+      z-index: 1;
     }
 
   }
@@ -31,12 +41,14 @@
     align-items: flex-start;
     width: calc( 100% - 100px );
     padding: 11px 14px 10px;
+    color: #2D2D2D;
     font-size: 16px;
     line-height: 21px;
 
     h2, h3, h4{
       max-height: 47px;
       margin-bottom: 2px;
+      color: #000;
       @include ttfirsneue-medium;
       font-size: 18px;
       line-height: 23px;
@@ -60,38 +72,67 @@
 
   }
 
+  .loader{
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity .3s ease, visibility .3s ease;
+  }
+
+  &.is-loading{
+
+    .loader{
+      opacity: 1;
+      visibility: visible;
+    }
+
+  }
+
 }
 @media (min-width: $phone-landscape) {
   .objects-list {
 
   }
 }
+@media (max-width: $tablet-portrait - 1) {
+  .objects-list {
+
+  }
+}
 @media (min-width: $tablet-portrait) {
   .objects-list {
+    top: 258px;
 
   }
 }
 @media (max-width: $tablet-landscape - 1) {
   .objects-list {
-    position: absolute;
-    top: 191px;
+    position: fixed;
     left: 0;
-    bottom: 60px;
-    padding: 14px 16px 0;
+    bottom: 180px;
+    width: 100%;
+    padding: 0 16px;
     background-color: inherit;
     visibility: hidden;
     opacity: 0;
-    transition: visibility .3s ease, opacity .3s ease;
+    transition: bottom .3s ease, visibility .3s ease, opacity .3s ease;
 
     &__header{
       display: none;
+    }
+
+    &.is-show{
+      bottom: 0;
+      visibility: visible;
+      opacity: 1;
     }
 
   }
 }
 @media (min-width: $tablet-landscape) {
   .objects-list {
-    height: calc( 100% - 191px );
+    top: auto;
+    //height: calc( 100% - 191px );
+    height: calc( 100% - 110px );
 
     &__header{
       margin-bottom: 22px;
@@ -100,7 +141,26 @@
 
     &__layout{
       height: calc( 100% - 40px );
-      overflow-y: auto;
+    }
+
+    &__item {
+
+      .objects-list__info {
+
+        h2, h3, h4, strong{
+          transition: color .3s ease;
+        }
+
+      }
+
+      &:hover .objects-list__info{
+
+        h2, h3, h4, strong{
+          color: #DB1313;
+        }
+
+      }
+
     }
 
   }

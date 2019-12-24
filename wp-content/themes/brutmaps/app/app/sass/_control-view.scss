@@ -4,11 +4,12 @@
   align-items: center;
   font-size: 15px;
 
-  a{
+  &__btn{
     width: 39px;
     height: 24px;
+    background: url(../);
 
-    svg{
+    svg, img{
       display: block;
       width: inherit;
       height: inherit;

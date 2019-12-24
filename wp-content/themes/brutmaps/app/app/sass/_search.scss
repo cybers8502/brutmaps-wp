@@ -1,8 +1,10 @@
 .search{
+  $mainheight: 34px;
+
   position: relative;
-  height: 34px;
+  z-index: 3;
+  height: $mainheight;
   margin-bottom: 28px;
-  border-bottom: 2px solid $text;
 
   > span{
     display: flex;
@@ -27,126 +29,147 @@
 
   }
 
-}
-.mapboxgl-ctrl-geocoder {
-  position: relative;
-  z-index: 1;
-  width: 100%;
-
-  input {
+  .mapboxgl-ctrl-geocoder {
+    position: relative;
+    z-index: 1;
     width: 100%;
-    height: 32px;
-    padding-right: 25px;
-    border: none;
-    background: none;
-    color: $text;
-    @include ttfirsneue-regular;
-    font-size: 15px;
 
-    &::-ms-clear {
-      display: none; /* hide input clear button in IE */
-    }
-
-  }
-
-  &--pin-right{
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 21px;
-    height: 32px;
-
-    & > *{
-      position: absolute;
-      top: 50%;
-      left: 50%;
-    }
-
-  }
-
-  &--collapsed {
-    width: 50px;
-    min-width: 50px;
-    transition: width .25s, min-width .25s;
-  }
-
-  &--button {
-    margin: 0;
-    padding: 0;
-    border: none;
-    cursor: pointer;
-    background: transparent;
-
-    &:hover .mapboxgl-ctrl-geocoder--icon-close {
-      fill: #909090;
-    }
-
-  }
-
-  &--icon {
-    display: none;
-    speak: none;
-    fill: #2D2D2D;
-    z-index: 2;
-    transition: fill .3s ease;
-
-    &-search {
-      display: none;
-    }
-
-    &-close {
-      width: 20px;
-      height: 20px;
-      margin: -10px 0 0 -10px;
-    }
-
-    &-loading {
-      width: 26px;
-      height: 26px;
-      margin: -13px 0 0 -13px;
-      -moz-animation: rotate 0.8s infinite cubic-bezier(0.45, 0.05, 0.55, 0.95);
-      -webkit-animation: rotate 0.8s infinite cubic-bezier(0.45, 0.05, 0.55, 0.95);
-      animation: rotate 0.8s infinite cubic-bezier(0.45, 0.05, 0.55, 0.95);
-    }
-
-  }
-
-  &--suggestion-title {
-    @include ttfirsneue-medium;
-    font-size: 18px;
-    line-height: 23px;
-
-    &-title,
-    &-address {
-      text-overflow: ellipsis;
-      overflow: hidden;
+    input {
+      width: 100%;
+      height: $mainheight;
+      padding-right: 25px;
+      border: none;
+      border-bottom: 2px solid $text;
+      background: none;
+      color: $text;
+      @include ttfirsneue-regular;
+      font-size: 15px;
       white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      transition: border-bottom-color .3s ease;
+
+      &::-ms-clear {
+        display: none; /* hide input clear button in IE */
+      }
+
+      &:focus{
+        border-bottom-color: #DB1313;
+      }
+
+    }
+
+    &--pin-right{
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 21px;
+      height: 32px;
+      //background-color: $back;
+
+      & > * {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+      }
+
+    }
+
+    &--collapsed {
+      width: 50px;
+      min-width: 50px;
+      transition: width .25s, min-width .25s;
+    }
+
+    &--button {
+      margin: 0;
+      padding: 0;
+      border: none;
+      cursor: pointer;
+      background: transparent;
+
+      &:hover .mapboxgl-ctrl-geocoder--icon-close {
+        fill: #909090;
+      }
+
+    }
+
+    &--icon {
+      display: none;
+      speak: none;
+      fill: #2D2D2D;
+      z-index: 2;
+      transition: fill .3s ease;
+
+      &-search {
+        display: none;
+      }
+
+      &-close {
+        width: 20px;
+        height: 20px;
+        margin: -10px 0 0 -10px;
+      }
+
+      &-loading {
+        width: 26px;
+        height: 26px;
+        margin: -13px 0 0 -13px;
+        -moz-animation: rotate 0.8s infinite cubic-bezier(0.45, 0.05, 0.55, 0.95);
+        -webkit-animation: rotate 0.8s infinite cubic-bezier(0.45, 0.05, 0.55, 0.95);
+        animation: rotate 0.8s infinite cubic-bezier(0.45, 0.05, 0.55, 0.95);
+      }
+
+    }
+
+    &--suggestion-title {
+      @include ttfirsneue-medium;
+      font-size: 18px;
+      line-height: 23px;
+
+      &-title,
+      &-address {
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+      }
+
+    }
+
+    .suggestions {
+      position: absolute;
+      top: calc( 100% + 2px );
+      left: 0;
+      width: 100%;
+      padding: 5px 0 10px;
+      background-color: #C1BDB4;
+      overflow: hidden;
+      @include ttfirsneue-regular;
+      font-size: 16px;
+      line-height: 21px;
+      z-index: 99999;
+
+      & > li > a {
+        display: block;
+        padding: 6px 12px;
+        color: #2D2D2D;
+        cursor: pointer;
+      }
+
+      & > .active > a,
+      & > li > a:hover {
+        color: #DB1313;
+      }
+
     }
 
   }
+  .mapbox-gl-geocoder{
 
-  .suggestions {
-    position: absolute;
-    top: calc( 100% + 2px );
-    left: 0;
-    width: 100%;
-    background-color: #F5F4F1;
-    overflow: hidden;
-    @include ttfirsneue-regular;
-    font-size: 16px;
-    line-height: 21px;
-    z-index: 99999;
-
-    & > li > a {
-      display: block;
+    &--error,
+    &--no-results {
       padding: 6px 12px;
-      color: #2D2D2D;
-      cursor: pointer;
-    }
-
-    & > .active > a,
-    & > li > a:hover {
-      color: #DB1313;
+      text-align: center;
     }
 
   }
@@ -159,30 +182,35 @@
 }
 @media (min-width: $tablet-portrait) {
   .search{
-    height: 41px;
+    $mainheight: 41px;
+
+    height: $mainheight;
     margin-bottom: 63px;
-    padding-bottom: 7px;
 
     > span{
       top: 7px;
+      padding-bottom: 13px;
     }
 
-  }
-  .mapboxgl-ctrl-geocoder{
+    .mapboxgl-ctrl-geocoder{
 
-    input {
-      font-size: 18px;
-    }
+      input {
+        height: $mainheight;
+        font-size: 18px;
+        padding-bottom: 7px;
+      }
 
-    &--error{
-      padding: 6px 12px;
-      color:#909090;
-      font-size: 18px;
-      text-align: center
-    }
+      &--error{
+        padding: 6px 12px;
+        color:#909090;
+        font-size: 18px;
+        text-align: center
+      }
 
-    .suggestions {
-      top: calc( 100% + 9px );
+      .suggestions {
+        top: calc( 100% + 0px );
+      }
+
     }
 
   }

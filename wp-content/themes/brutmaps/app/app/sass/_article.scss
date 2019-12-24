@@ -5,6 +5,12 @@
 
   > p{
     margin-bottom: 29px;
+
+    a{
+      color: #2F2E2B;
+      text-decoration: underline;
+    }
+
   }
 
   img{
@@ -161,6 +167,19 @@
 }
 @media (min-width: $tablet-landscape) {
   .article {
+
+    > p{
+
+      a{
+        transition: color .3s ease;
+
+        &:hover{
+          color: #DB1313;
+        }
+
+      }
+
+    }
 
   }
 }

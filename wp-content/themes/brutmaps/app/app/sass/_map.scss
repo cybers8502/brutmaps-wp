@@ -1,17 +1,19 @@
 .map {
   width: 100%;
-  height: calc( 100vh - 251px );
-  min-height: 375px;
   overflow: hidden;
 
-  .marker {
-    position: relative;
+  &__marker {
     width: 20px;
     height: 20px;
     background-image: url('../img/icon-pin.svg');
     background-size: cover;
     cursor: pointer;
     z-index: 1;
+
+    &.is-active{
+      z-index: 3;
+    }
+
   }
 
   &__cluster{
@@ -59,6 +61,7 @@
     border: 1px solid #2F2E2B;
     border-radius: 0;
     background-color: #EAE9E6;
+    z-index: 2;
 
     &-content{
       display: flex;
@@ -71,6 +74,7 @@
       width: calc( 100% - 86px );
       max-height: 88px;
       padding: 15px 12px;
+      color: #000;
       @include ttfirsneue-medium;
       font-size: 18px;
       line-height: 20px;
@@ -90,6 +94,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      position: relative;
       width: 86px;
       height: 88px;
       overflow: hidden;
@@ -97,11 +102,23 @@
 
       img{
         display: block;
+        position: relative;
         height: 88px;
+        z-index: 1;
       }
 
     }
 
+  }
+
+  &--common{
+    height: calc( 100vh - 180px );
+    min-height: 375px;
+  }
+
+  &--single{
+    height: 390px;
+    margin-top: 40px;
   }
 
 }
@@ -112,14 +129,38 @@
 }
 @media (min-width: $tablet-portrait) {
   .map {
-    height: calc( 100vh - 317px);
-    min-height: 707px;
+
+    &--common{
+      height: calc( 100vh - 317px);
+      min-height: 707px;
+    }
 
   }
 }
 @media (min-width: $tablet-landscape) {
   .map {
-    height: auto;
+
+    .mapboxgl-popup{
+
+      &-text{
+        transition: color .3s ease;
+      }
+
+      &:hover .mapboxgl-popup-text{
+        color: #DB1313;
+      }
+
+    }
+
+    &--common{
+      height: auto;
+    }
+
+    &--single{
+      max-width: 851px;
+      margin-left: 81px;
+      width: calc( 100% - 104px );
+    }
 
   }
 }
