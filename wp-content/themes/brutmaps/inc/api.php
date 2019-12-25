@@ -7,7 +7,7 @@ require_once(ABSPATH . 'wp-admin/includes/image.php');
 require_once(ABSPATH . 'wp-admin/includes/file.php');
 require_once(ABSPATH . 'wp-admin/includes/media.php');
 function add_endpoints_to_cache( $allowed_endpoints ) {
-	$allowed_endpoints[ 'brutmaps/data/v1/api/' ][] = 'about';
+	$allowed_endpoints[ BASE_URL ][] = 'about';
 	var_dump($allowed_endpoints);
 	return $allowed_endpoints;
 }
