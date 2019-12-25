@@ -8,11 +8,9 @@ require_once(ABSPATH . 'wp-admin/includes/file.php');
 require_once(ABSPATH . 'wp-admin/includes/media.php');
 function add_endpoints_to_cache( $allowed_endpoints ) {
 	$allowed_endpoints[ 'brutmaps/data/v1/api/' ][] = 'about';
-	$allowed_endpoints[ 'wp-json/brutmaps/data/v1/api/' ][] = 'about';
 	var_dump($allowed_endpoints);
 	return $allowed_endpoints;
 }
-add_filter( 'wp_rest_cache/allowed_endpoints', 'add_endpoints_to_cache', 10, 1);
 
 add_action( 'rest_api_init', function () {
 	register_rest_route( BASE_URL, '/sights', array(
@@ -32,6 +30,8 @@ add_action( 'rest_api_init', function () {
 		'callback' => 'API_GET_ABOUT_DATA',
 	) );
 } );
+
+add_filter( 'wp_rest_cache/allowed_endpoints', 'add_endpoints_to_cache', 10, 1);
 
 function API_GET_ABOUT_DATA() {
 	$status = 200;
