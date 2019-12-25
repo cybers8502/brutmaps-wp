@@ -47,7 +47,7 @@ function API_GET_ABOUT_DATA() {
 			$mainImage = null;
 		}
 		$mainImageAuthor = get_field('main_image_author', ABOUT);
-		$socialLinks = get_field('social_links', ABOUT);
+		$socialLinks = get_field('social_links', 'options');
 		$mainData = [
 			'title'             => html_entity_decode(get_the_title(ABOUT)),
 			'main_image'        => $mainImage,
@@ -57,7 +57,7 @@ function API_GET_ABOUT_DATA() {
 			'gallery'           => $gallery,
 			'main_image_author' => getAuthorData($mainImageAuthor),
 			'instagram'         => $socialLinks['instagram'],
-			'facebook'          => $socialLinks
+			'facebook'          => $socialLinks['facebook']
 		];
 		$mainWrap['data'] = $mainData;
 	} else {
