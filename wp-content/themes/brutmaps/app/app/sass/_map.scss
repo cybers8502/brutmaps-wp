@@ -116,11 +116,6 @@
     min-height: 375px;
   }
 
-  &--single{
-    height: 390px;
-    margin-top: 40px;
-  }
-
 }
 @media (min-width: $phone-landscape) {
   .map {
@@ -154,12 +149,6 @@
 
     &--common{
       height: auto;
-    }
-
-    &--single{
-      max-width: 851px;
-      margin-left: 81px;
-      width: calc( 100% - 104px );
     }
 
   }

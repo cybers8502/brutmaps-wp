@@ -125,10 +125,6 @@ function InitArticleSlider() {
             768: {
                 spaceBetween: 10
             }
-        },
-        mousewheel: {
-            invert: true,
-            releaseOnEdges: true
         }
     } );
 

@@ -26,39 +26,13 @@
 
   &__preview{
     margin-bottom: 45px;
-    margin-right: -23px;
-  }
-
-  &__rails{
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 16px;
-  }
-
-  &__back{
-    display: flex;
-    align-items: center;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 24px;
-    height: 24px;
-    z-index: 4;
-
-    svg{
-      display: block;
-      width: inherit;
-      height: 11px;
-    }
-
   }
 
   .btn{
     display: inline-flex;
     height: 50px;
     margin-bottom: 32px;
-    padding: 2px 22px 0;
+    padding: 0 22px;
 
     span{
       font-size: 18px;
@@ -137,23 +111,6 @@
 
     &__preview{
       margin-bottom: 81px;
-      margin-right: -74px;
-    }
-
-    &__rails{
-      top: 11px;
-      bottom: 11px;
-      left: 18px;
-    }
-
-    &__back{
-      width: 35px;
-      height: 35px;
-
-      svg{
-        height: 17px;
-      }
-
     }
 
     .btn{
@@ -199,19 +156,6 @@
 }
 @media (min-width: $desktop) {
   .blog-article {
-
-  }
-}
-@media (min-width: 1410px) {
-  .blog-article {
-
-    &__info{
-      margin-right: -22px;
-    }
-
-    .btn{
-      right: 0;
-    }
 
   }
 }

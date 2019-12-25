@@ -4,7 +4,7 @@
   position: relative;
   min-width: 320px;
   min-height: 100%;
-  background-color: $back;
+  background-color: #343332;
   color: $text;
   @include ttfirsneue-regular;
   overflow: hidden;
@@ -29,14 +29,13 @@
     position: relative;
     height: 180px;
     padding: 16px 16px 22px;
-    background-color: inherit;
+    background-color: $back;
     z-index: 4;
   }
 
   &__wrap{
     display: flex;
     position: relative;
-    background-color: $back-text;
     overflow: hidden;
   }
 
@@ -82,7 +81,7 @@
       top: 0;
       left: 0;
       bottom: 0;
-      width: 433px;
+      width: 435px;
       height: auto;
       padding: 52px 43px 60px 45px;
     }
