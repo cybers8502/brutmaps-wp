@@ -10,7 +10,7 @@ function add_endpoints_to_cache( $allowed_endpoints ) {
 	if ( ! isset( $allowed_endpoints[ 'acf/v3' ] ) || ! in_array( 'posts', $allowed_endpoints[ 'acf/v3' ] ) ) {
 		$allowed_endpoints[ 'brutmaps/data/v1/api/' ][] = 'about';
 	}
-	echo 'f';
+	var_dump($allowed_endpoints);
 	return $allowed_endpoints;
 }
 add_filter( 'wp_rest_cache/allowed_endpoints', 'add_endpoints_to_cache', 10, 1);
