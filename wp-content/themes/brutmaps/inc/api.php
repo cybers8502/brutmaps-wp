@@ -57,7 +57,7 @@ function API_GET_ABOUT_DATA() {
 			'gallery'           => $gallery,
 			'main_image_author' => getAuthorData($mainImageAuthor),
 			'instagram'         => $socialLinks['instagram'],
-			'facebook'          => $socialLinks['facebook']
+			'facebook'          => $socialLinks
 		];
 		$mainWrap['data'] = $mainData;
 	} else {
