@@ -6,6 +6,13 @@ define('PLACEHOLDER', 'https://brutmaps.designstudio.ag/wp-content/uploads/2019/
 require_once(ABSPATH . 'wp-admin/includes/image.php');
 require_once(ABSPATH . 'wp-admin/includes/file.php');
 require_once(ABSPATH . 'wp-admin/includes/media.php');
+function add_endpoints_to_cache( $allowed_endpoints ) {
+	if ( ! isset( $allowed_endpoints[ 'acf/v3' ] ) || ! in_array( 'posts', $allowed_endpoints[ 'acf/v3' ] ) ) {
+		$allowed_endpoints[ 'brutmaps/data/v1/api/' ][] = 'about';
+	}
+	return $allowed_endpoints;
+}
+add_filter( 'wp_rest_cache/allowed_endpoints', 'add_endpoints_to_cache', 10, 1);
 
 add_action( 'rest_api_init', function () {
 	register_rest_route( BASE_URL, '/sights', array(
