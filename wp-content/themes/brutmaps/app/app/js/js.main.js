@@ -3,6 +3,7 @@ let articleMap;
 let controlViewBtn;
 let nearest0bjects;
 let blogBackRails;
+let formValidation;
 
 if ( articleGallery = document.querySelector( '.blog-article .swiper-container' ) )
     InitArticleSlider();
@@ -18,6 +19,9 @@ if ( nearest0bjects = document.querySelector( '#js-nearest-objects' ) )
 
 if ( blogBackRails = document.querySelector( '.blog-article__rails' ) )
     BlogBackRails();
+
+if ( formValidation = document.querySelector( '.js-send-request' ) )
+    Validation( formValidation );
 
 function BehaviorSearchForm( e, obj ) {
 
@@ -184,5 +188,104 @@ function Nearest0bjects() {
     nearest0bjects.innerHTML = _data;
 
     document.querySelector( '.objects-list' ).classList.remove( 'is-loading' );
+
+}
+
+function SendData () {
+
+    let xhr = new XMLHttpRequest();
+    let formData = new FormData( formValidation );
+    let action = document.querySelector( 'body' ).dataset.action;
+
+    formData.append( 'action', 'send_support' );
+
+    xhr.open( 'POST', action, true );
+    xhr.send( formData );
+
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState == XMLHttpRequest.DONE) {
+            if ( xhr.response == 'success' ) {
+                formValidation.querySelector( '.support__message' ).textContent = 'Thank you. We’ll reach out to you shortly.';
+                formValidation.classList.remove( 'is-loading' );
+            }
+        }
+    };
+}
+
+function Validation () {
+
+    let inputs = formValidation.querySelectorAll( '[required]' );
+
+    notTouched();
+
+    for ( let item of inputs ){
+        item.addEventListener( 'keypress', () => {
+            notTouched();
+            item.classList.remove( 'not-valid' );
+        } );
+        item.addEventListener( 'focusout', () => {
+            notTouched();
+            item.classList.remove( 'not-valid' );
+        } );
+    }
+
+    formValidation.addEventListener( 'submit', ( e ) => {
+        validForm( e );
+    } );
+
+    function validForm( e ) {
+
+        formValidation.classList.add( 'is-loading' );
+
+        for ( let item of inputs ){
+
+            if ( item.classList.contains( 'not-touched' ) || item.value === '' ){
+                item.classList.add( 'not-valid' );
+
+                e.preventDefault();
+            } else {
+                item.classList.remove( 'not-touched' );
+                item.classList.remove( 'not-valid' );
+
+                e.preventDefault();
+            }
+
+            let type = item.getAttribute( 'type' );
+
+            if( type === 'email' && item.value !== '' ){
+                if( !validateEmail( item.value ) ){
+                    item.classList.add( 'not-valid' );
+                    e.preventDefault();
+                }
+            }
+
+            formValidation.classList.remove( 'is-loading' );
+
+        }
+
+        if ( formValidation.querySelectorAll( '.not-valid' ).length === 0 ) {
+            SendData();
+        }
+
+    }
+
+    function validateEmail ( email ) {
+        let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return re.test( email );
+    }
+
+    function notTouched() {
+
+        for ( let item of inputs ){
+
+            if ( item.value === '' ){
+                item.classList.add( 'not-touched' );
+            } else {
+                item.classList.remove( 'not-touched' );
+            }
+
+        }
+
+    }
 
 }

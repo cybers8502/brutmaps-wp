@@ -47,6 +47,7 @@
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+      caret-color: $span;
       transition: border-bottom-color .3s ease;
 
       &::-ms-clear {

@@ -1,0 +1,84 @@
+.support {
+  width: 100%;
+  padding: 16px 16px 22px;
+  color: #DFDDD8;
+
+  &__form{
+    position: relative;
+
+    &.is-loading .support__loader{
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .btn{
+      height: 50px;
+      margin-top: 20px;
+      padding: 0 22px;
+
+      span{
+        font-size: 18px;
+      }
+
+    }
+
+  }
+
+  &__message{
+    width: 100%;
+  }
+
+  &__loader{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(52,51,50,.1);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity .3s ease, visibility .3s ease;
+
+  }
+
+}
+@media (min-width: $phone-landscape) {
+  .support {
+
+  }
+}
+@media (min-width: $tablet-portrait) {
+  .support {
+    max-width: 955px;
+
+    &__form{
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: flex-start;
+
+      input{
+        width: calc( 50% - 10px );
+      }
+
+      .btn{
+        display: inline-flex;
+        padding: 0 50px;
+      }
+
+    }
+
+  }
+}
+@media (min-width: $tablet-landscape) {
+  .support {
+    padding: 52px 43px 60px 45px;
+
+  }
+}
+@media (min-width: $desktop) {
+  .support {
+
+  }
+}
+
