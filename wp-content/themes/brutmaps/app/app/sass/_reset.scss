@@ -19,10 +19,10 @@ $opacity-placeholder: rgba(165,161,151,.7);
   -webkit-transition: color .3s ease;
   transition: color .3s ease;
 }
-:focus::-webkit-input-placeholder {color: $opacity-placeholder!important;}
-:focus::-moz-placeholder          {color: $opacity-placeholder!important;}
-:focus:-moz-placeholder           {color: $opacity-placeholder!important;}
-:focus:-ms-input-placeholder      {color: $opacity-placeholder!important;}
+:focus::-webkit-input-placeholder {color: $opacity-placeholder}
+:focus::-moz-placeholder          {color: $opacity-placeholder}
+:focus:-moz-placeholder           {color: $opacity-placeholder}
+:focus:-ms-input-placeholder      {color: $opacity-placeholder}
 /* --------------- placeholder --------------- */
 
 /* --------------- search --------------- */

@@ -29,3 +29,15 @@
     transform: scale3D(0,0,1);
   }
 }
+
+// show popup
+@keyframes show-popup {
+  0% {
+    top: -5px;
+    opacity: 0;
+  }
+  100% {
+    top: 0;
+    opacity: 1;
+  }
+}

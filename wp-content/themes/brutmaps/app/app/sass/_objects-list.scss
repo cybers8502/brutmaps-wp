@@ -4,7 +4,53 @@
 
   &__layout{
     height: 100%;
-    overflow-y: auto;
+    overflow: hidden;
+    transition: opacity .3s ease;
+  }
+
+  &__scroll{
+    position: relative;
+    height: 100%;
+    overflow: hidden;
+
+    &.ps{
+      padding-right: 22px;
+    }
+
+    &.ps--active-y .ps__rail-y{
+      visibility: visible;
+    }
+
+    .ps__rail-y{
+      position: absolute;
+      right: 0;
+      width: 14px;
+      visibility: hidden;
+      z-index: 2;
+      border-radius: 6px;
+      background-color: #CFCEC9;
+
+      .ps__thumb-y{
+        position: absolute;
+        right: 2px;
+        width: 10px;
+        cursor: pointer;
+
+        &:before{
+          position: absolute;
+          top: 2px;
+          left: 0;
+          width: 100%;
+          height: calc( 100% - 4px );
+          border-radius: 6px;
+          background-color: #9B9B97;
+          content: '';
+        }
+
+      }
+
+    }
+
   }
 
   &__item{
@@ -12,7 +58,13 @@
     justify-content: space-between;
     align-items: stretch;
     margin-bottom: 20px;
-    background-color: #F5F4F1;
+    background-color: #F2F0EC;
+    transition: opacity .3s ease;
+
+    &.is-new{
+      opacity: 0;
+    }
+
   }
 
   &__picture{
@@ -76,6 +128,11 @@
     opacity: 0;
     visibility: hidden;
     transition: opacity .3s ease, visibility .3s ease;
+
+    > hr{
+      background-color: rgba(255,255,255,.7);
+    }
+
   }
 
   &.is-loading{
@@ -83,6 +140,10 @@
     .loader{
       opacity: 1;
       visibility: visible;
+    }
+
+    .objects-list__layout{
+      opacity: .6;
     }
 
   }
@@ -132,7 +193,7 @@
   .objects-list {
     top: auto;
     //height: calc( 100% - 191px );
-    height: calc( 100% - 110px );
+    height: calc( 100% - 132px );
 
     &__header{
       margin-bottom: 22px;
@@ -140,10 +201,16 @@
     }
 
     &__layout{
-      height: calc( 100% - 40px );
+      width: calc( 100% + 29px );
+      margin-left: -7px;
+    }
+
+    &__scroll{
+      padding: 0 22px 0 7px;
     }
 
     &__item {
+      transition: box-shadow .3s ease, background-color .3s ease, opacity .3s ease;
 
       .objects-list__info {
 
@@ -153,10 +220,16 @@
 
       }
 
-      &:hover .objects-list__info{
+      &:hover{
+        background-color: #F5F4F1;
+        box-shadow: 0 6px 12px rgba(0,0,0,.12);
 
-        h2, h3, h4{
-          color: #DB1313;
+        .objects-list__info{
+
+          h2, h3, h4{
+            color: #DB1313;
+          }
+
         }
 
       }

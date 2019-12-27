@@ -173,7 +173,7 @@ function InitSingleArticleMap() {
     _geocoder.on( 'result', (e) => {
         var homeURL = document.body.dataset.url;
         sessionStorage.setItem( 'searchGeo', e.result.place_name );
-        window.location.replace( `${homeURL}#12/${e.result.center[1]}/${e.result.center[0]}` );
+        window.location.href = `${homeURL}#12/${e.result.center[1]}/${e.result.center[0]}`;
     } );
 
 }

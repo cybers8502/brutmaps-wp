@@ -10,15 +10,18 @@
         let _mapFrame;
         let _listWrap = document.querySelector( '.objects-list' );
         let _listingEl = document.getElementById( 'js-feature-listing' );
+        let _initObjListTimeOut = null;
+        let _IDVisiblePopup = null;
+        let _hoveredStateId = null;
         let _timer;
+        let _ps = null;
+        let _device = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test( navigator.userAgent );
 
         mapboxgl.accessToken = 'pk.eyJ1IjoiY3liZXJzODUwMiIsImEiOiJjanBiM3I5ancyMHB5M3FuNGg0M2Rub25pIn0.UMgICyxLhWOZ2S4lb2cIJQ';
 
         function _createPopUp( currentFeature ) {
 
-            _removePopups();
-
-            var popup = new mapboxgl.Popup( { closeOnClick: false, closeButton: false, anchor: 'bottom-right' } )
+            var popup = new mapboxgl.Popup( { closeOnClick: false, closeButton: false } )
                 .setLngLat( currentFeature.geometry.coordinates )
                 .setHTML(`<a class="mapboxgl-popup-picture" href="${currentFeature.properties.link}">
                     <div class="loader"><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/></div>
@@ -44,7 +47,7 @@
                         "coordinates": [ marker.coordinates.long, marker.coordinates.lat, 0.0 ]
                     },
                     "properties": {
-                        "id": 'id_'+ marker.id,
+                        "id": + marker.id,
                         "title": marker.title,
                         "address": marker.address,
                         "year": marker.year,
@@ -150,41 +153,53 @@
                     clusterMaxZoom: 11
                 } );
 
-                _mapFrame.addLayer( {
-                    id: "brut-obj",
-                    type: "circle",
-                    source: "earthquakes",
-                    filter: ["!", ["has", "point_count"]],
-                    paint: {
-                        'circle-radius': 5,
-                        "circle-color": '#EAE9E6'
-                    }
+                _mapFrame.loadImage( 'http://localhost:8888/brutmaps-wp/wp-content/themes/brutmaps/assets/img/icon-pin.jpg', function(error, image) {
+                    if (error) throw error;
+
+                    _mapFrame.addImage('point', image);
+
+                    _mapFrame.addLayer( {
+                        id: "brut-obj",
+                        type: "symbol",
+                        source: "earthquakes",
+                        filter: ["!", ["has", "point_count"]],
+                        'layout': {
+                            'icon-image': 'point',
+                            'icon-size': .2
+                        }
+                    } );
+
+                    _mapFrame.addLayer( {
+                        id: 'clusters',
+                        type: 'circle',
+                        source: 'earthquakes',
+                        filter: ['has', 'point_count'],
+                        paint: {
+                            'circle-radius': 15,
+                            'circle-color': [
+                                'case',
+                                ['boolean', ['feature-state', 'hover'], false],
+                                '#DFDDD8',
+                                '#EAE9E6'
+                            ]
+                        }
+                    } );
+
+                    _mapFrame.addLayer( {
+                        id: 'cluster-count',
+                        type: 'symbol',
+                        source: 'earthquakes',
+                        filter: ['has', 'point_count'],
+                        layout: {
+                            'text-field': '{point_count_abbreviated}',
+                            'text-font': ['DIN Offc Pro Medium', 'Arial Unicode MS Bold'],
+                            'text-size': 12
+                        }
+                    } );
+
+                    _onEvents();
+
                 } );
-
-                _mapFrame.addLayer({
-                    id: 'clusters',
-                    type: 'circle',
-                    source: 'earthquakes',
-                    filter: ['has', 'point_count'],
-                    paint: {
-                        'circle-radius': 15,
-                        'circle-color': '#EAE9E6',
-                    }
-                });
-
-                _mapFrame.addLayer({
-                    id: 'cluster-count',
-                    type: 'symbol',
-                    source: 'earthquakes',
-                    filter: ['has', 'point_count'],
-                    layout: {
-                        'text-field': '{point_count_abbreviated}',
-                        'text-font': ['DIN Offc Pro Medium', 'Arial Unicode MS Bold'],
-                        'text-size': 12
-                    }
-                });
-
-                _onEvents();
 
             } );
 
@@ -195,6 +210,13 @@
         function _initMarkerPopup(e) {
 
             var features = _mapFrame.queryRenderedFeatures(e.point, { layers: ['brut-obj'] });
+
+            if ( _IDVisiblePopup === features[0].properties.id )
+                return;
+
+            _removePopups();
+
+            _IDVisiblePopup = features[0].properties.id;
 
             if ( features.length )
                 _createPopUp( features[0] );
@@ -219,15 +241,40 @@
         function _onEvents() {
 
             _mapFrame.on( 'data', function () {
-                _renderListings( _getUniqueFeatures( _mapFrame.queryRenderedFeatures( { layers: ['brut-obj'] } ), 'id') );
+                clearTimeout( _initObjListTimeOut );
+                _listWrap.classList.add( 'is-loading' );
+                _initObjListTimeOut = setTimeout( () => {
+                    _renderListings( _getUniqueFeatures( _mapFrame.queryRenderedFeatures( { layers: ['brut-obj'] } ) , 'id') )
+                }, 1000 );
             } );
 
             _mapFrame.on( 'click', function(e) {
-                _removePopups();
-                _initMarkerPopup(e);
+
+                var features = _mapFrame.queryRenderedFeatures(e.point, { layers: ['brut-obj'] });
+
+                if ( features.length === 0 ){
+                    _removePopups();
+                    return;
+                }
+
+                if ( !_device )
+                    window.location.href = features[0].properties.link;
+
             } );
 
-            _mapFrame.on('click', 'clusters', function(e) {
+            _mapFrame.on( 'zoom', function () {
+                _removePopups();
+            } );
+
+            _mapFrame.on( 'moveend', function () {
+                clearTimeout( _initObjListTimeOut );
+                _listWrap.classList.add( 'is-loading' );
+                _initObjListTimeOut = setTimeout( () => {
+                    _renderListings( _getUniqueFeatures( _mapFrame.queryRenderedFeatures( { layers: ['brut-obj'] } ) , 'id') )
+                }, 1000 );
+            } );
+
+            _mapFrame.on( 'click', 'clusters', function(e) {
 
                 var features = _mapFrame.queryRenderedFeatures( e.point, { layers: ['clusters'] } );
 
@@ -247,19 +294,50 @@
 
             });
 
-            _mapFrame.on( 'move', function () {
-                _removePopups();
-            } );
+            _mapFrame.on('mouseenter', 'clusters', function(e) {
+                _mapFrame.getCanvas().style.cursor = 'pointer';
 
-            _mapFrame.on( 'moveend', function () {
-                _renderListings( _getUniqueFeatures( _mapFrame.queryRenderedFeatures( { layers: ['brut-obj'] } ) , 'id') );
-            } );
+                if ( e.features.length > 0) {
+                    if (_hoveredStateId) {
+                        _mapFrame.setFeatureState(
+                            { source: 'earthquakes', id: _hoveredStateId },
+                            { hover: false }
+                        );
+                    }
+                    _hoveredStateId = e.features[0].id;
+                    _mapFrame.setFeatureState(
+                        { source: 'earthquakes', id: _hoveredStateId },
+                        { hover: true }
+                    );
+                }
+
+            });
+
+            _mapFrame.on('mouseleave', 'clusters', function() {
+                _mapFrame.getCanvas().style.cursor = '';
+
+                if (_hoveredStateId) {
+                    _mapFrame.setFeatureState(
+                        { source: 'earthquakes', id: _hoveredStateId },
+                        { hover: false }
+                    );
+                }
+                _hoveredStateId = null;
+
+            });
+
+            _mapFrame.on('mouseenter', 'brut-obj', function(e) {
+                _initMarkerPopup(e);
+                _mapFrame.getCanvas().style.cursor = 'pointer';
+            });
+
+            _mapFrame.on('mouseleave', 'brut-obj', function() {
+                _mapFrame.getCanvas().style.cursor = '';
+            });
 
         }
 
         function _renderListings( features ) {
-
-            _listWrap.classList.add( 'is-loading' );
 
             _listingEl.innerHTML = '';
 
@@ -269,7 +347,7 @@
                     var prop = feature.properties;
 
                     var item = document.createElement('a');
-                    item.className = 'objects-list__item';
+                    item.className = 'objects-list__item is-new';
                     item.href = prop.link;
                     item.innerHTML = '<div class="objects-list__picture">' +
                         '<div class="loader"><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/></div>'+
@@ -279,7 +357,17 @@
                         '</address><p><strong>'+ prop.year +'</strong></p></div>';
 
                     item.addEventListener( 'mouseover', function () {
+                        console.log( feature )
+
+                        if ( _IDVisiblePopup === feature.properties.id )
+                            return;
+
+                        _removePopups();
+
+                        _IDVisiblePopup = feature.properties.id;
+
                         _createPopUp( feature );
+
                     } );
 
                     _listingEl.appendChild( item );
@@ -288,15 +376,26 @@
                     _cutText( item.querySelector( 'p' ), 43 );
 
                 } );
-
             } else {
                 var empty = document.createElement('p');
                 empty.textContent = 'Drag or zoom the map to see results';
                 _listingEl.appendChild(empty);
             }
 
+            _initScroll();
+
+            let isNew = _listingEl.querySelectorAll( '.is-new' ),
+                count = 0;
+
+            isNew.forEach( ( item ) => {
+                _showListObjItem( item, count );
+                count++;
+            } );
+
             localStorage.setItem( 'brutList', _listingEl.outerHTML );
             _listWrap.classList.remove( 'is-loading' );
+
+            clearTimeout( _initObjListTimeOut );
 
         }
 
@@ -307,6 +406,8 @@
             if ( popUps[0] ){
                 popUps[0].remove();
             }
+
+            _IDVisiblePopup = null;
 
         }
 
@@ -325,6 +426,40 @@
             };
             xhr.open('POST', action, true);
             xhr.send( formData );
+
+        }
+
+        function _showListObjItem( obj, i ) {
+            setTimeout( () => {
+                obj.classList.remove( 'is-new' );
+            }, 80 * i )
+        }
+
+        function _initScroll() {
+
+            let _listWrap = document.querySelector( '.objects-list__layout' );
+            let _listScrollWrap = _listWrap.querySelector( '.objects-list__scroll' );
+
+            console.log( _listingEl.offsetHeight )
+            console.log( _listWrap.offsetHeight )
+
+            if( _listingEl.offsetHeight > _listWrap.offsetHeight && _ps == null ){
+
+                // _listWrap.classList.add( 'is-scroll in-top-list' );
+
+                _ps = new PerfectScrollbar( _listScrollWrap, {
+                    suppressScrollX: true
+                } );
+
+            } else if ( _listWrap.offsetHeight >= _listingEl.offsetHeight && _ps !== null ) {
+
+                _ps.destroy();
+                _listWrap.classList.remove( 'is-scroll' );
+                _ps = null;
+
+            } else if ( _ps !== null ) {
+                _ps.update();
+            }
 
         }
 

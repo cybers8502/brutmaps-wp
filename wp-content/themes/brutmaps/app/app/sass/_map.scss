@@ -56,18 +56,21 @@
 
   .mapboxgl-popup{
     width: 250px;
-    height: 90px;
-    padding: 0;
-    border: 1px solid #2F2E2B;
-    border-radius: 0;
-    background-color: #EAE9E6;
+    height: 101px;
     z-index: 2;
+    animation-name: show-popup;
+    animation-duration: .3s;
 
     &-content{
       display: flex;
       justify-content: flex-start;
       align-items: stretch;
+      height: 88px;
       padding: 0;
+      background-color: $popup-back;
+      box-shadow: 0 2px 8px rgba(0,0,0,.32);
+      border-radius: 2px;
+      overflow: hidden;
     }
 
     &-text{
@@ -85,9 +88,12 @@
 
     }
 
-    &-close-button,
-    &-tip{
+    &-close-button{
       display: none;
+    }
+
+    &-tip{
+      border-width: 8px;
     }
 
     &-picture{
@@ -106,6 +112,32 @@
         height: 88px;
         z-index: 1;
       }
+
+    }
+
+    &-anchor-top, &-anchor-top-left, &-anchor-top-right {
+      padding: 5px 0 0;
+
+      .mapboxgl-popup-tip{ border-bottom-color: $popup-back }
+    }
+
+    &-anchor-bottom, &-anchor-bottom-left, &-anchor-bottom-right {
+      padding: 0 0 5px;
+
+      .mapboxgl-popup-tip{ border-top-color: $popup-back }
+    }
+
+    &-anchor-left{
+      padding: 0 0 0 5px;
+
+      .mapboxgl-popup-tip { border-right-color: $popup-back; }
+
+    }
+
+    &-anchor-right{
+      padding: 0 5px 0 0;
+
+      .mapboxgl-popup-tip { border-left-color: $popup-back }
 
     }
 
