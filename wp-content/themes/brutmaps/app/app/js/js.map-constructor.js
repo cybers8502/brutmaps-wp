@@ -153,7 +153,7 @@
                     clusterMaxZoom: 11
                 } );
 
-                _mapFrame.loadImage( 'http://localhost:8888/brutmaps-wp/wp-content/themes/brutmaps/assets/img/icon-pin.jpg', function(error, image) {
+                _mapFrame.loadImage( 'https://brutmaps.com/brutmaps-wp/wp-content/themes/brutmaps/assets/img/icon-pin.jpg', function(error, image) {
                     if (error) throw error;
 
                     _mapFrame.addImage('point', image);
