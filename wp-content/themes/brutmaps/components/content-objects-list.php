@@ -15,7 +15,7 @@
         <!--<div class="objects-list__header">Nearest objects</div>-->
         <div class="objects-list__layout">
             <div class="objects-list__scroll">
-                <div class="objects-list__wrap" id="js-feature-listing">
+                <div class="objects-list__wrap" id="js-nearest-objects">
 
                 </div>
             </div>

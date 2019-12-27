@@ -109,10 +109,16 @@ function ControlListView() {
 function InitArticleSlider() {
 
     let _slide = articleGallery.querySelectorAll( '.swiper-slide' );
-    let _slidePaginarion = articleGallery.querySelector( '.swiper-pagination' );
 
     if( _slide.length === 1 )
         return;
+
+    var scrollWrap = document.createElement('sapn');
+    scrollWrap.className = 'swiper-pagination';
+
+    articleGallery.appendChild( scrollWrap );
+
+    let _slidePaginarion = articleGallery.querySelector( '.swiper-pagination' );
 
     let carriageWrap;
     let carriageStep = _slidePaginarion.getBoundingClientRect().width / _slide.length;
@@ -181,6 +187,7 @@ function InitSingleArticleMap() {
 function Nearest0bjects() {
 
     let _data = localStorage.getItem( 'brutList' );
+    let _ps = null;
 
     if ( !_data )
         return;
@@ -188,6 +195,37 @@ function Nearest0bjects() {
     nearest0bjects.innerHTML = _data;
 
     document.querySelector( '.objects-list' ).classList.remove( 'is-loading' );
+
+    let isNew = nearest0bjects.querySelectorAll( '.is-new' );
+
+    isNew.forEach( item => item.classList.remove( 'is-new' ) );
+
+    _initScroll();
+
+    function _initScroll() {
+
+        let _listWrap = document.querySelector( '.objects-list__layout' );
+        let _listScrollWrap = _listWrap.querySelector( '.objects-list__scroll' );
+
+        if( nearest0bjects.offsetHeight > _listWrap.offsetHeight && _ps == null ){
+
+            // _listWrap.classList.add( 'is-scroll in-top-list' );
+
+            _ps = new PerfectScrollbar( _listScrollWrap, {
+                suppressScrollX: true
+            } );
+
+        } else if ( _listWrap.offsetHeight >= nearest0bjects.offsetHeight && _ps !== null ) {
+
+            _ps.destroy();
+            _listWrap.classList.remove( 'is-scroll' );
+            _ps = null;
+
+        } else if ( _ps !== null ) {
+            _ps.update();
+        }
+
+    }
 
 }
 

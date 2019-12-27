@@ -440,9 +440,6 @@
             let _listWrap = document.querySelector( '.objects-list__layout' );
             let _listScrollWrap = _listWrap.querySelector( '.objects-list__scroll' );
 
-            console.log( _listingEl.offsetHeight )
-            console.log( _listWrap.offsetHeight )
-
             if( _listingEl.offsetHeight > _listWrap.offsetHeight && _ps == null ){
 
                 // _listWrap.classList.add( 'is-scroll in-top-list' );
