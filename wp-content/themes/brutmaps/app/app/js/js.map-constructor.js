@@ -17,6 +17,7 @@
         let _timerClosePopup;
         let _timerClosePopupDuration = 1000;
         let _ps = null;
+        let _popupLifeCycle = null;
         let _imgPin = 'https://brutmaps.com/wp-content/themes/brutmaps/assets/img/icon-pin.jpg';
         let _device = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test( navigator.userAgent );
 
@@ -35,11 +36,17 @@
                     <a href="${currentFeature.properties.link}" class="mapboxgl-popup-text"><div><p>${currentFeature.properties.title}</p></div></a>`)
                 .addTo(_mapFrame);
 
-            _cutText( document.querySelector('.mapboxgl-popup p'), 61 );
-
             var popUps = document.getElementsByClassName('mapboxgl-popup');
 
+            if ( _popupLifeCycle !== null ){
+                document.querySelector('.mapboxgl-popup.is-hide').remove();
+                clearTimeout( _popupLifeCycle );
+                _popupLifeCycle = null;
+            }
+
             if ( popUps[0] ){
+
+                _cutText( popUps[0].querySelector('p'), 61 );
 
                 popUps[0].addEventListener( 'mouseover', function () {
 
@@ -483,8 +490,22 @@
 
             var popUps = document.getElementsByClassName('mapboxgl-popup');
 
+            if ( _popupLifeCycle !== null ){
+                document.querySelector('.mapboxgl-popup.is-hide').remove();
+                clearTimeout( _popupLifeCycle );
+                _popupLifeCycle = null;
+            }
+
             if ( popUps[0] ){
-                popUps[0].remove();
+
+                popUps[0].classList.add( 'is-hide' );
+
+                _popupLifeCycle = setTimeout( () => {
+                    popUps[0].remove();
+                    clearTimeout( _popupLifeCycle );
+                    _popupLifeCycle = null;
+                }, 300 );
+
             }
 
             _IDVisiblePopup = null;

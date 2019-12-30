@@ -141,6 +141,11 @@
 
     }
 
+    &.is-hide{
+      transition: opacity .3s ease;
+      opacity: 0;
+    }
+
   }
 
   &--common{
