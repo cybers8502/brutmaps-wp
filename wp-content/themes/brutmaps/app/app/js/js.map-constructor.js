@@ -14,8 +14,14 @@
         let _IDVisiblePopup = null;
         let _hoveredStateId = null;
         let _timer;
+        let _timerClosePopup;
+        let _timerClosePopupDuration = 1000;
         let _ps = null;
+        let _imgPin = 'https://brutmaps.com/wp-content/themes/brutmaps/assets/img/icon-pin.jpg';
         let _device = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test( navigator.userAgent );
+
+        if ( location.host == 'localhost:8888' )
+            _imgPin = 'http://localhost:8888/brutmaps-wp/wp-content/themes/brutmaps/assets/img/icon-pin.jpg';
 
         mapboxgl.accessToken = 'pk.eyJ1IjoiY3liZXJzODUwMiIsImEiOiJjanBiM3I5ancyMHB5M3FuNGg0M2Rub25pIn0.UMgICyxLhWOZ2S4lb2cIJQ';
 
@@ -30,6 +36,29 @@
                 .addTo(_mapFrame);
 
             _cutText( document.querySelector('.mapboxgl-popup p'), 61 );
+
+            var popUps = document.getElementsByClassName('mapboxgl-popup');
+
+            if ( popUps[0] ){
+
+                popUps[0].addEventListener( 'mouseover', function () {
+
+                    if ( _timerClosePopup !== null )
+                        clearTimeout( _timerClosePopup );
+
+                } );
+
+                popUps[0].addEventListener( 'mouseleave', function () {
+
+                    _timerClosePopup = setTimeout( () => {
+                        _removePopups();
+                        clearTimeout( _timerClosePopup );
+                        _timerClosePopup = null;
+                    }, _timerClosePopupDuration );
+
+                } );
+
+            }
 
         }
 
@@ -153,7 +182,7 @@
                     clusterMaxZoom: 11
                 } );
 
-                _mapFrame.loadImage( 'https://brutmaps.com/wp-content/themes/brutmaps/assets/img/icon-pin.jpg', function(error, image) {
+                _mapFrame.loadImage( _imgPin, function(error, image) {
                     if (error) throw error;
 
                     _mapFrame.addImage('point', image);
@@ -211,15 +240,14 @@
 
             var features = _mapFrame.queryRenderedFeatures(e.point, { layers: ['brut-obj'] });
 
-            if ( _IDVisiblePopup === features[0].properties.id )
+            if ( !features[0] || _IDVisiblePopup === features[0].properties.id )
                 return;
 
             _removePopups();
 
             _IDVisiblePopup = features[0].properties.id;
 
-            if ( features.length )
-                _createPopUp( features[0] );
+            _createPopUp( features[0] );
 
         }
 
@@ -272,6 +300,7 @@
                 _initObjListTimeOut = setTimeout( () => {
                     _renderListings( _getUniqueFeatures( _mapFrame.queryRenderedFeatures( { layers: ['brut-obj'] } ) , 'id') )
                 }, 1000 );
+
             } );
 
             _mapFrame.on( 'click', 'clusters', function(e) {
@@ -294,7 +323,43 @@
 
             });
 
-            _mapFrame.on('mouseenter', 'clusters', function(e) {
+            _mapFrame.on( 'click', 'brut-obj', function(e) {
+
+                if ( !_device )
+                    return false;
+
+                _removePopups();
+
+                _mapFrame.flyTo( {
+                    center: [
+                        e.lngLat.lng,
+                        e.lngLat.lat
+                    ],
+                    curve: 0,
+                    essential: true,
+                    maxDuration: 500
+                } );
+
+                var features = _mapFrame.queryRenderedFeatures(e.point, { layers: ['brut-obj'] });
+
+                if ( !features[0] || _IDVisiblePopup === features[0].properties.id )
+                    return;
+
+                _IDVisiblePopup = features[0].properties.id;
+
+                let _deviceInitPopupDuration;
+
+                _deviceInitPopupDuration = setTimeout( () => {
+                    _createPopUp( features[0] );
+                    clearTimeout( _deviceInitPopupDuration );
+                }, 500 );
+
+            });
+
+            if ( _device )
+                return;
+
+            _mapFrame.on( 'mouseenter', 'clusters', function(e) {
                 _mapFrame.getCanvas().style.cursor = 'pointer';
 
                 if ( e.features.length > 0) {
@@ -313,7 +378,7 @@
 
             });
 
-            _mapFrame.on('mouseleave', 'clusters', function() {
+            _mapFrame.on( 'mouseleave', 'clusters', function() {
                 _mapFrame.getCanvas().style.cursor = '';
 
                 if (_hoveredStateId) {
@@ -326,13 +391,25 @@
 
             });
 
-            _mapFrame.on('mouseenter', 'brut-obj', function(e) {
-                _initMarkerPopup(e);
+            _mapFrame.on( 'mouseenter', 'brut-obj', function(e) {
                 _mapFrame.getCanvas().style.cursor = 'pointer';
+
+                _initMarkerPopup(e);
+
+                if ( _timerClosePopup !== null )
+                    clearTimeout( _timerClosePopup );
+
             });
 
-            _mapFrame.on('mouseleave', 'brut-obj', function() {
+            _mapFrame.on( 'mouseleave', 'brut-obj', function() {
                 _mapFrame.getCanvas().style.cursor = '';
+
+                _timerClosePopup = setTimeout( () => {
+                    _removePopups();
+                    clearTimeout( _timerClosePopup );
+                    _timerClosePopup = null;
+                }, _timerClosePopupDuration );
+
             });
 
         }
@@ -357,7 +434,6 @@
                         '</address><p><strong>'+ prop.year +'</strong></p></div>';
 
                     item.addEventListener( 'mouseover', function () {
-                        console.log( feature )
 
                         if ( _IDVisiblePopup === feature.properties.id )
                             return;
@@ -368,6 +444,10 @@
 
                         _createPopUp( feature );
 
+                    } );
+
+                    item.addEventListener( 'mouseleave', function () {
+                        _removePopups();
                     } );
 
                     _listingEl.appendChild( item );

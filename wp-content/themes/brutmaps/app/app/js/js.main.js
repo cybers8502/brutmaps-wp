@@ -11,7 +11,7 @@ if ( articleGallery = document.querySelector( '.blog-article .swiper-container' 
 if ( articleMap = document.querySelector( '#single-map' ) )
     InitSingleArticleMap();
 
-if ( controlViewBtn = document.querySelector( '.js-view-btn' ) )
+if ( controlView = document.querySelector( '.js-control-view' ) )
     ControlListView();
 
 if ( nearest0bjects = document.querySelector( '#js-nearest-objects' ) )
@@ -73,13 +73,15 @@ function BlogBackRails() {
 
 function ControlListView() {
 
+    let _controlViewBtn = controlView.querySelector( '.control-view__btn' );
     let _tableViewStatus = false;
     let _objTable = document.querySelector( '.objects-list' );
-    let _btnImg = controlViewBtn.querySelector( 'img' );
+    let _inscriptionWrap = controlView.querySelector( 'span' );
+    let _btnImg = _controlViewBtn.querySelector( 'img' );
     let _btnImgSrc = _btnImg.src;
     let _btnImgSrcArr = _btnImgSrc.split('/');
 
-    controlViewBtn.addEventListener( 'click', (e) => {
+    _controlViewBtn.addEventListener( 'click', (e) => {
         e.preventDefault();
         _changeView();
     } );
@@ -88,6 +90,7 @@ function ControlListView() {
 
         if ( _tableViewStatus ){
 
+            _inscriptionWrap.innerHTML = 'Map view';
             _objTable.classList.remove( 'is-show' );
             _btnImgSrcArr[ _btnImgSrcArr.length - 1 ] = 'icon-list-view.svg';
             _btnImg.src = _btnImgSrcArr.join( '/' );
@@ -95,6 +98,7 @@ function ControlListView() {
 
         } else {
 
+            _inscriptionWrap.innerHTML = 'List view';
             _objTable.classList.add( 'is-show' );
             _btnImgSrcArr[ _btnImgSrcArr.length - 1 ] = 'icon-map-view.svg';
             _btnImg.src = _btnImgSrcArr.join( '/' );

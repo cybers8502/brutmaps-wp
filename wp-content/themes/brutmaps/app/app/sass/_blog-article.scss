@@ -6,7 +6,7 @@
 
   &__wrap{
     position: relative;
-    padding: 0 23px 0 54px;
+    padding: 0 23px;
   }
 
   &__info{
@@ -25,7 +25,7 @@
   }
 
   &__preview{
-    margin-bottom: 45px;
+    margin-bottom: 41px;
   }
 
   .btn{
@@ -93,9 +93,9 @@
 
     &__wrap{
       position: relative;
-      max-width: 955px;
+      max-width: 962px;
       margin-bottom: 40px;
-      padding-left: 81px;
+      padding-left: 65px;
 
       h1{
         max-width: calc( 100% - 200px );
@@ -104,24 +104,21 @@
     }
 
     &__info{
-      margin-bottom: 54px;
+      margin-bottom: 34px;
       padding-right: 0;
       font-size: 24px;
-    }
-
-    &__preview{
-      margin-bottom: 81px;
     }
 
     .btn{
       position: absolute;
       top: 5px;
       right: 22px;
+      padding: 0 30px;
     }
 
     .swiper-container{
       width: calc( 100% - 168px);
-      margin: 106px 0 67px;
+      margin: 41px 0 67px;
 
       .swiper-pagination{
         bottom: 80px;

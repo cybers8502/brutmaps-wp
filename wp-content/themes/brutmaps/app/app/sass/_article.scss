@@ -4,6 +4,7 @@
   line-height: 23px;
 
   > p{
+    width: 97%;
     margin-bottom: 29px;
 
     a{
@@ -27,15 +28,15 @@
   }
 
   h2, h3, h4, h5, h6{
-    margin: 45px 0 19px;
-    @include ttfirsneue-medium;
+    margin: 41px 0 19px;
+    @include ttfirsneue-regular;
     font-size: 30px;
     font-weight: normal;
     line-height: 39px;
   }
 
   ul, ol{
-    margin: 33px 0 63px 40px;
+    margin: 29px 0 43px 12px;
 
     li:not(:last-child){
       margin-bottom: 8px;
@@ -43,15 +44,15 @@
 
     li{
       position: relative;
-      padding-left: 41px;
+      padding-left: 29px;
 
       &:before{
         content: '';
         position: absolute;
-        top: 50%;
+        top: calc( 50% - 1px );
         left: 0;
-        height: 1px;
-        width: 30px;
+        height: 2px;
+        width: 17px;
         background-color: $span;
       }
 
@@ -118,21 +119,8 @@
       letter-spacing: -.9px;
     }
 
-    h2, h3, h4, h5, h6{
-      margin: 81px 0 30px;
-    }
-
     > img {
       margin-top: 60px;
-    }
-
-    ul, ol{
-      margin: 31px 0 63px 35px;
-
-      li{
-        padding-left: 46px;
-      }
-
     }
 
     blockquote{

@@ -1,6 +1,6 @@
 .loader {
   $delayRange: .4s;
-  $spinkit-size: 40px;
+  $spinkit-size: 42px;
   $spinkit-spinner-color: rgba(255,255,255,.1);
 
   display: flex;
@@ -16,8 +16,8 @@
   transform: translate(-50%, -50%);
 
   > hr {
-    width: 33.3333%;
-    height: 33.3333%;
+    width: $spinkit-size / 3;
+    height: $spinkit-size / 3;
     margin: 0;
     padding: 0;
     border: none;
