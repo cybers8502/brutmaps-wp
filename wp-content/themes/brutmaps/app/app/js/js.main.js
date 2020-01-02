@@ -148,6 +148,8 @@ function InitSingleArticleMap() {
 
     let _object = JSON.parse( articleMap.dataset.point );
 
+
+
     mapboxgl.accessToken = 'pk.eyJ1IjoiY3liZXJzODUwMiIsImEiOiJjanBiM3I5ancyMHB5M3FuNGg0M2Rub25pIn0.UMgICyxLhWOZ2S4lb2cIJQ';
 
     let _mapFrame = new mapboxgl.Map( {

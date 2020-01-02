@@ -328,7 +328,7 @@
                     }
                 );
 
-            });
+            } );
 
             _mapFrame.on( 'click', 'brut-obj', function(e) {
 
@@ -361,7 +361,7 @@
                     clearTimeout( _deviceInitPopupDuration );
                 }, 500 );
 
-            });
+            } );
 
             if ( _device )
                 return;
@@ -383,7 +383,7 @@
                     );
                 }
 
-            });
+            } );
 
             _mapFrame.on( 'mouseleave', 'clusters', function() {
                 _mapFrame.getCanvas().style.cursor = '';
@@ -396,7 +396,7 @@
                 }
                 _hoveredStateId = null;
 
-            });
+            } );
 
             _mapFrame.on( 'mouseenter', 'brut-obj', function(e) {
                 _mapFrame.getCanvas().style.cursor = 'pointer';
@@ -406,7 +406,7 @@
                 if ( _timerClosePopup !== null )
                     clearTimeout( _timerClosePopup );
 
-            });
+            } );
 
             _mapFrame.on( 'mouseleave', 'brut-obj', function() {
                 _mapFrame.getCanvas().style.cursor = '';
@@ -417,7 +417,7 @@
                     _timerClosePopup = null;
                 }, _timerClosePopupDuration );
 
-            });
+            } );
 
         }
 
@@ -514,6 +514,13 @@
 
         function _sendRequest() {
 
+            var storage = localStorage.getItem( 'brutmaps_data' );
+
+            if( storage ){
+                _initMap( storage );
+                return
+            }
+
             let action = document.querySelector( 'body' ).dataset.action;
             let formData = new FormData();
 
@@ -522,7 +529,9 @@
             var xhr = new XMLHttpRequest();
             xhr.onreadystatechange = function() {
                 if (xhr.readyState == XMLHttpRequest.DONE) {
-                    _initMap( JSON.parse( xhr.response ).data.data );
+                    var data = JSON.parse( xhr.response ).data.data;
+                    localStorage.setItem( 'brutmaps_data', data );
+                    _initMap( data );
                 }
             };
             xhr.open('POST', action, true);

@@ -21,6 +21,14 @@
       visibility: visible;
     }
 
+    &.ps--scrolling-y{
+
+      .ps__rail-y{
+        background-color: #CFCEC9;
+      }
+
+    }
+
     .ps__rail-y{
       position: absolute;
       right: 0;
@@ -28,7 +36,7 @@
       visibility: hidden;
       z-index: 2;
       border-radius: 6px;
-      background-color: #CFCEC9;
+      transition: background-color .3s ease;
 
       .ps__thumb-y{
         position: absolute;
@@ -39,14 +47,24 @@
         &:before{
           position: absolute;
           top: 2px;
-          left: 0;
-          width: 100%;
+          left: 50%;
+          width: 8px;
           height: calc( 100% - 4px );
           border-radius: 6px;
           background-color: #9B9B97;
+          transform: translateX(-50%);
+          transition: width .3s ease;
           content: '';
         }
 
+      }
+
+    }
+
+    &:hover{
+
+      .ps__rail-y .ps__thumb-y:before{
+        width: 10px;
       }
 
     }
@@ -124,7 +142,7 @@
 
   }
 
-  .loader{
+  > .loader{
     opacity: 0;
     visibility: hidden;
     transition: opacity .3s ease, visibility .3s ease;

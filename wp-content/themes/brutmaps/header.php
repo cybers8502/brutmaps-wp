@@ -9,6 +9,11 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="format-detection" content="address=no">
 
+    <meta name="description" content="What is brutalism? Join our global community. Brutalism — one of the most rarely found architectural styles in the world. Join our global community. Check out our portfolio and blog.">
+    <meta name="keywords" content="brutmaps, brutalism, brutalistarchitecture, brutalist architecture, architectureporn, modernism">
+
+    <link rel="canonical" href="https://brutmaps.com/">
+
     <meta property="og:locale" content="en_US" />
     <meta property="og:locale:alternate" content="ru_RU" />
     <meta property="og:type" content="website" />
@@ -26,7 +31,7 @@
     <meta name="twitter:title" content="Brutmaps | Interactive map with brutalist objects" />
     <meta name="twitter:image" content="https://brutmaps.designstudio.ag/wp-content/themes/brutmaps/assets/img/brutmaps.jpg" />
 
-    <meta name="google-site-verification" content="N_SYcyUeXceQ_UO6VlrKPRXKhdtkaHAd2XyQbBMSPhE" />
+    <meta name="google-site-verification" content="HBnn1N3y4HNw0tpUZe5QhPK040cPYdvLYtdMoVZf4_4" />
     <meta name="msvalidate.01" content="919FB0116B97158137D6FFC414803F41" />
     <meta name="yandex-verification" content="ba79fc04a5c3300e" />
 
