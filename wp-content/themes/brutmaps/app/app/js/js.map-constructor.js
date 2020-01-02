@@ -514,12 +514,12 @@
 
         function _sendRequest() {
 
-            var storage = localStorage.getItem( 'brutmaps_data' );
-
-            if( storage ){
-                _initMap( storage );
-                return
-            }
+            // var storage = localStorage.getItem( 'brutmaps_data' );
+            //
+            // if( storage ){
+            //     _initMap( storage );
+            //     return
+            // }
 
             let action = document.querySelector( 'body' ).dataset.action;
             let formData = new FormData();

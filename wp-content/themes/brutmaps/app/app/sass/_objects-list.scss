@@ -47,13 +47,13 @@
         &:before{
           position: absolute;
           top: 2px;
-          left: 50%;
+          left: 1px;
           width: 8px;
           height: calc( 100% - 4px );
           border-radius: 6px;
           background-color: #9B9B97;
-          transform: translateX(-50%);
-          transition: width .3s ease;
+          transition: transform .3s ease;
+          transform-origin: 50% 0;
           content: '';
         }
 
@@ -64,7 +64,7 @@
     &:hover{
 
       .ps__rail-y .ps__thumb-y:before{
-        width: 10px;
+        transform: scaleX(1.25);
       }
 
     }
