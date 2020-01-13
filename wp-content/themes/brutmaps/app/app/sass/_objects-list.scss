@@ -6,6 +6,30 @@
     height: 100%;
     overflow: hidden;
     transition: opacity .3s ease;
+
+    &.is-scroll{
+      position: relative;
+
+      &:before{
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 3px;
+        box-shadow: 0 2px 3px rgba(0,0,0,.08) inset;
+        opacity: 0;
+        pointer-events: none;
+        z-index: 2;
+        content: '';
+        transition: opacity .3s ease;
+      }
+
+      &:not(.in-top-list):before{
+        opacity: 1;
+      }
+
+    }
+
   }
 
   &__scroll{
@@ -187,20 +211,22 @@
   .objects-list {
     position: fixed;
     left: 0;
-    bottom: 180px;
+    bottom: 0;
     width: 100%;
-    padding: 0 16px;
     background-color: inherit;
     visibility: hidden;
     opacity: 0;
-    transition: bottom .3s ease, visibility .3s ease, opacity .3s ease;
+    transition: visibility .3s ease, opacity .3s ease;
 
     &__header{
       display: none;
     }
 
+    &__layout{
+      padding: 0 16px;
+    }
+
     &.is-show{
-      bottom: 0;
       visibility: visible;
       opacity: 1;
     }
@@ -219,8 +245,10 @@
     }
 
     &__layout{
-      width: calc( 100% + 29px );
-      margin-left: -7px;
+      width: calc( 100% + 88px );
+      margin-left: -45px;
+      padding-left: 38px;
+      padding-right: 21px;
     }
 
     &__scroll{

@@ -189,53 +189,41 @@
                     clusterMaxZoom: 11
                 } );
 
-                _mapFrame.loadImage( _imgPin, function(error, image) {
-                    if (error) throw error;
-
-                    _mapFrame.addImage('point', image);
-
-                    _mapFrame.addLayer( {
-                        id: "brut-obj",
-                        type: "symbol",
-                        source: "earthquakes",
-                        filter: ["!", ["has", "point_count"]],
-                        'layout': {
-                            'icon-image': 'point',
-                            'icon-size': .2
-                        }
-                    } );
-
-                    _mapFrame.addLayer( {
-                        id: 'clusters',
-                        type: 'circle',
-                        source: 'earthquakes',
-                        filter: ['has', 'point_count'],
-                        paint: {
-                            'circle-radius': 15,
-                            'circle-color': [
-                                'case',
-                                ['boolean', ['feature-state', 'hover'], false],
-                                '#DFDDD8',
-                                '#EAE9E6'
-                            ]
-                        }
-                    } );
-
-                    _mapFrame.addLayer( {
-                        id: 'cluster-count',
-                        type: 'symbol',
-                        source: 'earthquakes',
-                        filter: ['has', 'point_count'],
-                        layout: {
-                            'text-field': '{point_count_abbreviated}',
-                            'text-font': ['DIN Offc Pro Medium', 'Arial Unicode MS Bold'],
-                            'text-size': 12
-                        }
-                    } );
-
-                    _onEvents();
-
+                _mapFrame.addLayer( {
+                    id: "brut-obj",
+                    type: "circle",
+                    source: "earthquakes",
+                    filter: ["!", ["has", "point_count"]],
+                    paint: {
+                        'circle-radius': 5,
+                        "circle-color": '#EAE9E6'
+                    }
                 } );
+
+                _mapFrame.addLayer({
+                    id: 'clusters',
+                    type: 'circle',
+                    source: 'earthquakes',
+                    filter: ['has', 'point_count'],
+                    paint: {
+                        'circle-radius': 15,
+                        'circle-color': '#EAE9E6',
+                    }
+                });
+
+                _mapFrame.addLayer({
+                    id: 'cluster-count',
+                    type: 'symbol',
+                    source: 'earthquakes',
+                    filter: ['has', 'point_count'],
+                    layout: {
+                        'text-field': '{point_count_abbreviated}',
+                        'text-font': ['DIN Offc Pro Medium', 'Arial Unicode MS Bold'],
+                        'text-size': 12
+                    }
+                });
+
+                _onEvents();
 
             } );
 
@@ -344,7 +332,7 @@
                     ],
                     curve: 0,
                     essential: true,
-                    maxDuration: 500
+                    maxDuration: 300
                 } );
 
                 var features = _mapFrame.queryRenderedFeatures(e.point, { layers: ['brut-obj'] });
@@ -359,7 +347,7 @@
                 _deviceInitPopupDuration = setTimeout( () => {
                     _createPopUp( features[0] );
                     clearTimeout( _deviceInitPopupDuration );
-                }, 500 );
+                }, 300 );
 
             } );
 
@@ -496,7 +484,7 @@
                 _popupLifeCycle = null;
             }
 
-            if ( popUps[0] ){
+            if ( popUps[0] && !_device ){
 
                 popUps[0].classList.add( 'is-hide' );
 
@@ -506,6 +494,8 @@
                     _popupLifeCycle = null;
                 }, 300 );
 
+            } else if ( popUps[0] ){
+                popUps[0].remove();
             }
 
             _IDVisiblePopup = null;
@@ -552,9 +542,10 @@
 
             if( _listingEl.offsetHeight > _listWrap.offsetHeight && _ps == null ){
 
-                // _listWrap.classList.add( 'is-scroll in-top-list' );
+                _listWrap.classList.add( 'is-scroll', 'in-top-list' );
 
                 _ps = new PerfectScrollbar( _listScrollWrap, {
+                    handlers: ['keyboard', 'wheel', 'touch'],
                     suppressScrollX: true
                 } );
 
@@ -566,6 +557,22 @@
 
             } else if ( _ps !== null ) {
                 _ps.update();
+            }
+
+            _listScrollWrap.addEventListener( 'ps-y-reach-start', () => {
+                _listWrap.classList.add( 'in-top-list' );
+
+                removeClassTop();
+
+            } );
+
+            removeClassTop();
+
+            function removeClassTop() {
+                _listScrollWrap.addEventListener( 'ps-scroll-down', () => {
+                    _listWrap.classList.remove( 'in-top-list' );
+                    _listScrollWrap.removeEventListener( 'ps-y-reach-start', () => {} );
+                } );
             }
 
         }
