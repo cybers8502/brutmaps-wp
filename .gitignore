@@ -3,5 +3,4 @@
 wp-config.php
 .htaccess
 
-wp-content/themes/app/brutmaps/app/node_modules/
-wp-content/themes/app/brutmaps/app/package-lock.json
+wp-content/themes/brutmaps/app/

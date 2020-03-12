@@ -60,10 +60,6 @@
         <title><?php wp_title(''); ?> | <?= get_bloginfo( 'name' ) ?></title>
     <?php endif; ?>
 
-    <link rel='stylesheet' href='https://api.tiles.mapbox.com/mapbox-gl-js/v1.5.0/mapbox-gl.css' />
-    <link rel="stylesheet" href="<?= DIRECT ?>css/swiper.min.css">
-    <link rel="stylesheet" href="<?= DIRECT ?>css/common.css">
-
 </head>
 <body data-action="<?= admin_url( 'admin-ajax.php' );?>" data-url="<?= get_home_url() ?>">
 
