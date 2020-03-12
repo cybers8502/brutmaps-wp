@@ -26,13 +26,6 @@ add_action( 'rest_api_init', function () {
 	) );
 } );
 
-//add_filter( 'wp_rest_cache/allowed_endpoints', 'add_endpoints_to_cache', 10, 1);
-
-//function add_endpoints_to_cache( $allowed_endpoints ) {
-//	$allowed_endpoints[ BASE_URL ][] = 'about';
-//	return $allowed_endpoints;
-//}
-
 function API_GET_ABOUT_DATA() {
 	$status = 200;
 	$mainWrap = ['done' => true];
@@ -171,6 +164,7 @@ function API_GET_SIGHT_BY_ID( $data ) {
 				$item['id'] = intval($architectID);
 				$item['first_name'] = html_entity_decode(get_field('first_name', $architectID));
 				$item['last_name'] = html_entity_decode(get_field('last_name', $architectID));
+				$item['name'] = html_entity_decode(get_the_title($architectID));
 				$architects[] = $item;
 			}
 		}
