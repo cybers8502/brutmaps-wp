@@ -45,11 +45,12 @@
                                 </div>
                             <?php endwhile; ?>
                         </div>
-                        <span class="swiper-pagination"></span>
                     </div>
                 <?php endif; ?>
 
             </article>
+
+            <div class="map map--single" id="single-map" data-point='[<?= $location['lng'] ?>, <?= $location['lat'] ?>]'></div>
 
         </div>
 
