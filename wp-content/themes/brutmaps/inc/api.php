@@ -38,9 +38,20 @@ function API_GET_ARCHITECTS() {
 		'post_type'		=> 'architect',
 		'orderby' 		=> 'title',
 		'order' 		=> 'ASC',
+		'fields'        => 'ids',
 		'post_status' => array('publish')
 	);
-	$architects = get_posts($args);
+	$architectsIDs = get_posts($args);
+	$architects = [];
+	if (is_array($architectsIDs) && count($architectsIDs) > 0) {
+		foreach ($architectsIDs as $architectID) {
+			$item = [];
+			$item['id'] = intval($architectID);
+			$item['name'] = html_entity_decode(get_the_title($architectID));
+			$architects[] = $item;
+		}
+	}
+
 	$mainWrap['architects'] = $architects;
 	$response = new WP_REST_Response( $mainWrap );
 	$response->set_status( 200 );
