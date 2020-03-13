@@ -38,7 +38,6 @@ function API_GET_ARCHITECTS() {
 		'post_type'		=> 'architect',
 		'orderby' 		=> 'title',
 		'order' 		=> 'ASC',
-		'fields'        => 'ids',
 		'post_status' => array('publish')
 	);
 	$architects = get_posts($args);
