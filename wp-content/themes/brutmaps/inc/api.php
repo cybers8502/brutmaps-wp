@@ -24,7 +24,30 @@ add_action( 'rest_api_init', function () {
 		'methods' => 'GET',
 		'callback' => 'API_GET_ABOUT_DATA',
 	) );
+	register_rest_route( BASE_URL, '/architects', array(
+		'methods' => 'GET',
+		'callback' => 'API_GET_ARCHITECTS',
+	) );
 } );
+
+function API_GET_ARCHITECTS() {
+	$status = 200;
+	$mainWrap = ['done' => true];
+	$args = array(
+		'numberposts'   => -1,
+		'post_type'		=> 'architect',
+		'orderby' 		=> 'title',
+		'order' 		=> 'ASC',
+		'fields'        => 'ids',
+		'post_status' => array('publish')
+	);
+	$architects = get_posts($args);
+	$mainWrap['architects'] = $architects;
+	$response = new WP_REST_Response( $mainWrap );
+	$response->set_status( 200 );
+	$response->header( 'Content-type', 'application/json; charset=utf-8' );
+	return $response;
+}
 
 function API_GET_ABOUT_DATA() {
 	$status = 200;
