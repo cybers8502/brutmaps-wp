@@ -93,11 +93,16 @@ function API_GET_SIGHTS() {
 	];
 	$result = [];
 	foreach ($ids as $sightID) {
+		$architectsIDs = get_field('choose_architects', $sightID);
+		if (!$architectsIDs) {
+			$architectsIDs = [];
+		}
 		$location = get_field('location', $sightID);
 		$item = [];
 		$item['id'] = $sightID;
 		$item['link'] = get_permalink($sightID);
 		$item['title'] = html_entity_decode(get_the_title($sightID));
+		$item['architects'] = $architectsIDs;
 		$item['coordinates'] = [
 			'lat' => doubleval($location['lat']),
 			'long' => doubleval($location['lng'])
