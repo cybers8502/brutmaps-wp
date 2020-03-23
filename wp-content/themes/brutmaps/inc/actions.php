@@ -67,7 +67,7 @@ function add_js(){
 
     wp_register_script('common_js',get_template_directory_uri().'/assets/js/common.min.js', false, false, true);
 
-    if ( is_home() ){
+    if ( is_home() || is_singular( 'sight' ) ){
         wp_enqueue_script('mapboxapi');
         wp_enqueue_script('geocoder');
         wp_enqueue_script('scrollbar');
