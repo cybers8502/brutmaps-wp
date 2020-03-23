@@ -24,14 +24,40 @@ add_action( 'rest_api_init', function () {
 		'methods' => 'GET',
 		'callback' => 'API_GET_ABOUT_DATA',
 	) );
+	register_rest_route( BASE_URL, '/architects', array(
+		'methods' => 'GET',
+		'callback' => 'API_GET_ARCHITECTS',
+	) );
 } );
 
-//add_filter( 'wp_rest_cache/allowed_endpoints', 'add_endpoints_to_cache', 10, 1);
+function API_GET_ARCHITECTS() {
+	$status = 200;
+	$mainWrap = ['done' => true];
+	$args = array(
+		'numberposts'   => -1,
+		'post_type'		=> 'architect',
+		'orderby' 		=> 'title',
+		'order' 		=> 'ASC',
+		'fields'        => 'ids',
+		'post_status' => array('publish')
+	);
+	$architectsIDs = get_posts($args);
+	$architects = [];
+	if (is_array($architectsIDs) && count($architectsIDs) > 0) {
+		foreach ($architectsIDs as $architectID) {
+			$item = [];
+			$item['id'] = intval($architectID);
+			$item['name'] = html_entity_decode(get_the_title($architectID));
+			$architects[] = $item;
+		}
+	}
 
-//function add_endpoints_to_cache( $allowed_endpoints ) {
-//	$allowed_endpoints[ BASE_URL ][] = 'about';
-//	return $allowed_endpoints;
-//}
+	$mainWrap['architects'] = $architects;
+	$response = new WP_REST_Response( $mainWrap );
+	$response->set_status( 200 );
+	$response->header( 'Content-type', 'application/json; charset=utf-8' );
+	return $response;
+}
 
 function API_GET_ABOUT_DATA() {
 	$status = 200;
@@ -100,11 +126,16 @@ function API_GET_SIGHTS() {
 	];
 	$result = [];
 	foreach ($ids as $sightID) {
+		$architectsIDs = get_field('choose_architects', $sightID);
+		if (!$architectsIDs) {
+			$architectsIDs = [];
+		}
 		$location = get_field('location', $sightID);
 		$item = [];
 		$item['id'] = $sightID;
 		$item['link'] = get_permalink($sightID);
 		$item['title'] = html_entity_decode(get_the_title($sightID));
+		$item['architects'] = $architectsIDs;
 		$item['coordinates'] = [
 			'lat' => doubleval($location['lat']),
 			'long' => doubleval($location['lng'])
@@ -171,6 +202,7 @@ function API_GET_SIGHT_BY_ID( $data ) {
 				$item['id'] = intval($architectID);
 				$item['first_name'] = html_entity_decode(get_field('first_name', $architectID));
 				$item['last_name'] = html_entity_decode(get_field('last_name', $architectID));
+				$item['name'] = html_entity_decode(get_the_title($architectID));
 				$architects[] = $item;
 			}
 		}
