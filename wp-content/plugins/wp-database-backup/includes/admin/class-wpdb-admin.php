@@ -102,6 +102,11 @@ class WPDB_Admin
                       update_option('wp_db_exclude_table', '');
                   }
               }
+
+              if ( true == isset( $_POST['wp_db_local_backup_path'] ) ) {
+                  update_option( 'wp_db_local_backup_path', esc_attr( sanitize_text_field( $_POST['wp_db_local_backup_path'] ) ) );
+              }
+
               if (isset($_POST['wp_db_backup_email_id'])) {
 
                   update_option('wp_db_backup_email_id', esc_attr(sanitize_text_field($_POST['wp_db_backup_email_id'])));
@@ -115,6 +120,12 @@ class WPDB_Admin
                       update_option('wp_db_backup_destination_Email', 1);
                   } else {
                       update_option('wp_db_backup_destination_Email', 0);
+                  }
+
+                  if ( true == isset( $_POST['wp_db_local_backup'] ) ) {
+                      update_option( 'wp_db_local_backup', 1 );
+                  } else {
+                      update_option( 'wp_db_local_backup', 0 );
                   }
               }
             }
@@ -313,6 +324,15 @@ class WPDB_Admin
         ?>
         <div class="bootstrap-wrapper"><?php
             include_once('admin_header_notification.php');
+            $wp_db_local_backup_path = get_option('wp_db_local_backup_path');
+            if ( false == empty( $wp_db_local_backup_path ) && false == file_exists( $wp_db_local_backup_path ) ) {
+                echo '<div class="alert alert-warning alert-dismissible fade in" role="alert">
+                      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+                      <a href="#db_destination" data-toggle="tab">';
+                     _e( 'Invalid Local Backup Path : ', 'wp-database-backup' );
+                     echo $wp_db_local_backup_path;
+                echo '</a></div>';
+            }
 
             $upload_dir = wp_upload_dir();
             $dir = $upload_dir['basedir'] . '/db-backup';
@@ -386,13 +406,14 @@ class WPDB_Admin
                         $count = 1;
                         $destination_icon = array(
                             'Local'=>'glyphicon glyphicon-home',
+                            'Local Path'=>'glyphicon glyphicon-folder-open',
                             'Email'=>'glyphicon glyphicon-envelope',
                             'FTP'=>'glyphicon glyphicon-folder-open',
                             'S3'=>'glyphicon glyphicon-cloud-upload',
                             'Drive'=>'glyphicon glyphicon-hdd',
                             'DropBox'=>'glyphicon glyphicon-inbox'
                         );
-                        foreach ($options as $option) { 
+                        foreach ($options as $option) {
                         	$strClass = ( 0 == $option['size'] ) ? 'text-danger' : 'wpdb_download';
                             echo '<tr class="' . ((($count % 2) == 0) ? $strClass .' alternate' : $strClass) . '">';
                             echo '<td style="text-align: center;">' . $count . '</td>';
