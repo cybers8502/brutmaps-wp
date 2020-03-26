@@ -65,7 +65,7 @@
 
 <!-- site -->
 <div class="site">
-    <?php var_dump(getArchitects()); ?>
+
     <!-- site__aside -->
     <aside class="site__aside">
 
