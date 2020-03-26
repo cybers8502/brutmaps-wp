@@ -5,7 +5,7 @@ License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: Database backup, db backup, backup, database, WordPress Database Backup, WP db backup, wp database backup, wp backup, wordpress backup, mysql backup, automatically database backup, website backup, website database backup, restore database backup, Store database backup on dropbox, backup on google drive, backup on amazon s3,ftp,email notification.
 Requires at least: 3.1+
-Tested up to: 5.3
+Tested up to: 5.3.2
 Stable tag: trunk
 
 Create & Restore Database Backup easily on single click. Manual or automated backups (backup to Dropbox, Google drive, Amazon s3,FTP,Email).
@@ -128,6 +128,10 @@ WP Database Backup plugin helps you to Restore Database Backup easily on single 
 4. screenshot-4.png
 
 == Changelog ==
+
+= 5.5 =
+* 12-01-2020
+* Added New Destination : Local Backup Path
 
 = 5.4.2 =
 * 07-12-2019
@@ -379,7 +383,7 @@ WP Database Backup plugin helps you to Restore Database Backup easily on single 
 * Fixed bug: Conflict issue with Disqus Comments System, NextGen Gallery etc.
 
 = 2.1 =
-* Store Database Backup FTP,Dropbox,Email
+* Store Database Backup FTP, Dropbox, Email
 * Email Notification
 * fixed bug: Warning: Illegal offset type in /wp-admin/includes/template.php
 * Fixed bug: Warning: Illegal string offset 'enable_autobackups
@@ -428,7 +432,7 @@ max_execution_time = 180 ;
 
 Also Please make sure that you have write permission to Backup folder and also check your log file.
 
- Q.want more features?
+ Q. Want more features?
  <br>If you want more feature then
  Drop Mail :walke.prashant28@gmail.com
  Pro Features :https://www.wpseeds.com/product/wp-all-backup/
@@ -436,7 +440,7 @@ Also Please make sure that you have write permission to Backup folder and also c
 * https://wpallbackup.com/documentation
 
 == Upgrade Notice ==
-* Resolved Error and UI issue
+* Added New Destination : Local Backup Path
 
 == Official Site ==
 * https://www.wpseeds.com/documentation/docs/wp-database-backup

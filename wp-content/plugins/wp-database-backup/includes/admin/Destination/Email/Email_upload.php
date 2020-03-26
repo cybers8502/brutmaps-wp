@@ -36,6 +36,7 @@ class WPDBBackupEmail {
                 if ($wp_db_remove_local_backup == 1) {
                    $logMessage.= " Removed local backup file.";
                 }
+                  $args[2] = $args[2] .' <br>'.$logMessage;
         }
     }
     
