@@ -33,25 +33,7 @@ add_action( 'rest_api_init', function () {
 function API_GET_ARCHITECTS() {
 	$status = 200;
 	$mainWrap = ['done' => true];
-	$args = array(
-		'numberposts'   => -1,
-		'post_type'		=> 'architect',
-		'orderby' 		=> 'title',
-		'order' 		=> 'ASC',
-		'fields'        => 'ids',
-		'post_status' => array('publish')
-	);
-	$architectsIDs = get_posts($args);
-	$architects = [];
-	if (is_array($architectsIDs) && count($architectsIDs) > 0) {
-		foreach ($architectsIDs as $architectID) {
-			$item = [];
-			$item['id'] = intval($architectID);
-			$item['name'] = html_entity_decode(get_the_title($architectID));
-			$architects[] = $item;
-		}
-	}
-
+	$architects = getArchitects();
 	$mainWrap['architects'] = $architects;
 	$response = new WP_REST_Response( $mainWrap );
 	$response->set_status( 200 );
@@ -304,6 +286,31 @@ function API_POST_SIGHT ( $data ) {
 	$response->set_status( $statusCode );
 	$response->header( 'Content-type', 'application/json; charset=utf-8' );
 	return $response;
+}
+
+function getArchitects() {
+	$sights = getSights();
+	$architectsDictionary = [];
+	$architects = [];
+	foreach ($sights as $sightID) {
+		$architectsIDs = get_field('choose_architects', $sightID);
+		if (!$architectsIDs) {
+			$architectsIDs = [];
+		}
+		foreach ($architectsIDs as $architectID) {
+			$architectsDictionary[] = $architectID;
+		}
+	}
+
+	$architectsRepeatList = array_count_values($architectsDictionary);
+	foreach($architectsRepeatList as $id=>$repeats) {
+		$item = [];
+		$item['id'] = intval($id);
+		$item['name'] = html_entity_decode(get_the_title($id));
+		$item['objectsCount'] = intval($repeats);
+		$architects[] = $item;
+	}
+	return $architects;
 }
 
 function uploadFile($file) {
