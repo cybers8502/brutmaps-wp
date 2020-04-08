@@ -160,6 +160,25 @@ function custom_columns( $column, $post_id ) {
 }
 add_action( "manage_posts_custom_column", "custom_columns", 10, 2 );
 
+// Prevent Update Plugins
+add_filter( 'site_transient_update_plugins', 'filter_plugin_updates' );
+
+function filter_plugin_updates( $update ) {
+    global $DISABLE_UPDATE;
+
+    if( !is_array($DISABLE_UPDATE) || count($DISABLE_UPDATE) == 0 ){  return $update;  }
+
+    foreach( $update->response as $name => $val ){
+        foreach( $DISABLE_UPDATE as $plugin ){
+            if( stripos($name,$plugin) !== false ){
+                unset( $update->response[ $name ] );
+            }
+        }
+    }
+
+    return $update;
+}
+
 // Make edit screen columns sortable
 
 add_filter( 'manage_edit-sight_sortable_columns', 'my_sortable_sight_column' );
