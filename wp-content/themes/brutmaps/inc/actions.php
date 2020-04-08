@@ -83,3 +83,110 @@ function add_js(){
 
 
 }
+
+// Change the columns for the edit CPT screen
+
+function change_columns( $cols ) {
+    $cols = array(
+        'cb'                => '<input type="checkbox" />',
+        'title'             => __( 'Title' ),
+        'architects'        => __( 'Architects', 'trans' ),
+        'author_photo'      => __( 'Author Photo', 'trans' ),
+        'contributor'       => __( 'Contributor', 'trans' ),
+        'date'              => __( 'Date' ),
+    );
+    return $cols;
+}
+add_filter( "manage_sight_posts_columns", "change_columns" );
+
+function custom_columns( $column, $post_id ) {
+    switch ( $column ) {
+
+        case "contributor":
+            $term =  get_post_meta( $post_id, 'contributor', true);
+
+            if ( !empty( $term ) ) {
+                echo get_the_title( $term );
+            }
+
+            break;
+
+        case "architects":
+            $arr =  get_post_meta( $post_id, 'choose_architects', true);
+
+            if ( !empty( $arr ) ) {
+
+                $numItems = count($arr);
+                $i = 0;
+
+                foreach ( $arr as $term ) {
+                    if( ++$i === $numItems ) {
+                        echo '<p>'. get_the_title( $term ) .'</p>';
+                    } else {
+                        echo '<p>'. get_the_title( $term ) .', </p>';
+                    }
+                }
+            }
+
+            break;
+
+        case "author_photo":
+            $authors[] =  get_post_meta( $post_id, 'main_image_author_id', true);
+            $arr = get_field( 'gallery', $post_id );
+
+            if ( !empty( $arr ) ) {
+
+                foreach ( $arr as $item ) {
+                    $authors[] = $item["gallery_image_author_id"];
+                }
+
+            }
+
+            $unique = array_unique( $authors );
+
+            $numItems = count($unique);
+            $i = 0;
+
+            foreach ( $unique as $term ) {
+                if( ++$i === $numItems ) {
+                    echo '<p>'. get_the_title( $term ) .'</p>';
+                } else {
+                    echo '<p>'. get_the_title( $term ) .', </p>';
+                }
+            }
+
+            break;
+    }
+}
+add_action( "manage_posts_custom_column", "custom_columns", 10, 2 );
+
+// Make edit screen columns sortable
+
+add_filter( 'manage_edit-sight_sortable_columns', 'my_sortable_sight_column' );
+
+function my_sortable_sight_column( $columns ) {
+    $columns['contributor'] = 'contributor';
+    $columns['author_photo'] = 'author_photo';
+
+    return $columns;
+}
+
+add_action( 'pre_get_posts', 'manage_wp_posts_be_qe_pre_get_posts', 1 );
+
+function manage_wp_posts_be_qe_pre_get_posts( $query ) {
+    if ( $query->is_main_query() && ( $orderby = $query->get( 'orderby' ) ) ) {
+        switch( $orderby ) {
+
+            case 'contributor':
+                $query->set( 'meta_key', 'contributor' );
+                $query->set( 'orderby', 'meta_value' );
+                break;
+
+            case 'architects':
+                $query->set( 'meta_key', 'choose_architects' );
+                $query->set( 'orderby', 'meta_value' );
+                break;
+
+        }
+    }
+}
