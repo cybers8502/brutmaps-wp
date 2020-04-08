@@ -61,7 +61,7 @@ class II_Admin {
                 $data = $this->wp_insta_import_get_data($_POST['url'] );
                 $result = $this->wp_insta_create_new_post( $data );
 
-                echo '<p><a href="http://localhost:8888/brutmaps/wp-admin/post.php?post='. $result .'&action=edit">Edit Object</a></p>';
+                echo '<p><a href="'. site_url() .'/wp-admin/post.php?post='. $result .'&action=edit">Edit Object</a></p>';
 
                 if ( $data['status'] !== 'success' ){
                     echo $data;
