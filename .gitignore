@@ -4,3 +4,4 @@ wp-config.php
 .htaccess
 
 wp-content/themes/brutmaps/app/
+wp-content/uploads/
