@@ -71,16 +71,19 @@ function add_js(){
         wp_enqueue_script('mapboxapi');
         wp_enqueue_script('geocoder');
         wp_enqueue_script('scrollbar');
+        wp_enqueue_script('swiper_js');
         wp_enqueue_script('common_js');
+
         wp_enqueue_style('map_css','https://api.tiles.mapbox.com/mapbox-gl-js/v1.5.0/mapbox-gl.css');
+        wp_enqueue_style('swiper_css',get_template_directory_uri().'/assets/css/swiper.min.css');
         wp_enqueue_style('common_css',get_template_directory_uri().'/assets/css/common.css');
     }
 
     if ( is_page_template( array ('pages/support-page.php', 'pages/article-page.php' ) ) ){
-        wp_enqueue_script('swiper_js');
-        wp_enqueue_style('swiper_css',get_template_directory_uri().'/assets/css/swiper.min.css');
-    }
+        wp_enqueue_script('common_js');
 
+        wp_enqueue_style('common_css',get_template_directory_uri().'/assets/css/common.css');
+    }
 
 }
 
