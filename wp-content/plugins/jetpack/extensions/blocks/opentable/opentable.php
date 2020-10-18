@@ -9,33 +9,11 @@
 
 namespace Automattic\Jetpack\Extensions\OpenTable;
 
+use Automattic\Jetpack\Blocks;
 use Jetpack_Gutenberg;
 
 const FEATURE_NAME = 'opentable';
 const BLOCK_NAME   = 'jetpack/' . FEATURE_NAME;
-
-/**
- * Check if the block should be available on the site.
- *
- * @return bool
- */
-function is_available() {
-	if (
-		defined( 'IS_WPCOM' )
-		&& IS_WPCOM
-		&& function_exists( 'has_any_blog_stickers' )
-	) {
-		if ( has_any_blog_stickers(
-			array( 'premium-plan', 'business-plan', 'ecommerce-plan' ),
-			get_current_blog_id()
-		) ) {
-			return true;
-		}
-		return false;
-	}
-
-	return true;
-}
 
 /**
  * Registers the block for use in Gutenberg
@@ -43,34 +21,15 @@ function is_available() {
  * registration if we need to.
  */
 function register_block() {
-	if ( is_available() ) {
-		jetpack_register_block(
-			BLOCK_NAME,
-			array( 'render_callback' => __NAMESPACE__ . '\load_assets' )
-		);
-	}
+	jetpack_register_block(
+		BLOCK_NAME,
+		array(
+			'render_callback' => __NAMESPACE__ . '\load_assets',
+			'plan_check'      => true,
+		)
+	);
 }
 add_action( 'init', __NAMESPACE__ . '\register_block' );
-
-/**
- * Set the availability of the block as the editor
- * is loaded.
- */
-function set_availability() {
-	if ( is_available() ) {
-		Jetpack_Gutenberg::set_extension_available( BLOCK_NAME );
-	} else {
-		Jetpack_Gutenberg::set_extension_unavailable(
-			BLOCK_NAME,
-			'missing_plan',
-			array(
-				'required_feature' => 'opentable',
-				'required_plan'    => 'value_bundle',
-			)
-		);
-	}
-}
-add_action( 'init', __NAMESPACE__ . '\set_availability' );
 
 /**
  * Adds an inline script which updates the block editor settings to
@@ -91,23 +50,38 @@ add_action( 'enqueue_block_assets', __NAMESPACE__ . '\add_language_setting' );
  * @return string
  */
 function load_assets( $attributes ) {
+
 	Jetpack_Gutenberg::load_assets_as_required( FEATURE_NAME );
 
-	$classes = array( sprintf( 'wp-block-jetpack-%s-theme-%s', FEATURE_NAME, get_attribute( $attributes, 'style' ) ) );
+	$classes    = array();
+	$class_name = get_attribute( $attributes, 'className' );
+	$style      = get_attribute( $attributes, 'style' );
+
+	if ( 'wide' === $style && jetpack_is_mobile() ) {
+		$attributes = array_merge( $attributes, array( 'style' => 'standard' ) );
+		$classes[]  = 'is-style-mobile';
+	}
+
+	// Handles case of deprecated version using theme instead of block styles.
+	if ( ! $class_name || strpos( $class_name, 'is-style-' ) === false ) {
+		$classes[] = sprintf( 'is-style-%s', $style );
+	}
+
 	if ( array_key_exists( 'rid', $attributes ) && is_array( $attributes['rid'] ) && count( $attributes['rid'] ) > 1 ) {
 		$classes[] = 'is-multi';
 	}
-	$classes = Jetpack_Gutenberg::block_classes(
-		FEATURE_NAME,
-		$attributes,
-		$classes
-	);
+	if ( array_key_exists( 'negativeMargin', $attributes ) && $attributes['negativeMargin'] ) {
+		$classes[] = 'has-no-margin';
+	}
+	$classes = Blocks::classes( FEATURE_NAME, $attributes, $classes );
 	$content = '<div class="' . esc_attr( $classes ) . '">';
+
 	// The OpenTable script uses multiple `rid` paramters,
 	// so we can't use WordPress to output it, as WordPress attempts to validate it and removes them.
 	// phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedScript
 	$content .= '<script type="text/javascript" src="' . esc_url( build_embed_url( $attributes ) ) . '"></script>';
 	$content .= '</div>';
+
 	return $content;
 }
 

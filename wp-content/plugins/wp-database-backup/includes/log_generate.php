@@ -17,7 +17,7 @@ class WPDBBackupLog {
                 $newoptions[] = $option;
             }
         }
-        
+
         update_option('wp_db_backup_backups', $newoptions);
     }
 

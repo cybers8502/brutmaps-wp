@@ -3,9 +3,9 @@
 Plugin Name: WP Database Backup
 Plugin URI:http://www.wpseeds.com/documentation/docs/wp-database-backup
 Description: This plugin helps you to create/restore wordpress database backup. (Tools->WP-DB-Backup)
-Version: 5.5
+Version: 5.6
 Author: Prashant Walke
-Author URI: www.wpseeds.org
+Author URI: www.wpseeds.com
 Text Domain: wpdbbkp
 Domain Path: /lang
 

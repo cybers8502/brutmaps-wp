@@ -1,10 +1,10 @@
 === WP REST Cache ===
 Contributors: acato, rockfire, yoeridekker
-Tags: cache, wp-rest, wp-rest-api, api, rest, rest cache, rest api cache
+Tags: cache, wp-rest-api, api, rest, rest cache, rest api cache
 Requires at least: 4.7
-Tested up to: 5.2
+Tested up to: 5.5
 Requires PHP: 5.5
-Stable tag: trunk
+Stable tag: 2020.3.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 
@@ -166,6 +166,47 @@ add_filter('wp_rest_cache/settings_capability', 'wprc_change_settings_capability
 5. Cache details page - Cache data.
 
 == Changelog ==
+
+= 2020.3.0 =
+Release Date: October 12th, 2020
+
+Improvement: Cleanup of legacy code.
+Feature: Added the option to filter the cache timeout per cache.
+
+= 2020.2.2 =
+Release Date: September 7th, 2020
+
+Bugfix: Conflict when caching two calls with same url but different request method.
+Bugfix: Bulk actions were broken.
+
+= 2020.2.1 =
+Release Date: July 14th, 2020
+
+Bugfix: WordPress bug caused screen options to not work correctly anymore.
+
+= 2020.2.0 =
+Release Date: July 2nd, 2020
+
+Improvement: Speed up cache clearing.
+Feature: Added filter for programmatically skip caching.
+Feature: Added filter to disable cache hit recording.
+Feature: Added option to delete all caches (vs flush all caches).
+Bugfix: Do not cache API calls with a nonce.
+Bugfix: Fix for not caching when there are double slashes in the request path.
+Bugfix: Fix persisting the search when searching through caches.
+
+= 2020.1.1 =
+Release Date: March 12th, 2020
+
+Bugfix: Allow usage of rest_route parameter.
+Bugfix: WordPress database error: specified key was too long.
+
+= 2020.1.0 =
+Release Date: January 16th, 2020
+
+Feature: Added a filter to ignore specific query string parameters.
+Feature: Make allowed request methods filterable.
+Bugfix: Make options not autoload.
 
 = 2019.4.5 =
 Release Date: November 22nd, 2019

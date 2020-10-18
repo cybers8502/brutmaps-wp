@@ -16,14 +16,14 @@ class WPDBBackupEmail {
             $message="";
           //  error_log("in mail send function".$args[2]);
 
-            include('template_email_notification.php');         
+            include('template_email_notification.php');
 
 
             $headers = array('Content-Type: text/html; charset=UTF-8');
             $wp_db_backup_email_attachment_file = get_option('wp_db_backup_email_attachment');
-            if ($wp_db_backup_email_attachment_file == "yes" && $filesze <= 209700000) {               
+            if ($wp_db_backup_email_attachment_file == "yes" && $filesze <= 209700000) {
                 $attachments = $args[1];
-                $logMessageAttachment = " with attached backup file.";                
+                $logMessageAttachment = " with attached backup file.";
             } else
                 $attachments = "";
             if(wp_mail($to, $subject, $message, $headers, $attachments)){
@@ -39,7 +39,7 @@ class WPDBBackupEmail {
                   $args[2] = $args[2] .' <br>'.$logMessage;
         }
     }
-    
+
      public static function wp_db_backup_format_bytes($bytes, $precision = 2) {
         $units = array('B', 'KB', 'MB', 'GB', 'TB');
         $bytes = max($bytes, 0);

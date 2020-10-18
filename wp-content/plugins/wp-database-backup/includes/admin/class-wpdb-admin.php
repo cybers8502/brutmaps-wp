@@ -72,10 +72,22 @@ class WPDB_Admin
 
             if (isset($_REQUEST['_wpnonce']) && wp_verify_nonce($_REQUEST['_wpnonce'], 'wp-database-backup')) {
 
+                if (isset($_POST['wpsetting_search'])) {
+                  if (isset($_POST['wp_db_backup_search_text'])) {
+                      update_option('wp_db_backup_search_text', esc_attr(sanitize_text_field($_POST['wp_db_backup_search_text'])));
+                  }
+                  if (isset($_POST['wp_db_backup_replace_text'])) {
+                      update_option('wp_db_backup_replace_text', esc_attr(sanitize_text_field($_POST['wp_db_backup_replace_text'])));
+                  }
+                  wp_redirect(site_url() . '/wp-admin/tools.php?page=wp-database-backup&notification=save&tab=searchreplace');
+                }
+
               if (isset($_POST['wpsetting'])) {
                   if (isset($_POST['wp_local_db_backup_count'])) {
                       update_option('wp_local_db_backup_count', esc_attr(sanitize_text_field($_POST['wp_local_db_backup_count'])));
                   }
+
+
                   if (isset($_POST['wp_db_log'])) {
                       update_option('wp_db_log', 1);
                   } else {
@@ -101,6 +113,7 @@ class WPDB_Admin
                   } else {
                       update_option('wp_db_exclude_table', '');
                   }
+                  wp_redirect(site_url() . '/wp-admin/tools.php?page=wp-database-backup&notification=save');
               }
 
               if ( true == isset( $_POST['wp_db_local_backup_path'] ) ) {
@@ -108,9 +121,9 @@ class WPDB_Admin
               }
 
               if (isset($_POST['wp_db_backup_email_id'])) {
-
                   update_option('wp_db_backup_email_id', esc_attr(sanitize_text_field($_POST['wp_db_backup_email_id'])));
               }
+
               if (isset($_POST['wp_db_backup_email_attachment'])) {
                   $email_attachment = sanitize_text_field($_POST['wp_db_backup_email_attachment']);
                   update_option('wp_db_backup_email_attachment',esc_attr($email_attachment));
@@ -367,6 +380,7 @@ class WPDB_Admin
                         <li class=""><a href="#db_home" data-toggle="tab">Database Backups</a></li>
                         <li><a href="#db_schedul" data-toggle="tab">Scheduler</a></li>
                         <li><a href="#db_setting" data-toggle="tab">Settings</a></li>
+                          <li><a href="#searchreplace" data-toggle="tab">Search and Replace</a></li>
                         <li><a href="#db_destination" data-toggle="tab">Destination</a></li>
                         <li><a href="#db_info" data-toggle="tab">System Information</a></li>
                         <li><a href="#db_help" data-toggle="tab">Help</a></li>
@@ -379,7 +393,14 @@ class WPDB_Admin
                     echo '<div class="tab-pane active"  id="db_home">';
                     echo '<p class="submit">';
                     $nonce = wp_create_nonce('wp-database-backup');
-                    echo '<a href="' . site_url() . '/wp-admin/tools.php?page=wp-database-backup&action=createdbbackup&_wpnonce=' . $nonce . '" id="create_backup" class="btn btn-primary"> <span class="glyphicon glyphicon-plus-sign"></span> Create New Database Backup</a>';
+                    $wp_db_backup_search_text = get_option('wp_db_backup_search_text');
+                    $wp_db_backup_replace_text = get_option('wp_db_backup_replace_text');
+                    if( ( false == empty($wp_db_backup_search_text) ) && ( false == empty($wp_db_backup_replace_text) ) ) {
+                      echo '<a href="' . site_url() . '/wp-admin/tools.php?page=wp-database-backup&action=createdbbackup&_wpnonce=' . $nonce . '" id="create_backup" class="btn btn-primary"> <span class="glyphicon glyphicon-plus-sign"></span> Create New Database Backup with Search/Replace</a>';
+                      echo '<p>Backup file will replace <b>'.$wp_db_backup_search_text.'</b> text with <b>'.$wp_db_backup_replace_text.'</b>. For Regular Database Backup without replace then Go to Dashboard=>Tool=>WP-DB Backup > Settings > Search and Replace - Set Blank Fields </p>';
+                    } else {
+                      echo '<a href="' . site_url() . '/wp-admin/tools.php?page=wp-database-backup&action=createdbbackup&_wpnonce=' . $nonce . '" id="create_backup" class="btn btn-primary"> <span class="glyphicon glyphicon-plus-sign"></span> Create New Database Backup</a>';
+                    }
                     echo '</p>';
                     ?>
 
@@ -439,8 +460,12 @@ class WPDB_Admin
                             echo '<span class="glyphicon glyphicon-download-alt"></span> Download</a></td>';
                             echo '<td>' . $this->wp_db_backup_format_bytes($option['size']) . '</td>';
                             echo '<td><a title="Remove Database Backup" onclick="return confirm(\'Are you sure you want to delete database backup?\')" href="' . site_url() . '/wp-admin/tools.php?page=wp-database-backup&action=removebackup&_wpnonce=' . $nonce . '&index=' . ($count - 1) . '" class="btn btn-default"><span style="color:red" class="glyphicon glyphicon-trash"></span> Remove <a/> ';
-                            echo '<a title="Restore Database Backup" onclick="return confirm(\'Are you sure you want to restore database backup?\')" href="' . site_url() . '/wp-admin/tools.php?page=wp-database-backup&action=restorebackup&_wpnonce=' . $nonce . '&index=' . ($count - 1) . '" class="btn btn-default"><span class="glyphicon glyphicon-refresh" style="color:blue"></span> Restore <a/></td>';
-                            echo '</tr>';
+                            if( isset($option['search_replace']) && $option['search_replace'] == 1 ) {
+                              echo '<span style="margin-left:15px" title="'.$option["log"].'" class="glyphicon glyphicon-search"></span>';
+                            } else {
+                              echo '<a title="Restore Database Backup" onclick="return confirm(\'Are you sure you want to restore database backup?\')" href="' . site_url() . '/wp-admin/tools.php?page=wp-database-backup&action=restorebackup&_wpnonce=' . $nonce . '&index=' . ($count - 1) . '" class="btn btn-default"><span class="glyphicon glyphicon-refresh" style="color:blue"></span> Restore <a/>';
+                           }
+                            echo '</td></tr>';
                             $count++;
                         }
                         echo '</tbody>';
@@ -452,6 +477,8 @@ class WPDB_Admin
                         echo '<p>No Database Backups Created!</p>';
                     }
                     echo "<div class='alert alert-success' role='alert'><h4>$coupon</h4></div>";
+                    echo "<div class=''><p><a target='_blank' href='https://www.wpseeds.com/product/wp-all-backup/'>WP All Backup</a> - Creates a Backup of your entire website: that's your Database, current WP Core, all your Themes, Plugins and Uploads.</p></div>";
+                    echo "<div class=''><p>Use <b>WPDBSPECIAL40</b> Coupon and get Pro version in just <a target='_blank' href='https://www.wpseeds.com/product/wp-all-backup/'><b>$13.20</b></a> - Lifetime License, 1 Year Support, 1 Year Updates.</p></div>";
                     echo '<p>If you like <b>WP Database Backup</b> please leave us a <a target="_blank" href="http://wordpress.org/support/view/plugin-reviews/wp-database-backup" title="Rating" sl-processed="1"> <span class="glyphicon glyphicon-star" aria-hidden="true"></span> <span class="glyphicon glyphicon-star" aria-hidden="true"></span> <span class="glyphicon glyphicon-star" aria-hidden="true"></span> <span class="glyphicon glyphicon-star" aria-hidden="true"></span> <span class="glyphicon glyphicon-star" aria-hidden="true"></span> rating </a>. Many thanks in advance!
                                         <a target="_blank" class="text-right" href="https://www.wpseeds.com/support/"><button style="float:right" type="button" class="btn btn-default">Support</button></a>
                                         <a target="_blank" href="http://www.wpseeds.com/documentation/docs/wp-database-backup/"><button style="float:right" type="button" class="btn btn-default">Documentation</button></a>
@@ -874,7 +901,7 @@ class WPDB_Admin
                                     <div
                                         class="col-md-5"> <?php _e($upload_dir['basedir'] . '/db-backup', 'wpdbbk'); ?></div>
                                     <div
-                                        class="col-md-1"><?php echo substr(sprintf('%o', fileperms($upload_dir['basedir'] . '/db-backup')), -4);
+                                        class="col-md-1"><?php echo @substr(sprintf('%o', fileperms($upload_dir['basedir'] . '/db-backup')), -4);
                                         ?></div>
                                     <div
                                         class="col-md-2"><?php echo (!is_writable($upload_dir['basedir'] . '/db-backup')) ? '<p class="text-danger"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Not writable </p>' : '<p class="text-success"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span> writable</p>';
@@ -1367,6 +1394,58 @@ class WPDB_Admin
 
 
                 </div>
+                <div class="tab-pane" id="searchreplace">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <?php
+                            $wp_db_backup_search_text = get_option('wp_db_backup_search_text');
+                            $wp_db_backup_replace_text = get_option('wp_db_backup_replace_text');
+                            ?>
+                            <form action="" method="post">
+                                <?php wp_nonce_field('wp-database-backup'); ?>
+                                <br>
+                                <p>If you even need to migrate your WordPress site to a different domain name, or add an SSL certificate to it,
+                                  you must update the URLs in your database backup file then you can use this feature.
+                                  <br> This feature allow you to Search and Replace text in your database backup file.
+                                  <br> if you want only exclude tables from search and replace text then Go to Dashboard=>Tool=>WP-DB Backup > Setting > Exclude Table From Database Backup setting. The tables you selected will be skipped over for each backup you make.
+                                </p>
+                                <br>
+                                <div class="input-group">
+                                    <span class="input-group-addon" id="wp_db_backup_search_text">Search For</span>
+                                    <input type="text" name="wp_db_backup_search_text"
+                                           value="<?php echo $wp_db_backup_search_text ?>" class="form-control"
+                                           placeholder="http://localhost/wordpress" aria-describedby="wp_db_backup_search_text">
+
+                                </div>
+                                <br>
+                                <div class="input-group">
+                                    <span class="input-group-addon" id="wp_db_backup_replace_text">Replace With</span>
+                                    <input type="text" name="wp_db_backup_replace_text"
+                                           value="<?php echo $wp_db_backup_replace_text ?>" class="form-control"
+                                           placeholder="http://site.com" aria-describedby="wp_db_backup_replace_text">
+
+                                </div>
+
+                                <div class="alert alert-default" role="alert">
+                                    <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+                                    Leave blank those fields if you don't want use this feature and want only regular Database backup.
+                                    <br>
+                                    Ex:
+                                    <br>Search For: http://localhost/wordpress/
+                                    <br>Replace With: http://domain.com/
+
+                                    <br><br>
+                                    Note - This is Search & Replace data in your WordPress Database Backup File not in current Database installation.
+                                    <p> <a href="https://www.wpseeds.com/documentation/docs/wp-database-backup/search-and-replace/" target="_blank">Documentation</a></p>
+                                </div>
+
+                                <input class="btn btn-primary" type="submit" name="wpsetting_search" value="Save">
+                            </form>
+                        </div>
+                    </div>
+
+
+                </div>
                 <div class="tab-pane" id="db_subscribe">
                     <!-- Begin MailChimp Signup Form -->
                     <link href="//cdn-images.mailchimp.com/embedcode/classic-10_7.css" rel="stylesheet" type="text/css">
@@ -1762,6 +1841,13 @@ class WPDB_Admin
         }
         /* End : Generate SQL DUMP using cmd 06-03-2016 */
 
+        $wp_db_backup_search_text = get_option('wp_db_backup_search_text');
+        $wp_db_backup_replace_text = get_option('wp_db_backup_replace_text');
+        if( ( false == empty($wp_db_backup_search_text) ) && ( false == empty($wp_db_backup_replace_text) ) ) {
+          $backupStr = file_get_contents($path_info['basedir'] . '/db-backup/' . $SQLfilename);
+          $backupStr = str_replace($wp_db_backup_search_text, $wp_db_backup_replace_text, $backupStr);
+          file_put_contents($path_info['basedir'] . '/db-backup/' . $SQLfilename, $backupStr);
+        }
 
         /* End : Generate SQL DUMP and save to file database.sql */
         $upload_path = array(
@@ -1803,7 +1889,7 @@ class WPDB_Admin
         }
         $options = get_option('wp_db_backup_backups');
         $newoptions = array();
-        $number_of_existing_backups = count($options);
+        $number_of_existing_backups = count( (array) $options);
         error_log("number_of_existing_backups");
         error_log($number_of_existing_backups);
         $number_of_backups_from_user = get_option('wp_local_db_backup_count');
@@ -1866,9 +1952,17 @@ class WPDB_Admin
         if (!$options) {
             $options = array();
         }
+        $isSearchReplaceFlag = 0;
         $wp_db_log = get_option('wp_db_log');
         if ($wp_db_log == 1) {
             $logMessage = $details['log'];
+            $wp_db_backup_search_text = get_option('wp_db_backup_search_text');
+            $wp_db_backup_replace_text = get_option('wp_db_backup_replace_text');
+            if( ( false == empty($wp_db_backup_search_text) ) && ( false == empty($wp_db_backup_replace_text) ) ) {
+              $logMessage .= ' Replaced/Search text  - '. $wp_db_backup_search_text .' With -'. $wp_db_backup_replace_text;
+              $isSearchReplaceFlag = 1;
+
+            }
         } else {
             $logMessage = "";
         }
@@ -1879,6 +1973,7 @@ class WPDB_Admin
             'url' => $details['url'],
             'dir' => $details['dir'],
             'log' => $logMessage,
+            'search_replace' => $isSearchReplaceFlag,
             'sqlfile' => $details['sqlfile'],
             'size' => $details['size']
         );

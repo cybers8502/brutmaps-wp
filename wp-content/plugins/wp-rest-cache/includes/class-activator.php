@@ -35,6 +35,15 @@ class Activator {
 		if ( ! get_option( 'wp_rest_cache_cacheable_request_headers' ) ) {
 			add_option( 'wp_rest_cache_cacheable_request_headers', [], '', false );
 		}
+		if ( ! get_option( 'wp_rest_cache_allowed_request_methods' ) ) {
+			add_option( 'wp_rest_cache_allowed_request_methods', [ 'GET' ], '', false );
+		}
+		if ( ! get_option( 'wp_rest_cache_uncached_parameters' ) ) {
+			add_option( 'wp_rest_cache_uncached_parameters', [], '', false );
+		}
+		if ( ! is_null( get_option( 'wp_rest_cache_hit_recording', null ) ) ) {
+			add_option( 'wp_rest_cache_hit_recording', 1, '', true );
+		}
 
 		self::create_mu_plugin();
 	}

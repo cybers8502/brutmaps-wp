@@ -3,7 +3,7 @@ if (!defined('ABSPATH'))
     exit; // Exit if accessed directly
 $notifier_file_url = NOTIFIER_XML_FILE_WPDB;
 $changelogMsg='';
-$notifier_data = [];
+$notifier_data = '';
 $result = [];
 
 @$changeMessage="<strong><a href='https://www.wpseeds.com/product/wp-all-backup/' target='_blank'>WP All Backup Plugin.</a></strong> will backup and restore your entire site at will,
@@ -68,7 +68,10 @@ if (!empty($xml)) {
         <div class="alert alert-success alert-dismissible fade in" role="alert">
       <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
             <?php if ($_GET['notification'] == 'create') {
-             _e('Database Backup Created Successfully', 'wpdbbkp');
+                $BackupList = get_option('wp_db_backup_backups');
+                $downloadBackup = end($BackupList);
+                $backupLink = '<a href="' . $downloadBackup['url'] . '" style="color: #21759B;">'. __('Click Here to Download Backup.', 'wpdbbkp').'</a>';
+             _e('Database Backup Created Successfully. '. $backupLink , 'wpdbbkp');
               }
               else if ($_GET['notification'] == 'restore') {
                 _e('Database Backup Restore Successfully', 'wpdbbkp');
@@ -83,6 +86,8 @@ if (!empty($xml)) {
                   _e('Invalid Access!!!!', 'wpdbbkp');
              } else if ($_GET['notification'] == 'deleteauth') {
                  _e('Dropbox account unlink Successfully', 'wpdbbkp');
+             } else if ($_GET['notification'] == 'save') {
+                 _e('Backup Setting Saved Successfully', 'wpdbbkp');
              }
             ?>
         </div>

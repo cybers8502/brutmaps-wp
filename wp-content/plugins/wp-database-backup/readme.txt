@@ -5,7 +5,7 @@ License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: Database backup, db backup, backup, database, WordPress Database Backup, WP db backup, wp database backup, wp backup, wordpress backup, mysql backup, automatically database backup, website backup, website database backup, restore database backup, Store database backup on dropbox, backup on google drive, backup on amazon s3,ftp,email notification.
 Requires at least: 3.1+
-Tested up to: 5.3.2
+Tested up to: 5.5.1
 Stable tag: trunk
 
 Create & Restore Database Backup easily on single click. Manual or automated backups (backup to Dropbox, Google drive, Amazon s3,FTP,Email).
@@ -36,6 +36,7 @@ WP Database Backup plugin helps you to Restore Database Backup easily on single 
 <li>Reporting- Sends emailed backups and backup reports to any email addresses</li>
 <li><strong>Exclude Table</strong></li>
 <li>Database backup list pagination</li>
+<li>Search and Replace in database backup file.</li>
 <li>Search backup from list(Date/ Database Size)</li>
 <li>Sort backup list (Date/ Database Size)</li>
 <li>Save database backup file in zip format on local server And Send database backup file to destination in zip format</li>
@@ -50,7 +51,7 @@ WP Database Backup plugin helps you to Restore Database Backup easily on single 
 <li>Restore Database Backup easily on single click.</li>
 <li>Store database backup on safe place- Dropbox, Google drive, Amazon s3,FTP,Email.</li>
 <li>Pagination.</li>
-<li>Search and sort database backup feature.</li>
+<li><a href="https://www.wpseeds.com/documentation/docs/wp-database-backup/search-and-replace/" target="_blank">Search and Replace.</a></li>
 <li>Documentation</li>
 </ul>
 
@@ -128,6 +129,33 @@ WP Database Backup plugin helps you to Restore Database Backup easily on single 
 4. screenshot-4.png
 
 == Changelog ==
+
+= 5.6 =
+* 24-09-2020
+* Added Feature - Search-and-replace.
+* https://www.wpseeds.com/documentation/docs/wp-database-backup/search-and-replace/
+
+= 5.5.5 =
+* 10-09-2020
+* Added Feature - Download created Backup link on create message.
+
+= 5.5.4 =
+* 01-09-2020
+* Fixed PHP Warning in System Information tab
+
+= 5.5.3 =
+* 16-08-2020
+* Fixed issue Array to string conversion header notification
+
+= 5.5.2 =
+* 13-08-2020
+* Tested latest WordPress Version
+* UI Changes
+
+= 5.5.1 =
+* 10-05-2020
+* Changes in config
+* UI Changes
 
 = 5.5 =
 * 12-01-2020
@@ -440,7 +468,7 @@ Also Please make sure that you have write permission to Backup folder and also c
 * https://wpallbackup.com/documentation
 
 == Upgrade Notice ==
-* Added New Destination : Local Backup Path
+* Added Feature - Search-and-replace.
 
 == Official Site ==
 * https://www.wpseeds.com/documentation/docs/wp-database-backup
