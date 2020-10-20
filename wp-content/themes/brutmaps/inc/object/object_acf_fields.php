@@ -21,21 +21,36 @@ if( function_exists('acf_add_local_field_group') ):
         'instruction_placement' => 'label',
         'hide_on_screen' => '',
     ));
-    add_action('acf/init', 'acf_add_local_field_group', 1);
-
+    add_action('acf/init', 'acf_add_local_field_group');
 endif;
 
 function get_sight_acf_fields() {
     return array(
+        get_tab_field('general','General'),
         get_title_field(),
+        get_main_content_field(),
         get_established_field(),
         get_architects_field(),
+        get_source_field(),
+        get_contributor_field(),
+        get_tab_field('media','Media'),
         get_main_image_field(),
         get_main_image_author_field(),
-        get_main_content_field(),
         get_gallery_repeater_field(),
-        get_source_field(),
-        get_contributor_field()
+        get_tab_field('additional','Additional'),
+        get_working_hours_field(),
+        get_phone_field(),
+        get_google_review_rating_field()
+    );
+}
+
+function get_tab_field($key, $field) {
+    return array (
+        'key' => $key,
+        'label' => $field,
+        'name' => $field,
+        'type' => 'tab',
+        'placement' => 'left'
     );
 }
 
@@ -56,7 +71,10 @@ function get_established_field() {
         'name' => 'Established',
         'type' => 'number',
         'placeholder' => '1975',
-        'required' => 1
+        'required' => 0,
+        'wrapper' => array (
+            'width' => '20',
+        )
     );
 }
 
@@ -70,7 +88,10 @@ function get_architects_field() {
         'required' => 0,
         'return_format' => 'id',
         'multiple' => 1,
-        'post_type' => 'architect'
+        'post_type' => 'architect',
+        'wrapper' => array (
+            'width' => '80',
+        )
     );
 }
 
@@ -82,6 +103,32 @@ function get_main_image_field() {
         'type' => 'image',
         'required' => 1,
         'return_format' => 'array',
+        'wrapper' => array (
+            'width' => '50',
+        )
+    );
+}
+
+function get_source_field() {
+    return array (
+        'key' => 'source_2',
+        'label' => 'Source',
+        'name' => 'Source',
+        'type' => 'wysiwyg',
+        'required' => 0
+    );
+}
+
+function get_contributor_field() {
+    return array (
+        'key' => 'contributor_2',
+        'label' => 'Contributor',
+        'name' => 'Contributor',
+        'type' => 'post_object',
+        'required' => 0,
+        'return_format' => 'id',
+        'multiple' => 0,
+        'post_type' => 'contributor'
     );
 }
 
@@ -94,7 +141,10 @@ function get_main_image_author_field() {
         'required' => 1,
         'return_format' => 'id',
         'multiple' => 0,
-        'post_type' => 'authors'
+        'post_type' => 'authors',
+        'wrapper' => array (
+            'width' => '50',
+        )
     );
 }
 
@@ -140,25 +190,32 @@ function get_gallery_repeater_field() {
     );
 }
 
-function get_source_field() {
+function get_working_hours_field() {
     return array (
-        'key' => 'source_2',
-        'label' => 'Source',
-        'name' => 'Source',
-        'type' => 'wysiwyg',
+        'key' => 'working_hours',
+        'label' => 'Working hours',
+        'name' => 'Working hours',
+        'type' => 'textarea',
         'required' => 0
     );
 }
 
-function get_contributor_field() {
+function get_phone_field() {
     return array (
-        'key' => 'contributor_2',
-        'label' => 'Contributor',
-        'name' => 'Contributor',
-        'type' => 'post_object',
-        'required' => 0,
-        'return_format' => 'id',
-        'multiple' => 0,
-        'post_type' => 'contributor'
+        'key' => 'phone',
+        'label' => 'Phone',
+        'name' => 'Phone',
+        'type' => 'text',
+        'required' => 0
+    );
+}
+
+function get_google_review_rating_field() {
+    return array (
+        'key' => 'google_review_rating',
+        'label' => 'Google Review Rating',
+        'name' => 'Rating',
+        'type' => 'number',
+        'required' => 0
     );
 }
