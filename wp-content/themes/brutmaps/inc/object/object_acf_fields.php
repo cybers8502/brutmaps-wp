@@ -184,16 +184,16 @@ function get_gallery_repeater_field() {
             array (
                 'key' => 'gallery_image',
                 'label' => 'Gallery image',
-                'name' => 'Gallery image',
+                'name' => 'gallery_image',
                 'type' => 'image',
                 'required' => 1,
-                'return_format' => 'array',
+                'return_format' => 'id',
                 'parent' => 'gallery_2'
             ),
             array (
                 'key' => 'gallery_image_author_id',
                 'label' => 'Gallery author',
-                'name' => 'Contributor',
+                'name' => 'gallery_image_author_id',
                 'type' => 'post_object',
                 'required' => 1,
                 'return_format' => 'id',

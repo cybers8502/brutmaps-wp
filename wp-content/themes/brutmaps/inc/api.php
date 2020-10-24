@@ -162,12 +162,10 @@ function API_GET_SIGHT_BY_ID( $data ) {
 			$image = $item['gallery_image'];
 			$authorID = $item['gallery_image_author_id'];
 			if ($image) {
-				if ($image) {
-					$newImage = getSmartImage($image, $authorID);
-					if (!is_null($newImage)) {
-						$gallery[] = $newImage;
-					}
-				}
+                $newImage = getSmartImage($image, $authorID);
+                if (!is_null($newImage)) {
+                    $gallery[] = $newImage;
+                }
 			}
 		}
 		$imageObject = get_field('main_image', $sightID);
