@@ -90,7 +90,7 @@ function API_GET_SIGHTS() {
 	$mainWrap = ['done' => true];
 	$lat = 40.6971494;
 	$long = -74.2598626;
-	$address = html_entity_decode(get_field('initial_center_for_users', 'options'));
+	$address = get_field('initial_center_for_users', 'options');
 	if ($address) {
 		$lat = doubleval($address['lat']);
 		$long = doubleval($address['lng']);
