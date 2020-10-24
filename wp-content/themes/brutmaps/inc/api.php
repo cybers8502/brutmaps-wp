@@ -158,16 +158,18 @@ function API_GET_SIGHT_BY_ID( $data ) {
 		$location = get_field('location', $sightID);
 		$galleryField = get_field('gallery', $sightID);
 		$gallery = [];
-		foreach ($galleryField as $item) {
-			$image = $item['gallery_image'];
-			$authorID = $item['gallery_image_author_id'];
-			if ($image) {
-                $newImage = getSmartImage($image, $authorID);
-                if (!is_null($newImage)) {
-                    $gallery[] = $newImage;
+        if ($galleryField) {
+            foreach ($galleryField as $item) {
+                $image = $item['gallery_image'];
+                $authorID = $item['gallery_image_author_id'];
+                if ($image) {
+                    $newImage = getSmartImage($image, $authorID);
+                    if (!is_null($newImage)) {
+                        $gallery[] = $newImage;
+                    }
                 }
-			}
-		}
+            }
+        }
 		$imageObject = get_field('main_image', $sightID);
 		if (is_null($imageObject) || is_null($imageObject['url'])) {
 			$mainImage = PLACEHOLDER;
