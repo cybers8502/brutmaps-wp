@@ -31,6 +31,7 @@ function get_sight_acf_fields() {
         get_main_content_field(),
         get_established_field(),
         get_architects_field(),
+        get_associated_people_field(),
         get_source_field(),
         get_contributor_field(),
         get_tab_field('media','Media'),
@@ -40,7 +41,7 @@ function get_sight_acf_fields() {
         get_tab_field('additional','Additional'),
         get_working_hours_field(),
         get_phone_field(),
-        get_google_review_rating_field()
+        get_website_field()
     );
 }
 
@@ -56,7 +57,7 @@ function get_tab_field($key, $field) {
 
 function get_title_field() {
     return array (
-        'key' => 'location_2',
+        'key' => 'location',
         'label' => 'Location coordinates',
         'name' => 'location_coordinates',
         'type' => 'google_map',
@@ -66,7 +67,7 @@ function get_title_field() {
 
 function get_established_field() {
     return array (
-        'key' => 'established_2',
+        'key' => 'established',
         'label' => 'Established',
         'name' => 'Established',
         'type' => 'number',
@@ -80,7 +81,7 @@ function get_established_field() {
 
 function get_architects_field() {
     return array (
-        'key' => 'choose_architects_2',
+        'key' => 'choose_architects',
         'label' => 'Choose architects',
         'name' => 'Choose architects',
         'type' => 'post_object',
@@ -95,9 +96,22 @@ function get_architects_field() {
     );
 }
 
+function get_associated_people_field() {
+    return array (
+        'key' => 'associated_list',
+        'label' => 'Choose associated people',
+        'name' => 'Choose associated people',
+        'type' => 'post_object',
+        'required' => 0,
+        'return_format' => 'id',
+        'multiple' => 1,
+        'post_type' => 'associated_people'
+    );
+}
+
 function get_main_image_field() {
     return array (
-        'key' => 'main_image_2',
+        'key' => 'main_image',
         'label' => 'Main Image',
         'name' => 'Main Image',
         'type' => 'image',
@@ -111,7 +125,7 @@ function get_main_image_field() {
 
 function get_source_field() {
     return array (
-        'key' => 'source_2',
+        'key' => 'source',
         'label' => 'Source',
         'name' => 'Source',
         'type' => 'wysiwyg',
@@ -121,7 +135,7 @@ function get_source_field() {
 
 function get_contributor_field() {
     return array (
-        'key' => 'contributor_2',
+        'key' => 'contributor',
         'label' => 'Contributor',
         'name' => 'Contributor',
         'type' => 'post_object',
@@ -134,7 +148,7 @@ function get_contributor_field() {
 
 function get_main_image_author_field() {
     return array (
-        'key' => 'main_image_author_id_2',
+        'key' => 'main_image_author_id',
         'label' => 'Main Image Author',
         'name' => 'Main Image Author',
         'type' => 'post_object',
@@ -150,7 +164,7 @@ function get_main_image_author_field() {
 
 function get_main_content_field() {
     return array (
-        'key' => 'main_content_2',
+        'key' => 'main_content',
         'label' => 'Main Content',
         'name' => 'Main Content',
         'type' => 'wysiwyg',
@@ -161,7 +175,7 @@ function get_main_content_field() {
 function get_gallery_repeater_field() {
 
     return array (
-        'key' => 'gallery_2',
+        'key' => 'gallery',
         'label' => 'Gallery',
         'name' => 'Gallery',
         'type' => 'repeater',
@@ -210,12 +224,12 @@ function get_phone_field() {
     );
 }
 
-function get_google_review_rating_field() {
+function get_website_field() {
     return array (
-        'key' => 'google_review_rating',
-        'label' => 'Google Review Rating',
-        'name' => 'Rating',
-        'type' => 'number',
+        'key' => 'website',
+        'label' => 'Website',
+        'name' => 'Website',
+        'type' => 'text',
         'required' => 0
     );
 }

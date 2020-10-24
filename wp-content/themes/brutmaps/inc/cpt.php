@@ -103,6 +103,7 @@ function custom_post_type() {
     );
 
     register_post_type('authors', $args);
+
 }
 
 add_action('init', 'custom_post_type');
