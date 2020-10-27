@@ -42,43 +42,37 @@ function API_GET_ARCHITECTS() {
 }
 
 function API_GET_ABOUT_DATA() {
-	$status = 200;
 	$mainWrap = ['done' => true];
-	if ( 'publish' == get_post_status ( ABOUT ) ) {
-		$galleryField = get_field('gallery', ABOUT);
-		$gallery = [];
-		foreach ($galleryField as $item) {
-			$image = $item['gallery_image'];
-			$authorID = $item['gallery_image_author_id'];
-			if ($image) {
-				$newImage = getSmartImage($image, $authorID);
-				if (!is_null($newImage)) {
-					$gallery[] = $newImage;
-				}
-			}
-		}
-		$mainImage = get_field('main_image', ABOUT);
-		if (!$mainImage) {
-			$mainImage = null;
-		}
-		$mainImageAuthor = get_field('main_image_author', ABOUT);
-		$socialLinks = get_field('social_links', 'options');
-		$mainData = [
-			'title'             => html_entity_decode(get_the_title(ABOUT)),
-			'main_image'        => $mainImage,
-			'description_1'     => html_entity_decode(get_field('description_1', ABOUT)),
-			'gallery_sub_text'  => html_entity_decode(get_field('gallery_sub_text', ABOUT)),
-			'description_2'     => html_entity_decode(get_field('description_2', ABOUT)),
-			'gallery'           => $gallery,
-			'main_image_author' => getAuthorData($mainImageAuthor),
-			'instagram'         => $socialLinks['instagram'],
-			'facebook'          => $socialLinks['facebook']
-		];
-		$mainWrap['data'] = $mainData;
-	} else {
-		$mainWrap['false'] = false;
-		$mainWrap['message'] = 'Something went wrong';
-	}
+	$galleryField = get_field('gallery', 'options');
+	$gallery = [];
+    foreach ($galleryField as $item) {
+        $image = $item['gallery_image'];
+        $authorID = $item['gallery_image_author_id'];
+        if ($image) {
+            $newImage = getSmartImage($image, $authorID);
+            if (!is_null($newImage)) {
+                $gallery[] = $newImage;
+            }
+        }
+    }
+    $mainImage = get_field('main_image', 'options');
+    if (!$mainImage) {
+        $mainImage = null;
+    }
+    $mainImageAuthor = get_field('main_image_author', 'options');
+    $socialLinks = get_field('social_links', 'options');
+    $mainData = [
+        'title'             => html_entity_decode(get_the_title('options')),
+        'main_image'        => $mainImage,
+        'description_1'     => html_entity_decode(get_field('description_1', 'options')),
+        'gallery_sub_text'  => html_entity_decode(get_field('gallery_sub_text', 'options')),
+        'description_2'     => html_entity_decode(get_field('description_2', 'options')),
+        'gallery'           => $gallery,
+        'main_image_author' => getAuthorData($mainImageAuthor),
+        'instagram'         => $socialLinks['instagram'],
+        'facebook'          => $socialLinks['facebook']
+    ];
+    $mainWrap['data'] = $mainData;
 	$response = new WP_REST_Response( $mainWrap );
 	$response->set_status( 200 );
 	$response->header( 'Content-type', 'application/json; charset=utf-8' );
