@@ -13,6 +13,8 @@ require_once( TEMPLATEINC . '/object/object_taxonomy.php' );
 require_once( TEMPLATEINC . '/object/object_post_type.php' );
 require_once( TEMPLATEINC . '/associated_people/associated_post_type.php' );
 require_once( TEMPLATEINC . '/associated_people/associated_acf_fields.php' );
+require_once( TEMPLATEINC . '/setup/setup_acf_register.php' );
+require_once( TEMPLATEINC . '/setup/setup_acf_fields.php' );
 require_once( TEMPLATEINC . '/cpt.php' );
 require_once( TEMPLATEINC . '/actions.php' );
 require_once( TEMPLATEINC . '/api.php' );
