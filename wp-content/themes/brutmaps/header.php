@@ -115,7 +115,8 @@
 <?php
 
 $args = array(
-    'post_type' => 'sight'
+    'post_type' => 'sight',
+    'posts_per_page' => '-1'
 );
 
 $posts_array = get_posts($args);
