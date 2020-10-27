@@ -30,9 +30,41 @@ function get_about_acf_fields() {
         get_about_main_image_field(),
         get_about_main_image_author_field(),
         get_about_description_1_field(),
-        get_gallery_repeater_field(),
+        get_about_gallery_repeater_field(),
         get_about_sub_text_field(),
         get_about_description_2_field()
+    );
+}
+
+function get_about_gallery_repeater_field() {
+
+    return array (
+        'key' => 'about_gallery',
+        'label' => 'Gallery',
+        'name' => 'about_gallery',
+        'type' => 'repeater',
+        'required' => 0,
+        'sub_fields' => array(
+            array (
+                'key' => 'gallery_image',
+                'label' => 'Gallery image',
+                'name' => 'gallery_image',
+                'type' => 'image',
+                'required' => 1,
+                'return_format' => 'id',
+                'parent' => 'gallery_2'
+            ),
+            array (
+                'key' => 'gallery_image_author_id',
+                'label' => 'Gallery author',
+                'name' => 'gallery_image_author_id',
+                'type' => 'post_object',
+                'required' => 1,
+                'return_format' => 'id',
+                'multiple' => 0,
+                'post_type' => 'authors'
+            )
+        )
     );
 }
 
@@ -48,9 +80,9 @@ function get_about_title_field() {
 
 function get_about_main_image_field() {
     return array (
-        'key' => 'main_image',
+        'key' => 'about_main_image',
         'label' => 'Main Image',
-        'name' => 'main_image',
+        'name' => 'about_main_image',
         'type' => 'image',
         'required' => 1,
         'return_format' => 'url',
@@ -62,9 +94,9 @@ function get_about_main_image_field() {
 
 function get_about_main_image_author_field() {
     return array (
-        'key' => 'main_image_author',
+        'key' => 'about_main_image_author',
         'label' => 'Main Image Author',
-        'name' => 'main_image_author',
+        'name' => 'about_main_image_author',
         'type' => 'post_object',
         'required' => 1,
         'return_format' => 'id',
@@ -78,9 +110,9 @@ function get_about_main_image_author_field() {
 
 function get_about_description_1_field() {
     return array (
-        'key' => 'description_1',
+        'key' => 'about_description_1',
         'label' => 'Description Part 1',
-        'name' => 'description_1',
+        'name' => 'about_description_1',
         'type' => 'wysiwyg',
         'required' => 0
     );
@@ -88,9 +120,9 @@ function get_about_description_1_field() {
 
 function get_about_description_2_field() {
     return array (
-        'key' => 'description_2',
+        'key' => 'about_description_2',
         'label' => 'Description Part 2',
-        'name' => 'description_2',
+        'name' => 'about_description_2',
         'type' => 'wysiwyg',
         'required' => 0
     );
@@ -98,9 +130,9 @@ function get_about_description_2_field() {
 
 function get_about_sub_text_field() {
     return array (
-        'key' => 'gallery_sub_text',
+        'key' => 'about_gallery_sub_text',
         'label' => 'Gallery subtext',
-        'name' => 'gallery_sub_text',
+        'name' => 'about_gallery_sub_text',
         'type' => 'text',
         'required' => 0
     );

@@ -35,7 +35,7 @@ function get_author_acf_fields() {
 
 function get_author_first_name_field() {
     return array (
-        'key' => 'first_name_author',
+        'key' => 'author_first_name',
         'label' => 'First name',
         'name' => 'first_name_author',
         'type' => 'text',
@@ -48,7 +48,7 @@ function get_author_first_name_field() {
 
 function get_author_last_name_field() {
     return array (
-        'key' => 'second_name_author',
+        'key' => 'author_second_name',
         'label' => 'Last name',
         'name' => 'second_name_author',
         'type' => 'text',
@@ -61,9 +61,9 @@ function get_author_last_name_field() {
 
 function get_author_instagram_field() {
     return array (
-        'key' => 'instagram1',
+        'key' => 'author_instagram',
         'label' => 'Instagram',
-        'name' => 'instagram',
+        'name' => 'author_instagram',
         'type' => 'text',
         'required' => 0
     );
@@ -71,9 +71,9 @@ function get_author_instagram_field() {
 
 function get_author_link_field() {
     return array (
-        'key' => 'link',
+        'key' => 'author_link',
         'label' => 'Link',
-        'name' => 'link',
+        'name' => 'author_link',
         'type' => 'text',
         'required' => 0
     );

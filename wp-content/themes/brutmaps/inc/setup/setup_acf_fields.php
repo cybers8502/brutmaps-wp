@@ -34,7 +34,7 @@ function get_setup_acf_fields() {
 
 function get_setup_instagram_field() {
     return array (
-        'key' => 'instagram1',
+        'key' => 'setup_instagram',
         'label' => 'Instagram',
         'name' => 'instagram',
         'type' => 'text',

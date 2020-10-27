@@ -36,9 +36,9 @@ function get_contributor_acf_fields() {
 
 function get_contributor_first_name_field() {
     return array (
-        'key' => 'first_name',
+        'key' => 'contributor_first_name',
         'label' => 'First name',
-        'name' => 'first_name',
+        'name' => 'contributor_first_name',
         'type' => 'text',
         'required' => 1,
         'wrapper' => array (
@@ -49,9 +49,9 @@ function get_contributor_first_name_field() {
 
 function get_contributor_last_name_field() {
     return array (
-        'key' => 'last_name',
+        'key' => 'contributor_last_name',
         'label' => 'Last name',
-        'name' => 'last_name',
+        'name' => 'contributor_last_name',
         'type' => 'text',
         'required' => 1,
         'wrapper' => array (
@@ -62,9 +62,9 @@ function get_contributor_last_name_field() {
 
 function get_contributor_email_field() {
     return array (
-        'key' => 'email',
+        'key' => 'contributor_email',
         'label' => 'E-mail',
-        'name' => 'email',
+        'name' => 'contributor_email',
         'type' => 'text',
         'required' => 1,
         'wrapper' => array (
@@ -75,9 +75,9 @@ function get_contributor_email_field() {
 
 function get_contributor_link_field() {
     return array (
-        'key' => 'link',
+        'key' => 'contributor_link',
         'label' => 'Link',
-        'name' => 'link',
+        'name' => 'contributor_link',
         'type' => 'text',
         'required' => 0,
         'wrapper' => array (
@@ -88,9 +88,9 @@ function get_contributor_link_field() {
 
 function get_contributor_linked_objects_field() {
     return array (
-        'key' => 'linked_sights',
+        'key' => 'contributor_linked_sights',
         'label' => 'linked objects',
-        'name' => 'linked_sights',
+        'name' => 'contributor_linked_sights',
         'type' => 'post_object',
         'required' => 0,
         'post_type' => 'contributor',

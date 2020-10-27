@@ -34,9 +34,9 @@ function get_architect_acf_fields() {
 
 function get_architect_first_name_field() {
     return array (
-        'key' => 'first_name',
+        'key' => 'architect_first_name',
         'label' => 'First name',
-        'name' => 'first_name',
+        'name' => 'architect_first_name',
         'type' => 'text',
         'required' => 1,
         'wrapper' => array (
@@ -47,9 +47,9 @@ function get_architect_first_name_field() {
 
 function get_architect_last_name_field() {
     return array (
-        'key' => 'last_name',
+        'key' => 'architect_last_name',
         'label' => 'Last name',
-        'name' => 'last_name',
+        'name' => 'architect_last_name',
         'type' => 'text',
         'required' => 1,
         'wrapper' => array (
@@ -60,9 +60,9 @@ function get_architect_last_name_field() {
 
 function get_architect_link_field() {
     return array (
-        'key' => 'wiki_link',
+        'key' => 'architect_wiki_link',
         'label' => 'Wiki Link',
-        'name' => 'wiki_link',
+        'name' => 'architect_wiki_link',
         'type' => 'text',
         'required' => 0
     );
