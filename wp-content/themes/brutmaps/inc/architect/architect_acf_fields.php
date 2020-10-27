@@ -1,0 +1,69 @@
+<?php
+
+if( function_exists('acf_add_local_field_group') ):
+    acf_add_local_field_group(array (
+        'key' => 'architect',
+        'title' => 'Architect',
+        'fields' => get_architect_acf_fields(),
+        'location' => array (
+            array (
+                array (
+                    'param' => 'post_type',
+                    'operator' => '==',
+                    'value' => 'architect',
+                ),
+            ),
+        ),
+        'menu_order' => 0,
+        'position' => 'normal',
+        'style' => 'default',
+        'label_placement' => 'top',
+        'instruction_placement' => 'label',
+        'hide_on_screen' => '',
+    ));
+    add_action('acf/init', 'acf_add_local_field_group');
+endif;
+
+function get_architect_acf_fields() {
+    return array(
+        get_architect_first_name_field(),
+        get_architect_last_name_field(),
+        get_architect_link_field()
+    );
+}
+
+function get_architect_first_name_field() {
+    return array (
+        'key' => 'first_name',
+        'label' => 'First name',
+        'name' => 'first_name',
+        'type' => 'text',
+        'required' => 1,
+        'wrapper' => array (
+            'width' => '50',
+        )
+    );
+}
+
+function get_architect_last_name_field() {
+    return array (
+        'key' => 'last_name',
+        'label' => 'Last name',
+        'name' => 'last_name',
+        'type' => 'text',
+        'required' => 1,
+        'wrapper' => array (
+            'width' => '50',
+        )
+    );
+}
+
+function get_architect_link_field() {
+    return array (
+        'key' => 'wiki_link',
+        'label' => 'Wiki Link',
+        'name' => 'wiki_link',
+        'type' => 'text',
+        'required' => 0
+    );
+}
