@@ -36,7 +36,7 @@ function get_setup_instagram_field() {
     return array (
         'key' => 'setup_instagram',
         'label' => 'Instagram',
-        'name' => 'instagram',
+        'name' => 'setup_instagram',
         'type' => 'text',
         'required' => 0
     );
@@ -44,9 +44,9 @@ function get_setup_instagram_field() {
 
 function get_setup_facebook_field() {
     return array (
-        'key' => 'facebook',
+        'key' => 'setup_facebook',
         'label' => 'Facebook',
-        'name' => 'facebook',
+        'name' => 'setup_facebook',
         'type' => 'text',
         'required' => 0
     );

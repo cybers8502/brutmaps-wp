@@ -35,7 +35,7 @@ function get_author_acf_fields() {
 
 function get_author_first_name_field() {
     return array (
-        'key' => 'author_first_name',
+        'key' => 'first_name_author',
         'label' => 'First name',
         'name' => 'first_name_author',
         'type' => 'text',
@@ -48,7 +48,7 @@ function get_author_first_name_field() {
 
 function get_author_last_name_field() {
     return array (
-        'key' => 'author_second_name',
+        'key' => 'second_name_author',
         'label' => 'Last name',
         'name' => 'second_name_author',
         'type' => 'text',
