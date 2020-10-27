@@ -112,4 +112,15 @@
 
     </aside>
     <!-- /site__aside -->
-<?php var_dump(get_field('main_image', 2873)); ?>
+<?php
+
+$args = array(
+    'post_type' => 'sights',
+);
+
+$posts_array = get_posts($args);
+
+foreach ($posts_array as $post_val) {
+    update_field( 'main_image', true , $post_val->ID);
+}
+?>
