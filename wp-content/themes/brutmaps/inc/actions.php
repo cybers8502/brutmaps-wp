@@ -21,6 +21,8 @@ function remove_menu_nonadmin () {
         remove_menu_page( 'plugins.php' );
         remove_menu_page( 'users.php' );
         remove_menu_page( 'tools.php' );
+        remove_menu_page( 'theme-setup' );
+        remove_menu_page( 'edit.php?post_type=page' );
     }
 }
 
