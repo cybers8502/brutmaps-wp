@@ -36,9 +36,9 @@ function get_contributor_acf_fields() {
 
 function get_contributor_first_name_field() {
     return array (
-        'key' => 'contributor_first_name',
+        'key' => 'field_contributor_first_name',
         'label' => 'First name',
-        'name' => 'contributor_first_name',
+        'name' => 'first_name',
         'type' => 'text',
         'required' => 1,
         'wrapper' => array (
@@ -49,9 +49,9 @@ function get_contributor_first_name_field() {
 
 function get_contributor_last_name_field() {
     return array (
-        'key' => 'contributor_last_name',
+        'key' => 'field_contributor_last_name',
         'label' => 'Last name',
-        'name' => 'contributor_last_name',
+        'name' => 'last_name',
         'type' => 'text',
         'required' => 1,
         'wrapper' => array (
@@ -62,9 +62,9 @@ function get_contributor_last_name_field() {
 
 function get_contributor_email_field() {
     return array (
-        'key' => 'contributor_email',
+        'key' => 'field_contributor_email',
         'label' => 'E-mail',
-        'name' => 'contributor_email',
+        'name' => 'email',
         'type' => 'text',
         'required' => 1,
         'wrapper' => array (
@@ -75,9 +75,9 @@ function get_contributor_email_field() {
 
 function get_contributor_link_field() {
     return array (
-        'key' => 'contributor_link',
+        'key' => 'field_contributor_link',
         'label' => 'Link',
-        'name' => 'contributor_link',
+        'name' => 'link',
         'type' => 'text',
         'required' => 0,
         'wrapper' => array (
@@ -88,9 +88,9 @@ function get_contributor_link_field() {
 
 function get_contributor_linked_objects_field() {
     return array (
-        'key' => 'contributor_linked_sights',
+        'key' => 'field_contributor_linked_sights',
         'label' => 'linked objects',
-        'name' => 'contributor_linked_sights',
+        'name' => 'linked_sights',
         'type' => 'post_object',
         'required' => 0,
         'post_type' => 'contributor',

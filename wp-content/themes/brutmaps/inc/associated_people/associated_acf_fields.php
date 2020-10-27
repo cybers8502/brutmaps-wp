@@ -35,9 +35,9 @@ function get_associated_acf_fields() {
 
 function get_associated_first_name_field() {
     return array (
-        'key' => 'associated_first_name',
+        'key' => 'field_associated_first_name',
         'label' => 'First name',
-        'name' => 'associated_first_name',
+        'name' => 'first_name',
         'type' => 'text',
         'required' => 1,
         'wrapper' => array (
@@ -48,9 +48,9 @@ function get_associated_first_name_field() {
 
 function get_associated_last_name_field() {
     return array (
-        'key' => 'associated_last_name',
+        'key' => 'field_associated_last_name',
         'label' => 'Last name',
-        'name' => 'associated_last_name',
+        'name' => 'last_name',
         'type' => 'text',
         'required' => 1,
         'wrapper' => array (
@@ -61,9 +61,9 @@ function get_associated_last_name_field() {
 
 function get_associated_link_field() {
     return array (
-        'key' => 'associated_link',
+        'key' => 'field_associated_link',
         'label' => 'Link',
-        'name' => 'associated_link',
+        'name' => 'link',
         'type' => 'text',
         'required' => 0,
         'wrapper' => array (
@@ -74,9 +74,9 @@ function get_associated_link_field() {
 
 function get_associated_image_field() {
     return array (
-        'key' => 'associated_image',
+        'key' => 'field_associated_image',
         'label' => 'Avatar',
-        'name' => 'associated_image',
+        'name' => 'image',
         'type' => 'image',
         'required' => 0,
         'return_format' => 'array',

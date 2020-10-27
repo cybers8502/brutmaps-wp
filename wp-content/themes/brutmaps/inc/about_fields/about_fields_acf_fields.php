@@ -39,9 +39,9 @@ function get_about_acf_fields() {
 function get_about_gallery_repeater_field() {
 
     return array (
-        'key' => 'about_gallery',
+        'key' => 'field_about_gallery',
         'label' => 'Gallery',
-        'name' => 'about_gallery',
+        'name' => 'gallery',
         'type' => 'repeater',
         'required' => 0,
         'sub_fields' => array(
@@ -70,9 +70,9 @@ function get_about_gallery_repeater_field() {
 
 function get_about_title_field() {
     return array (
-        'key' => 'about_title',
+        'key' => 'field_about_title',
         'label' => 'About Title',
-        'name' => 'about_title',
+        'name' => 'title',
         'type' => 'text',
         'required' => 1
     );
@@ -80,9 +80,9 @@ function get_about_title_field() {
 
 function get_about_main_image_field() {
     return array (
-        'key' => 'about_main_image',
+        'key' => 'field_about_main_image',
         'label' => 'Main Image',
-        'name' => 'about_main_image',
+        'name' => 'main_image',
         'type' => 'image',
         'required' => 1,
         'return_format' => 'url',
@@ -94,9 +94,9 @@ function get_about_main_image_field() {
 
 function get_about_main_image_author_field() {
     return array (
-        'key' => 'about_main_image_author',
+        'key' => 'field_about_main_image_author',
         'label' => 'Main Image Author',
-        'name' => 'about_main_image_author',
+        'name' => 'main_image_author',
         'type' => 'post_object',
         'required' => 1,
         'return_format' => 'id',
@@ -110,9 +110,9 @@ function get_about_main_image_author_field() {
 
 function get_about_description_1_field() {
     return array (
-        'key' => 'about_description_1',
+        'key' => 'field_about_description_1',
         'label' => 'Description Part 1',
-        'name' => 'about_description_1',
+        'name' => 'description_1',
         'type' => 'wysiwyg',
         'required' => 0
     );
@@ -120,9 +120,9 @@ function get_about_description_1_field() {
 
 function get_about_description_2_field() {
     return array (
-        'key' => 'about_description_2',
+        'key' => 'field_about_description_2',
         'label' => 'Description Part 2',
-        'name' => 'about_description_2',
+        'name' => 'description_2',
         'type' => 'wysiwyg',
         'required' => 0
     );
@@ -130,9 +130,9 @@ function get_about_description_2_field() {
 
 function get_about_sub_text_field() {
     return array (
-        'key' => 'about_gallery_sub_text',
+        'key' => 'field_about_gallery_sub_text',
         'label' => 'Gallery subtext',
-        'name' => 'about_gallery_sub_text',
+        'name' => 'gallery_sub_text',
         'type' => 'text',
         'required' => 0
     );

@@ -26,7 +26,7 @@ endif;
 
 function get_sight_acf_fields() {
     return array(
-        get_tab_field('general','General'),
+        get_tab_field('field_object_general','General'),
         get_title_field(),
         get_main_content_field(),
         get_established_field(),
@@ -34,11 +34,11 @@ function get_sight_acf_fields() {
         get_associated_people_field(),
         get_source_field(),
         get_contributor_field(),
-        get_tab_field('media','Media'),
+        get_tab_field('field_object_media','Media'),
         get_main_image_field(),
         get_main_image_author_field(),
         get_gallery_repeater_field(),
-        get_tab_field('additional','Additional'),
+        get_tab_field('field_object_additional','Additional'),
         get_working_hours_field(),
         get_phone_field(),
         get_website_field()
@@ -57,7 +57,7 @@ function get_tab_field($key, $field) {
 
 function get_title_field() {
     return array (
-        'key' => 'location',
+        'key' => 'field_object_location',
         'label' => 'Location coordinates',
         'name' => 'location',
         'type' => 'google_map',
@@ -67,7 +67,7 @@ function get_title_field() {
 
 function get_established_field() {
     return array (
-        'key' => 'established',
+        'key' => 'field_object_established',
         'label' => 'Established',
         'name' => 'established',
         'type' => 'number',
@@ -81,7 +81,7 @@ function get_established_field() {
 
 function get_architects_field() {
     return array (
-        'key' => 'choose_architects',
+        'key' => 'field_object_choose_architects',
         'label' => 'Choose architects',
         'name' => 'choose_architects',
         'type' => 'post_object',
@@ -98,7 +98,7 @@ function get_architects_field() {
 
 function get_associated_people_field() {
     return array (
-        'key' => 'associated_list',
+        'key' => 'field_object_associated_list',
         'label' => 'Choose associated people',
         'name' => 'associated_list',
         'type' => 'post_object',
@@ -111,7 +111,7 @@ function get_associated_people_field() {
 
 function get_main_image_field() {
     return array (
-        'key' => 'main_image',
+        'key' => 'field_object_main_image',
         'label' => 'Main Image',
         'name' => 'main_image',
         'type' => 'image',
@@ -125,7 +125,7 @@ function get_main_image_field() {
 
 function get_source_field() {
     return array (
-        'key' => 'source',
+        'key' => 'field_object_source',
         'label' => 'Source',
         'name' => 'source',
         'type' => 'wysiwyg',
@@ -135,7 +135,7 @@ function get_source_field() {
 
 function get_contributor_field() {
     return array (
-        'key' => 'contributor',
+        'key' => 'field_object_contributor',
         'label' => 'Contributor',
         'name' => 'contributor',
         'type' => 'post_object',
@@ -148,7 +148,7 @@ function get_contributor_field() {
 
 function get_main_image_author_field() {
     return array (
-        'key' => 'main_image_author_id',
+        'key' => 'field_object_main_image_author_id',
         'label' => 'Main Image Author',
         'name' => 'main_image_author_id',
         'type' => 'post_object',
@@ -164,7 +164,7 @@ function get_main_image_author_field() {
 
 function get_main_content_field() {
     return array (
-        'key' => 'main_content',
+        'key' => 'field_object_main_content',
         'label' => 'Main Content',
         'name' => 'main_content',
         'type' => 'wysiwyg',
@@ -175,7 +175,7 @@ function get_main_content_field() {
 function get_gallery_repeater_field() {
 
     return array (
-        'key' => 'gallery',
+        'key' => 'field_object_gallery',
         'label' => 'Gallery',
         'name' => 'gallery',
         'type' => 'repeater',
@@ -206,7 +206,7 @@ function get_gallery_repeater_field() {
 
 function get_working_hours_field() {
     return array (
-        'key' => 'working_hours',
+        'key' => 'field_object_working_hours',
         'label' => 'Working hours',
         'name' => 'working_hours',
         'type' => 'textarea',
@@ -216,7 +216,7 @@ function get_working_hours_field() {
 
 function get_phone_field() {
     return array (
-        'key' => 'phone',
+        'key' => 'field_object_phone',
         'label' => 'Phone',
         'name' => 'phone',
         'type' => 'text',
@@ -226,7 +226,7 @@ function get_phone_field() {
 
 function get_website_field() {
     return array (
-        'key' => 'website',
+        'key' => 'field_object_website',
         'label' => 'Website',
         'name' => 'website',
         'type' => 'text',

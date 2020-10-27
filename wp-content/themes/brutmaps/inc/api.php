@@ -43,7 +43,7 @@ function API_GET_ARCHITECTS() {
 
 function API_GET_ABOUT_DATA() {
 	$mainWrap = ['done' => true];
-	$galleryField = get_field('about_gallery', 'options');
+	$galleryField = get_field('gallery', 'options');
 	$gallery = [];
     foreach ($galleryField as $item) {
         $image = $item['gallery_image'];
@@ -55,19 +55,19 @@ function API_GET_ABOUT_DATA() {
             }
         }
     }
-    $mainImage = get_field('about_main_image', 'options');
+    $mainImage = get_field('main_image', 'options');
     if (!$mainImage) {
         $mainImage = null;
     }
-    $mainImageAuthor = get_field('about_main_image_author', 'options');
-    $instagram = get_field('setup_instagram', 'options');
-    $facebook = get_field('setup_facebook', 'options');
+    $mainImageAuthor = get_field('main_image_author', 'options');
+    $instagram = get_field('instagram', 'options');
+    $facebook = get_field('facebook', 'options');
     $mainData = [
-        'title'             => html_entity_decode(get_field('about_title', 'options')),
+        'title'             => html_entity_decode(get_field('title', 'options')),
         'main_image'        => $mainImage,
-        'description_1'     => html_entity_decode(get_field('about_description_1', 'options')),
-        'gallery_sub_text'  => html_entity_decode(get_field('about_gallery_sub_text', 'options')),
-        'description_2'     => html_entity_decode(get_field('about_description_2', 'options')),
+        'description_1'     => html_entity_decode(get_field('description_1', 'options')),
+        'gallery_sub_text'  => html_entity_decode(get_field('gallery_sub_text', 'options')),
+        'description_2'     => html_entity_decode(get_field('description_2', 'options')),
         'gallery'           => $gallery,
         'main_image_author' => getAuthorData($mainImageAuthor),
         'instagram'         => $instagram,
@@ -395,11 +395,11 @@ function createUpdateContributor($firstName, $lastName, $email, $link, $sightID)
 	}
 	$contributorID = intval($contributorID);
 	if (is_int($contributorID) && $contributorID > 0) {
-		update_field('contributor_first_name', $firstName, $contributorID);
-		update_field('contributor_last_name', $lastName, $contributorID);
-		update_field('contributor_email', $email, $contributorID);
-		update_field('contributor_link', $link, $contributorID);
-		update_field('contributor_linked_sights', $linkedSights, $contributorID);
+		update_field('first_name', $firstName, $contributorID);
+		update_field('last_name', $lastName, $contributorID);
+		update_field('email', $email, $contributorID);
+		update_field('link', $link, $contributorID);
+		update_field('linked_sights', $linkedSights, $contributorID);
 		update_field('contributor', $contributorID, $sightID);
 	}
 }
@@ -410,8 +410,8 @@ function getAuthorData($authorID) {
 	}
 	$firstName = get_field('first_name_author', $authorID);
 	$lastName = get_field('second_name_author', $authorID);
-	$link = get_field('author_link', $authorID);
-	$instagram = get_field('author_instagram', $authorID);
+	$link = get_field('link', $authorID);
+	$instagram = get_field('instagram', $authorID);
 	return [
 		'first_name_author' => $firstName,
 		'second_name_author' => $lastName,

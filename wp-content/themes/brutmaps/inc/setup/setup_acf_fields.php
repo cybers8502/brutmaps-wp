@@ -34,9 +34,9 @@ function get_setup_acf_fields() {
 
 function get_setup_instagram_field() {
     return array (
-        'key' => 'setup_instagram',
+        'key' => 'field_setup_instagram',
         'label' => 'Instagram',
-        'name' => 'setup_instagram',
+        'name' => 'instagram',
         'type' => 'text',
         'required' => 0
     );
@@ -44,9 +44,9 @@ function get_setup_instagram_field() {
 
 function get_setup_facebook_field() {
     return array (
-        'key' => 'setup_facebook',
+        'key' => 'field_setup_facebook',
         'label' => 'Facebook',
-        'name' => 'setup_facebook',
+        'name' => 'facebook',
         'type' => 'text',
         'required' => 0
     );
@@ -54,7 +54,7 @@ function get_setup_facebook_field() {
 
 function get_setup_center_for_users_field() {
     return array (
-        'key' => 'initial_center_for_users',
+        'key' => 'field_setup_initial_center_for_users',
         'label' => 'Initial center for users',
         'name' => 'initial_center_for_users',
         'type' => 'google_map',
@@ -64,7 +64,7 @@ function get_setup_center_for_users_field() {
 
 function get_emails_repeater_field() {
     return array (
-        'key' => 'notifiedUsers',
+        'key' => 'field_setup_notifiedUsers',
         'label' => 'E-mails',
         'name' => 'notifiedUsers',
         'type' => 'repeater',
