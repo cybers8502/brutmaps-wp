@@ -65,7 +65,7 @@ function get_author_instagram_field() {
         'label' => 'Instagram',
         'name' => 'instagram',
         'type' => 'text',
-        'required' => 1
+        'required' => 0
     );
 }
 
