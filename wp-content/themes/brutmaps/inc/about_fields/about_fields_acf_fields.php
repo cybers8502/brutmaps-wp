@@ -26,12 +26,23 @@ endif;
 
 function get_about_acf_fields() {
     return array(
+        get_about_title_field(),
         get_about_main_image_field(),
         get_about_main_image_author_field(),
         get_about_description_1_field(),
         get_gallery_repeater_field(),
         get_about_sub_text_field(),
         get_about_description_2_field()
+    );
+}
+
+function get_about_title_field() {
+    return array (
+        'key' => 'about_title',
+        'label' => 'About Title',
+        'name' => 'about_title',
+        'type' => 'text',
+        'required' => 1
     );
 }
 

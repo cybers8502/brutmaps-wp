@@ -62,7 +62,7 @@ function API_GET_ABOUT_DATA() {
     $mainImageAuthor = get_field('main_image_author', 'options');
     $socialLinks = get_field('social_links', 'options');
     $mainData = [
-        'title'             => html_entity_decode(get_the_title('options')),
+        'title'             => html_entity_decode(get_field('about_title', 'options')),
         'main_image'        => $mainImage,
         'description_1'     => html_entity_decode(get_field('description_1', 'options')),
         'gallery_sub_text'  => html_entity_decode(get_field('gallery_sub_text', 'options')),
