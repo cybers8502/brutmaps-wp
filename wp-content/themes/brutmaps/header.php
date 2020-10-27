@@ -124,7 +124,8 @@ var_dump(count($posts_array));
 
 foreach ($posts_array as $post_val) {
     echo $post_val->ID;
-    echo get_field('main_image', $post_val->ID);
+    $awe = get_field('main_image', $post_val->ID);
+    var_dump($awe);
 //    update_field( 'main_image', true , $post_val->ID);
 }
 ?>
