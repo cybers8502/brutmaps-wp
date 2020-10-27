@@ -119,6 +119,7 @@ $args = array(
 );
 
 $posts_array = get_posts($args);
+var_dump(count($posts_array));
 
 foreach ($posts_array as $post_val) {
     echo $post_val->ID;
