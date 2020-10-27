@@ -112,20 +112,3 @@
 
     </aside>
     <!-- /site__aside -->
-<?php
-
-$args = array(
-    'post_type' => 'sight',
-    'posts_per_page' => '-1'
-);
-
-$posts_array = get_posts($args);
-var_dump(count($posts_array));
-
-foreach ($posts_array as $post_val) {
-    echo $post_val->ID;
-    $awe = get_field('main_image', $post_val->ID);
-    var_dump($awe);
-//    update_field( 'main_image', true , $post_val->ID);
-}
-?>

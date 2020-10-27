@@ -116,7 +116,7 @@ function get_main_image_field() {
         'name' => 'main_image',
         'type' => 'image',
         'required' => 1,
-        'return_format' => 'url',
+        'return_format' => 'array',
         'wrapper' => array (
             'width' => '50',
         )
