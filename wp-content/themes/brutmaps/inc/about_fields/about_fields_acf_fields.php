@@ -53,7 +53,7 @@ function get_about_main_image_field() {
         'name' => 'main_image',
         'type' => 'image',
         'required' => 1,
-        'return_format' => 'array',
+        'return_format' => 'url',
         'wrapper' => array (
             'width' => '50',
         )
