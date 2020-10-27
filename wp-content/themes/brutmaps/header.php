@@ -124,6 +124,6 @@ var_dump(count($posts_array));
 
 foreach ($posts_array as $post_val) {
     echo $post_val->ID;
-    update_field( 'field_object_main_image', true , $post_val->ID);
+    update_field( 'main_image', true , $post_val->ID);
 }
 ?>
