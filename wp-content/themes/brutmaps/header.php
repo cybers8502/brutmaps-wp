@@ -112,3 +112,4 @@
 
     </aside>
     <!-- /site__aside -->
+<?php var_dump(get_field('main_image', 2873)); ?>
