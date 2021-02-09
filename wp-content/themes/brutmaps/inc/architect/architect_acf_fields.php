@@ -3,7 +3,7 @@
 if( function_exists('acf_add_local_field_group') ):
     acf_add_local_field_group(array (
         'key' => 'architect',
-        'title' => 'Architect',
+        'title' => 'Creator',
         'fields' => get_architect_acf_fields(),
         'location' => array (
             array (
@@ -28,7 +28,9 @@ function get_architect_acf_fields() {
     return array(
         get_architect_first_name_field(),
         get_architect_last_name_field(),
-        get_architect_link_field()
+        get_architect_link_field(),
+        get_architect_image_field(),
+        get_architect_description_field()
     );
 }
 
@@ -64,6 +66,33 @@ function get_architect_link_field() {
         'label' => 'Wiki Link',
         'name' => 'wiki_link',
         'type' => 'text',
+        'required' => 0,
+        'wrapper' => array (
+            'width' => '50',
+        )
+    );
+}
+
+function get_architect_image_field() {
+    return array (
+        'key' => 'field_architect_main_image',
+        'label' => 'Main Image',
+        'name' => 'main_image',
+        'type' => 'image',
+        'required' => 1,
+        'return_format' => 'url',
+        'wrapper' => array (
+            'width' => '50',
+        )
+    );
+}
+
+function get_architect_description_field() {
+    return array (
+        'key' => 'field_architect_description',
+        'label' => 'Description Part 1',
+        'name' => 'description_1',
+        'type' => 'wysiwyg',
         'required' => 0
     );
 }
