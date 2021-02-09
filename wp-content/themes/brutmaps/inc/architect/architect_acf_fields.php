@@ -35,12 +35,21 @@ function get_architect_acf_fields() {
 }
 
 function get_architect_first_name_field() {
+
+    $instructions = 'Filling out these fields is MANDATORY! 
+            You must fill out at least one of these combinations:
+                1. Instagram
+                OR
+                2. First Name + Link
+                PREFERABLY: fill out all the fields';
+
     return array (
         'key' => 'field_architect_first_name',
         'label' => 'First name',
         'name' => 'first_name',
         'type' => 'text',
         'required' => 1,
+        'instructions' => $instructions,
         'wrapper' => array (
             'width' => '50',
         )
