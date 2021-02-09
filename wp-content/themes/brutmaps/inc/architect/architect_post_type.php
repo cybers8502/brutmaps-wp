@@ -2,14 +2,16 @@
 
 function architect_post_type() {
 
+    // Creator (Old name "Architect")
+
     $labels1 = array(
-        'name' => 'Architect',
-        'singular_name' => 'Architect',
-        'menu_name' => 'Architects',
-        'all_items' => 'Architects',
-        'view_item' => 'Architect',
-        'add_new_item' => 'Add Architect',
-        'add_new' => 'New Architect',
+        'name' => 'Creator',
+        'singular_name' => 'Creator',
+        'menu_name' => 'Creators',
+        'all_items' => 'Creators',
+        'view_item' => 'Creator',
+        'add_new_item' => 'Add Creator',
+        'add_new' => 'New Creator',
         'edit_item' => 'Edit',
         'update_item' => 'Update',
         'search_items' => 'Search'
