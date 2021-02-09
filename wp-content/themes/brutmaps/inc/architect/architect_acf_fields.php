@@ -50,8 +50,7 @@ OR
         'name' => 'message_field',
         'type' => 'message',
         'required' => 1,
-        'message' => "asd qwe",
-        'value' => $instructions
+        'message' => $instructions
     );
 }
 
