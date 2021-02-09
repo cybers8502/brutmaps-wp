@@ -46,11 +46,12 @@ OR
 
     return array (
         'key' => 'field_architect_message',
-        'label' => 'First name',
-        'name' => 'first_name',
+        'label' => 'Fill Rules!',
+        'name' => 'message_field',
         'type' => 'message',
         'required' => 1,
-        'instructions' => $instructions
+        'message' => "asd qwe",
+        'value' => $instructions
     );
 }
 
