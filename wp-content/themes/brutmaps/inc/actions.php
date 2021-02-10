@@ -15,7 +15,7 @@ function remove_menu_nonadmin () {
     global $user_ID;
 
     remove_menu_page( 'edit-comments.php' );
-//    remove_menu_page( 'edit.php?post_type=acf-field-group' );
+    remove_menu_page( 'edit.php?post_type=acf-field-group' );
 
     if ( !current_user_can('administrator') ) {
         remove_menu_page( 'index.php' );

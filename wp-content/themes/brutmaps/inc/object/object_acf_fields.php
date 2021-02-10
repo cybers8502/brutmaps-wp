@@ -72,10 +72,7 @@ function get_established_field() {
         'name' => 'established',
         'type' => 'number',
         'placeholder' => '1975',
-        'required' => 0,
-        'wrapper' => array (
-            'width' => '20',
-        )
+        'required' => 0
     );
 }
 
@@ -91,21 +88,25 @@ function get_architects_field() {
         'multiple' => 1,
         'post_type' => 'architect',
         'wrapper' => array (
-            'width' => '80',
+            'width' => '50',
         )
     );
 }
 
 function get_associated_people_field() {
     return array (
-        'key' => 'field_object_associated_list',
+        'key' => 'field_object_choose_architects',
         'label' => 'Choose associated people',
-        'name' => 'associated_list',
+        'name' => 'choose_associated_people',
         'type' => 'post_object',
+        'instructions' => 'Leave this field empty if associated people are unknown',
         'required' => 0,
         'return_format' => 'id',
         'multiple' => 1,
-        'post_type' => 'associated_people'
+        'post_type' => 'architect',
+        'wrapper' => array (
+            'width' => '50',
+        )
     );
 }
 
