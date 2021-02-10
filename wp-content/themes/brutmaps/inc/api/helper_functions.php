@@ -63,7 +63,7 @@ function getCreatorsSmallDataByIDs($IDs) {
             $item['last_name'] = html_entity_decode(get_field('last_name', $architectID));
             $item['name'] = html_entity_decode(get_the_title($architectID));
             $item['image'] = $images;
-            $item['main_image_author'] = $author;
+            $item['main_image_author'] = getAuthorData($author);
             $item['description'] = html_entity_decode(get_field('description', $architectID));
             $architects[] = $item;
         }
