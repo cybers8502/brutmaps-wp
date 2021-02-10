@@ -31,6 +31,7 @@ function get_architect_acf_fields() {
         get_architect_last_name_field(),
         get_architect_link_field(),
         get_architect_image_field(),
+        get_architect_main_image_author_field(),
         get_architect_description_field()
     );
 }
@@ -87,10 +88,7 @@ function get_architect_link_field() {
         'label' => 'Wiki Link',
         'name' => 'wiki_link',
         'type' => 'text',
-        'required' => 0,
-        'wrapper' => array (
-            'width' => '50',
-        )
+        'required' => 0
     );
 }
 
@@ -102,6 +100,22 @@ function get_architect_image_field() {
         'type' => 'image',
         'required' => 1,
         'return_format' => 'array',
+        'wrapper' => array (
+            'width' => '50',
+        )
+    );
+}
+
+function get_architect_main_image_author_field() {
+    return array (
+        'key' => 'field_architect_main_image_author_id',
+        'label' => 'Image Author',
+        'name' => 'main_image_author_id',
+        'type' => 'post_object',
+        'required' => 1,
+        'return_format' => 'id',
+        'multiple' => 0,
+        'post_type' => 'authors',
         'wrapper' => array (
             'width' => '50',
         )

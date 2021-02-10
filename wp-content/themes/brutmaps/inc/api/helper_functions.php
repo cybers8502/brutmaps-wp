@@ -56,12 +56,14 @@ function getCreatorsSmallDataByIDs($IDs) {
             }
             $imageObject = get_field('main_image', $architectID);
             $images = getImageWithSizes($imageObject);
+            $author = get_field('main_image_author_id', $architectID);
             $item = [];
             $item['id'] = intval($architectID);
             $item['first_name'] = html_entity_decode(get_field('first_name', $architectID));
             $item['last_name'] = html_entity_decode(get_field('last_name', $architectID));
             $item['name'] = html_entity_decode(get_the_title($architectID));
             $item['image'] = $images;
+            $item['main_image_author'] = $author;
             $item['description'] = html_entity_decode(get_field('description', $architectID));
             $architects[] = $item;
         }
