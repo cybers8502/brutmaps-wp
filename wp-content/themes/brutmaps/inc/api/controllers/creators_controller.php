@@ -10,8 +10,7 @@ function API_GET_CREATOR_BY_ID( $data ) {
         return failureResponse('Creator does not exist');
     }
 
-    $associatedPeople = getSightsToWhichRelatedArchitectWithID($creatorID);
-    $creatorSmallData['sights'] = $associatedPeople;
+    $creatorSmallData['sights'] = getSightsToWhichRelatedArchitectWithID($creatorID);;
     return successResponse($creatorSmallData);
 }
 
