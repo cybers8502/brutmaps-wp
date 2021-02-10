@@ -28,3 +28,20 @@ function getAuthorData($authorID) {
         'instagram' => $instagram,
     ];
 }
+
+function getImageWithSizes($imageObject) {
+    if (is_null($imageObject) || !$imageObject) {
+        $images = [
+            'image_full' => PLACEHOLDER,
+            'image_small' => PLACEHOLDER,
+            'image_medium' => PLACEHOLDER
+        ];
+    } else {
+        $images = [
+            'image_full' => $imageObject['url'],
+            'image_small' => $imageObject['sizes']['thumbnail'],
+            'image_medium' => $imageObject['sizes']['medium']
+        ];
+    }
+    return $images;
+}

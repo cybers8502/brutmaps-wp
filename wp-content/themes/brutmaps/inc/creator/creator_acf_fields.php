@@ -111,8 +111,8 @@ function get_architect_image_field() {
 function get_architect_description_field() {
     return array (
         'key' => 'field_architect_description',
-        'label' => 'Description Part 1',
-        'name' => 'description_1',
+        'label' => 'Description',
+        'name' => 'description',
         'type' => 'wysiwyg',
         'required' => 0
     );

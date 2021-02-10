@@ -1,6 +1,6 @@
 <?php
 
-// GET: /sights
+// - GET: /sights
 function API_GET_SIGHTS() {
     $ids = getSights();
     $mainWrap = ['done' => true];
@@ -41,19 +41,7 @@ function API_GET_SIGHTS() {
         $item['address'] = html_entity_decode($location['address']);
         $item['year'] = intval(get_field('established', $sightID));
         $imageObject = get_field('main_image', $sightID);
-        if (is_null($imageObject) || !$imageObject) {
-            $images = [
-                'image_full' => PLACEHOLDER,
-                'image_small' => PLACEHOLDER,
-                'image_medium' => PLACEHOLDER
-            ];
-        } else {
-            $images = [
-                'image_full' => $imageObject['url'],
-                'image_small' => $imageObject['sizes']['thumbnail'],
-                'image_medium' => $imageObject['sizes']['medium']
-            ];
-        }
+        $images = getImageWithSizes($imageObject);
         $item['images'] = $images;
         $result[] = $item;
     }
@@ -65,7 +53,7 @@ function API_GET_SIGHTS() {
     return $response;
 }
 
-// GET /sights/$id
+// - GET /sights/$id
 function API_GET_SIGHT_BY_ID( $data ) {
     $mainWrap = ['done' => true];
     $sightID = intval($data['id']);
@@ -94,17 +82,9 @@ function API_GET_SIGHT_BY_ID( $data ) {
             $mainImage = $imageObject['url'];
         }
         $architectsIDs = get_field('choose_architects', $sightID);
-        $architects = [];
-        if (is_array($architectsIDs) && count($architectsIDs) > 0) {
-            foreach ($architectsIDs as $architectID) {
-                $item = [];
-                $item['id'] = intval($architectID);
-                $item['first_name'] = html_entity_decode(get_field('first_name', $architectID));
-                $item['last_name'] = html_entity_decode(get_field('last_name', $architectID));
-                $item['name'] = html_entity_decode(get_the_title($architectID));
-                $architects[] = $item;
-            }
-        }
+        $associatedPeopleIDs = get_field('choose_associated_people', $sightID);
+        $architects = getCreatorsSmallDataByIDs($architectsIDs);
+        $associatedPeople = getCreatorsSmallDataByIDs($associatedPeopleIDs);
         $author = get_field('main_image_author_id', $sightID);
         $mainData = [
             'id'            => $sightID,
@@ -114,7 +94,8 @@ function API_GET_SIGHT_BY_ID( $data ) {
                 'image'     => html_entity_decode($mainImage),
                 'main_image_author' => getAuthorData($author)
             ],
-            'architects'    => $architects,
+            'architects'           => $architects,
+            'associated_people'    => $associatedPeople,
             'year'          => intval(get_field('established', $sightID)),
             'description'   => html_entity_decode(get_field('main_content', $sightID)),
             'image_gallery' => $gallery,
@@ -136,7 +117,7 @@ function API_GET_SIGHT_BY_ID( $data ) {
     return $response;
 }
 
-// POST: /submit_sight
+// - POST: /submit_sight
 function API_POST_SIGHT ( $data ) {
     $firstName = $data['first_name'];
     $lastName = $data['last_name'];
@@ -194,28 +175,22 @@ function API_POST_SIGHT ( $data ) {
 }
 
 
-// HELPER FUNCTIONS
-function getArchitects() {
-    $sights = getSights();
-    $architectsDictionary = [];
+// - HELPER FUNCTIONS
+function getCreatorsSmallDataByIDs($IDs) {
     $architects = [];
-    foreach ($sights as $sightID) {
-        $architectsIDs = get_field('choose_architects', $sightID);
-        if (!$architectsIDs) {
-            $architectsIDs = [];
+    if (is_array($IDs) && count($IDs) > 0) {
+        foreach ($IDs as $architectID) {
+            $imageObject = get_field('main_image', $architectID);
+            $images = getImageWithSizes($imageObject);
+            $item = [];
+            $item['id'] = intval($architectID);
+            $item['first_name'] = html_entity_decode(get_field('first_name', $architectID));
+            $item['last_name'] = html_entity_decode(get_field('last_name', $architectID));
+            $item['name'] = html_entity_decode(get_the_title($architectID));
+            $item['image'] = $images;
+            $item['description'] = html_entity_decode(get_field('description', $architectID));
+            $architects[] = $item;
         }
-        foreach ($architectsIDs as $architectID) {
-            $architectsDictionary[] = $architectID;
-        }
-    }
-
-    $architectsRepeatList = array_count_values($architectsDictionary);
-    foreach($architectsRepeatList as $id=>$repeats) {
-        $item = [];
-        $item['id'] = intval($id);
-        $item['name'] = html_entity_decode(get_the_title($id));
-        $item['objectsCount'] = intval($repeats);
-        $architects[] = $item;
     }
     return $architects;
 }

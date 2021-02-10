@@ -1,6 +1,6 @@
 <?php
 
-// GET /about
+// - GET /about
 function API_GET_ABOUT_DATA() {
     $mainWrap = ['done' => true];
     $galleryField = get_field('gallery', 'options');

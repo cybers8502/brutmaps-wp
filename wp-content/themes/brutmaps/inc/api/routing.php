@@ -3,6 +3,7 @@
 
 define('BASE_URL', 'brutmaps/data/v1/api/');
 define('PLACEHOLDER', 'https://brutmaps.com/wp-content/uploads/2019/11/brutalist-architecture-7-1024x567.jpg');
+
 require_once(ABSPATH . 'wp-admin/includes/image.php');
 require_once(ABSPATH . 'wp-admin/includes/file.php');
 require_once(ABSPATH . 'wp-admin/includes/media.php');
