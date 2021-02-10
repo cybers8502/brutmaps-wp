@@ -28,6 +28,8 @@ require_once( TEMPLATEINC . '/ajax.php' );
 require_once( TEMPLATEINC . '/email.php' );
 
 require_once( TEMPLATEINC . '/api/routing.php' );
+require_once( TEMPLATEINC . '/api/helper_functions.php' );
 require_once( TEMPLATEINC . '/api/objects_controller.php' );
+require_once( TEMPLATEINC . '/api/about_controller.php' );
 
 //require_once( TEMPLATEINC . '/insta_graber.php' );
