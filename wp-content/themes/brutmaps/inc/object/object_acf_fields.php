@@ -95,7 +95,7 @@ function get_architects_field() {
 
 function get_associated_people_field() {
     return array (
-        'key' => 'field_object_choose_architects',
+        'key' => 'field_object_choose_associated_people',
         'label' => 'Choose associated people',
         'name' => 'choose_associated_people',
         'type' => 'post_object',
