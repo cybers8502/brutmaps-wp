@@ -24,7 +24,10 @@ require_once( TEMPLATEINC . '/about_fields/about_acf_register.php' );
 require_once( TEMPLATEINC . '/creator/creator_acf_fields.php' );
 require_once( TEMPLATEINC . '/creator/creator_post_type.php' );
 require_once( TEMPLATEINC . '/actions.php' );
-require_once( TEMPLATEINC . '/api.php' );
 require_once( TEMPLATEINC . '/ajax.php' );
 require_once( TEMPLATEINC . '/email.php' );
+
+require_once( TEMPLATEINC . '/api/routing.php' );
+require_once( TEMPLATEINC . '/api/objects_controller.php' );
+
 //require_once( TEMPLATEINC . '/insta_graber.php' );
