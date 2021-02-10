@@ -25,7 +25,7 @@ add_action( 'rest_api_init', function () {
 		'methods' => 'GET',
 		'callback' => 'API_GET_ABOUT_DATA',
 	) );
-    register_rest_route( BASE_URL, '/creator/(?P<id>\d+)', array(
+    register_rest_route( BASE_URL, '/creators/(?P<id>\d+)', array(
         'methods' => 'GET',
         'callback' => 'API_GET_CREATOR_BY_ID',
     ) );
