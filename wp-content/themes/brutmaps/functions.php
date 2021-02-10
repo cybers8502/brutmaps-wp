@@ -11,8 +11,6 @@ show_admin_bar( false );
 require_once( TEMPLATEINC . '/object/object_acf_fields.php' );
 require_once( TEMPLATEINC . '/object/object_taxonomy.php' );
 require_once( TEMPLATEINC . '/object/object_post_type.php' );
-require_once( TEMPLATEINC . '/associated_people/associated_post_type.php' );
-require_once( TEMPLATEINC . '/associated_people/associated_acf_fields.php' );
 require_once( TEMPLATEINC . '/contributor/contributor_post_type.php' );
 require_once( TEMPLATEINC . '/contributor/contributor_acf_fields.php' );
 require_once( TEMPLATEINC . '/authors/author_post_type.php' );
