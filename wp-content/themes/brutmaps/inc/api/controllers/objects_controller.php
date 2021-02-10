@@ -3,7 +3,6 @@
 // - GET: /sights
 function API_GET_SIGHTS() {
     $ids = getSights();
-    $mainWrap = ['done' => true];
     $lat = 40.6971494;
     $long = -74.2598626;
     $address = get_field('initial_center_for_users', 'options');
@@ -22,43 +21,15 @@ function API_GET_SIGHTS() {
             ]
         ]
     ];
-    $result = [];
-    foreach ($ids as $sightID) {
-        $architectsIDs = get_field('choose_architects', $sightID);
-        if (!$architectsIDs) {
-            $architectsIDs = [];
-        }
-        $location = get_field('location', $sightID);
-        $item = [];
-        $item['id'] = $sightID;
-        $item['link'] = get_permalink($sightID);
-        $item['title'] = html_entity_decode(get_the_title($sightID));
-        $item['architects'] = $architectsIDs;
-        $item['coordinates'] = [
-            'lat' => doubleval($location['lat']),
-            'long' => doubleval($location['lng'])
-        ];
-        $item['address'] = html_entity_decode($location['address']);
-        $item['year'] = intval(get_field('established', $sightID));
-        $imageObject = get_field('main_image', $sightID);
-        $images = getImageWithSizes($imageObject);
-        $item['images'] = $images;
-        $result[] = $item;
-    }
-    $mainData['sights'] = $result;
-    $mainWrap['data'] = $mainData;
-    $response = new WP_REST_Response( $mainWrap );
-    $response->set_status( 200 );
-    $response->header( 'Content-type', 'application/json; charset=utf-8' );
-    return $response;
+
+    $mainData['sights'] = getSightsSmallDataByIDs($ids);
+    return successResponse($mainData);
 }
 
 // - GET /sights/$id
 function API_GET_SIGHT_BY_ID( $data ) {
-    $mainWrap = ['done' => true];
     $sightID = intval($data['id']);
     $sight = get_post($sightID);
-    $statusCode = 200;
     if (!is_null($sight) && $sight->post_status === 'publish' && $sight->post_type == 'sight') {
         $location = get_field('location', $sightID);
         $galleryField = get_field('gallery', $sightID);
@@ -105,16 +76,10 @@ function API_GET_SIGHT_BY_ID( $data ) {
                 'long' => doubleval($location['lng'])
             ]
         ];
-        $mainWrap['data'] = $mainData;
     } else {
-        $mainWrap['done'] = false;
-        $mainWrap['message'] = 'Sight does not exist';
-        $statusCode = 422;
+        return failureResponse('Sight does not exist');
     }
-    $response = new WP_REST_Response( $mainWrap );
-    $response->set_status( $statusCode );
-    $response->header( 'Content-type', 'application/json; charset=utf-8' );
-    return $response;
+    return successResponse($mainData);
 }
 
 // - POST: /submit_sight
@@ -176,24 +141,6 @@ function API_POST_SIGHT ( $data ) {
 
 
 // - HELPER FUNCTIONS
-function getCreatorsSmallDataByIDs($IDs) {
-    $architects = [];
-    if (is_array($IDs) && count($IDs) > 0) {
-        foreach ($IDs as $architectID) {
-            $imageObject = get_field('main_image', $architectID);
-            $images = getImageWithSizes($imageObject);
-            $item = [];
-            $item['id'] = intval($architectID);
-            $item['first_name'] = html_entity_decode(get_field('first_name', $architectID));
-            $item['last_name'] = html_entity_decode(get_field('last_name', $architectID));
-            $item['name'] = html_entity_decode(get_the_title($architectID));
-            $item['image'] = $images;
-            $item['description'] = html_entity_decode(get_field('description', $architectID));
-            $architects[] = $item;
-        }
-    }
-    return $architects;
-}
 
 function uploadFile($file) {
     $mimes = array(

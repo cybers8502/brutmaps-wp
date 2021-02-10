@@ -33,9 +33,5 @@ function API_GET_ABOUT_DATA() {
         'instagram'         => $instagram,
         'facebook'          => $facebook
     ];
-    $mainWrap['data'] = $mainData;
-    $response = new WP_REST_Response( $mainWrap );
-    $response->set_status( 200 );
-    $response->header( 'Content-type', 'application/json; charset=utf-8' );
-    return $response;
+    return successResponse($mainData);
 }
