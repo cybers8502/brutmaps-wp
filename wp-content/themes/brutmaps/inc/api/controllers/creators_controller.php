@@ -11,7 +11,7 @@ function API_GET_CREATOR_BY_ID( $data ) {
     }
 
     $associatedPeople = getSightsToWhichRelatedArchitectWithID($creatorID);
-    $creatorSmallData['associated_people'] = $associatedPeople;
+    $creatorSmallData['sights'] = $associatedPeople;
     return successResponse($creatorSmallData);
 }
 
