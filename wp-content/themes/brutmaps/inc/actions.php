@@ -85,7 +85,6 @@ function change_columns( $cols ) {
         'cb'                => '<input type="checkbox" />',
         'title'             => __( 'Title' ),
         'architects'        => __( 'Architects', 'trans' ),
-        'author_photo'      => __( 'Author Photo', 'trans' ),
         'contributor'       => __( 'Contributor', 'trans' ),
         'date'              => __( 'Date' ),
     );
@@ -119,33 +118,6 @@ function custom_columns( $column, $post_id ) {
                     } else {
                         echo '<p>'. get_the_title( $term ) .', </p>';
                     }
-                }
-            }
-
-            break;
-
-        case "author_photo":
-            $authors[] =  get_post_meta( $post_id, 'main_image_author_id', true);
-            $arr = get_field( 'gallery', $post_id );
-
-            if ( !empty( $arr ) ) {
-
-                foreach ( $arr as $item ) {
-                    $authors[] = $item["gallery_image_author_id"];
-                }
-
-            }
-
-            $unique = array_unique( $authors );
-
-            $numItems = count($unique);
-            $i = 0;
-
-            foreach ( $unique as $term ) {
-                if( ++$i === $numItems ) {
-                    echo '<p>'. get_the_title( $term ) .'</p>';
-                } else {
-                    echo '<p>'. get_the_title( $term ) .', </p>';
                 }
             }
 
