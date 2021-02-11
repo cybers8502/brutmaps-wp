@@ -30,5 +30,6 @@ require_once( TEMPLATEINC . '/api/helper_functions.php' );
 require_once( TEMPLATEINC . '/api/controllers/objects_controller.php' );
 require_once( TEMPLATEINC . '/api/controllers/about_controller.php' );
 require_once( TEMPLATEINC . '/api/controllers/creators_controller.php' );
+require_once( TEMPLATEINC . '/object/object_update_interceptor.php' );
 
 //require_once( TEMPLATEINC . '/insta_graber.php' );
