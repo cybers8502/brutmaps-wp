@@ -4,8 +4,6 @@ add_action( 'save_post', 'intercept_publishing', 10, 3 );
 
 function intercept_publishing( $post_ID, $post, $update ) {
 
-    $postObject = get_post($post_ID);
-
     if ( ! is_admin() ) {
         return;
     }
@@ -26,7 +24,6 @@ function intercept_publishing( $post_ID, $post, $update ) {
         }
     }
 
-    error_log('DATA '.$authorType. ' NAME '.$newAuthorName);
 }
 
 function createAuthorByInstagramName($name) {
@@ -41,4 +38,26 @@ function createAuthorByInstagramName($name) {
         return $newAuthorID;
     }
     return null;
+}
+
+
+add_filter('acf/fields/post_object/query/key=field_object_main_image_author_id', 'authorSpecificSearchByAdditionalFields', 10, 3);
+
+function authorSpecificSearchByAdditionalFields( $args, $field, $post_id ) {
+
+    $s = $args['s'];
+    if (!$s) {
+        $s = '';
+    }
+    unset($args['s']);
+
+    $args['meta_query'] = array(
+        'relation'  => 'OR',
+        array(
+            'key'		=> 'instagram',
+            'value'		=> $s,
+            'compare'	=> 'LIKE'
+        )
+    );
+    return $args;
 }
