@@ -5,3 +5,4 @@ wp-config.php
 
 wp-content/themes/brutmaps/app/
 wp-content/uploads/
+wp-content/debug.log

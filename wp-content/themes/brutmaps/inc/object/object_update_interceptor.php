@@ -1,35 +1,8 @@
 <?php
 
-add_action( 'save_post', 'intercept_publishing', 10, 3 );
-
-function intercept_publishing( $post_ID, $post, $update ) {
-
-    if ( ! is_admin() ) {
-        return;
-    }
-
-    if ( 'sight' !== get_post_type( $post_ID ) ) {
-        return;
-    }
-
-    $authorType = get_field('main_image_author_type', $post_ID);
-    $newAuthorName = get_field('main_image_free_author_field', $post_ID);
-
-    if ($authorType == 'new_author' && $newAuthorName != "" && !is_null($newAuthorName)) {
-        $newAuthor = createAuthorByInstagramName($newAuthorName);
-        if (!is_null($newAuthor) && $newAuthor != 0) {
-            update_field('main_image_author_type', 'existed', $post_ID);
-            update_field('main_image_free_author_field', null, $post_ID);
-            update_field('main_image_author_id', $newAuthor, $post_ID);
-        }
-    }
-
-}
-
-
-
-
 add_filter('acf/fields/post_object/query/key=field_object_main_image_author_id', 'authorSpecificSearchByAdditionalFields', 10, 3);
+add_filter('acf/fields/post_object/query/key=gallery_image_author_id', 'authorSpecificSearchByAdditionalFields', 10, 3);
+add_filter('acf/fields/post_object/query/key=field_about_main_image_author', 'authorSpecificSearchByAdditionalFields', 10, 3);
 
 function authorSpecificSearchByAdditionalFields( $args, $field, $post_id ) {
 
@@ -81,8 +54,9 @@ function global_notice_meta_box_callback( $post ) {
 add_action( 'add_meta_boxes', 'global_notice_meta_box' );
 
 
-add_action('admin_head', 'ajax_script');
-function ajax_script(){ ?>
+add_action('admin_head', 'createAuthorHandler');
+
+function createAuthorHandler(){ ?>
     <script>
         jQuery(document).ready(function ($) {
             $('#save_author_by_name').on('click', function () {

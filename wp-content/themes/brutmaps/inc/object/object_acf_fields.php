@@ -36,9 +36,7 @@ function get_sight_acf_fields() {
         get_contributor_field(),
         get_tab_field('field_object_media','Media'),
         get_main_image_field(),
-        get_choose_author_type_radio_button(),
         get_main_image_author_select_field(),
-        get_main_image_author_free_field(),
         get_gallery_repeater_field(),
         get_tab_field('field_object_additional','Additional'),
         get_working_hours_field(),
@@ -126,76 +124,19 @@ function get_main_image_field() {
     );
 }
 
-function get_choose_author_type_radio_button() {
-    return array (
-        'key' => 'field_object_main_image_author_type',
-        'label' => 'Choose Author',
-        'name' => 'main_image_author_type',
-        'type' => 'radio',
-        'required' => 1,
-        'return_format' => 'id',
-        'multiple' => 0,
-        'post_type' => 'authors',
-        'wrapper' => array (
-            'width' => '20',
-        ),
-
-        'choices' => array(
-            'existed'	    => 'From existed list',
-            'new_author'	=> 'Create new author'
-        ),
-        'other_choice' => 0,
-        'layout' => 1
-    );
-}
-
 function get_main_image_author_select_field() {
     return array (
         'key' => 'field_object_main_image_author_id',
         'label' => 'Main Image Author',
         'name' => 'main_image_author_id',
+        'instructions' => 'Search by instagram name',
         'type' => 'post_object',
         'required' => 1,
         'return_format' => 'id',
         'multiple' => 0,
         'post_type' => 'authors',
         'wrapper' => array (
-            'width' => '40',
-        ),
-        'conditional_logic' => array (
-            array (
-                array (
-                    'field' => 'field_object_main_image_author_type',
-                    'operator' => '==',
-                    'value' => 'existed',
-                ),
-            ),
-        )
-    );
-}
-
-function get_main_image_author_free_field() {
-    return array (
-        'key' => 'field_object_main_image_free_author_field',
-        'label' => 'Create New Author by instagram nickname',
-        'name' => 'main_image_free_author_field',
-        'type' => 'text',
-        'required' => 1,
-        'instructions'        => 'Instagram should be in format - "@artgorodetsky" ',
-        'return_format' => 'id',
-        'multiple' => 0,
-        'post_type' => 'authors',
-        'wrapper' => array (
-            'width' => '40',
-        ),
-        'conditional_logic' => array (
-            array (
-                array (
-                    'field' => 'field_object_main_image_author_type',
-                    'operator' => '==',
-                    'value' => 'new_author',
-                ),
-            ),
+            'width' => '60',
         )
     );
 }
@@ -248,7 +189,7 @@ function get_gallery_repeater_field() {
                 'name' => 'gallery_image',
                 'type' => 'image',
                 'required' => 1,
-                'return_format' => 'id',
+                'return_format' => 'array',
                 'parent' => 'gallery_2'
             ),
             array (
