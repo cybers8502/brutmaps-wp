@@ -4,6 +4,9 @@ add_filter('acf/fields/post_object/query/key=field_object_main_image_author_id',
 add_filter('acf/fields/post_object/query/key=gallery_image_author_id', 'authorSpecificSearchByAdditionalFields', 10, 3);
 add_filter('acf/fields/post_object/query/key=field_about_main_image_author', 'authorSpecificSearchByAdditionalFields', 10, 3);
 
+add_action( 'add_meta_boxes', 'global_notice_meta_box' );
+add_action('admin_head', 'createAuthorHandler');
+
 function authorSpecificSearchByAdditionalFields( $args, $field, $post_id ) {
 
     $s = $args['s'];
@@ -51,12 +54,7 @@ function global_notice_meta_box_callback( $post ) {
         </div>';
 }
 
-add_action( 'add_meta_boxes', 'global_notice_meta_box' );
-
-
-add_action('admin_head', 'createAuthorHandler');
-
-function createAuthorHandler(){ ?>
+function createAuthorHandler() { ?>
     <script>
         jQuery(document).ready(function ($) {
             $('#save_author_by_name').on('click', function () {
