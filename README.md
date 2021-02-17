@@ -1,5 +1,6 @@
-#Documentation
-##API Documentation
+# Documentation
+
+## API Documentation
 
 ### **Requests**
 
