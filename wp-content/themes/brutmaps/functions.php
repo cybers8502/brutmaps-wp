@@ -25,6 +25,7 @@ require_once( TEMPLATEINC . '/actions.php' );
 require_once( TEMPLATEINC . '/ajax.php' );
 require_once( TEMPLATEINC . '/email.php' );
 
+require_once( TEMPLATEINC . '/api/api_publicity_settings.php' );
 require_once( TEMPLATEINC . '/api/routing.php' );
 require_once( TEMPLATEINC . '/api/helper_functions.php' );
 require_once( TEMPLATEINC . '/api/controllers/objects_controller.php' );
