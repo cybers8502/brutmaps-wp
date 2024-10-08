@@ -15,7 +15,6 @@ function API_GET_CREATOR_BY_ID( $data ) {
 }
 
 // HELPERS
-
 function getSightsToWhichRelatedArchitectWithID($ID) {
 
     $sightsArgh = array(

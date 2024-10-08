@@ -1,6 +1,3 @@
-</div>
-<!-- /site -->
-
 <?php wp_footer() ?>
 
 <!-- Global site tag (gtag.js) - Google Analytics -->

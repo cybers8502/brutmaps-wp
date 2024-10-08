@@ -5,12 +5,12 @@ function getSmartImage($imageID, $authorID) {
     if (!$size || count($size) < 3) {
         return null;
     }
-    $result = [];
-    $result['source'] = $size[0];
-    $result['width'] = $size[1];
-    $result['height'] = $size[2];
-    $result['author'] = getAuthorData($authorID);
-    return $result;
+    return [
+        'source' => $size[0],
+        'width' => $size[1],
+        'height' => $size[2],
+        'author' => getAuthorData($authorID)
+    ];
 }
 
 function getAuthorData($authorID) {
@@ -30,19 +30,24 @@ function getAuthorData($authorID) {
 }
 
 function getImageWithSizes($imageObject) {
-    if (is_null($imageObject) || !$imageObject) {
-        $images = [
-            'image_full' => PLACEHOLDER,
-            'image_small' => PLACEHOLDER,
-            'image_medium' => PLACEHOLDER
-        ];
-    } else {
-        $images = [
-            'image_full' => $imageObject['url'],
-            'image_small' => $imageObject['sizes']['thumbnail'],
-            'image_medium' => $imageObject['sizes']['medium']
-        ];
+    $images = [
+        'image_full' => PLACEHOLDER,
+        'image_small' => PLACEHOLDER,
+        'image_medium' => PLACEHOLDER
+    ];
+
+    if (is_array($imageObject) && isset($imageObject['url']) && isset($imageObject['sizes'])) {
+        $images['image_full'] = $imageObject['url'];
+
+        if (isset($imageObject['sizes']['thumbnail'])) {
+            $images['image_small'] = $imageObject['sizes']['thumbnail'];
+        }
+
+        if (isset($imageObject['sizes']['medium'])) {
+            $images['image_medium'] = $imageObject['sizes']['medium'];
+        }
     }
+
     return $images;
 }
 
@@ -57,15 +62,15 @@ function getCreatorsSmallDataByIDs($IDs) {
             $imageObject = get_field('main_image', $architectID);
             $images = getImageWithSizes($imageObject);
             $author = get_field('main_image_author_id', $architectID);
-            $item = [];
-            $item['id'] = intval($architectID);
-            $item['first_name'] = html_entity_decode(get_field('first_name', $architectID));
-            $item['last_name'] = html_entity_decode(get_field('last_name', $architectID));
-            $item['name'] = html_entity_decode(get_the_title($architectID));
-            $item['image'] = $images;
-            $item['main_image_author'] = getAuthorData($author);
-            $item['description'] = html_entity_decode(get_field('description', $architectID));
-            $architects[] = $item;
+            $architects[] = [
+                'id' => intval($architectID),
+                'first_name' => html_entity_decode(get_field('first_name', $architectID)),
+                'last_name' => html_entity_decode(get_field('last_name', $architectID)),
+                'name' => html_entity_decode(get_the_title($architectID)),
+                'image' => $images,
+                'main_image_author' => getAuthorData($author),
+                'description' => html_entity_decode(get_field('description', $architectID))
+            ];
         }
     }
     return $architects;
@@ -74,26 +79,47 @@ function getCreatorsSmallDataByIDs($IDs) {
 function getSightsSmallDataByIDs($IDs) {
     $result = [];
     foreach ($IDs as $sightID) {
+        $sight = get_post($sightID);
+
         $architectsIDs = get_field('choose_architects', $sightID);
         if (!$architectsIDs) {
             $architectsIDs = [];
         }
         $location = get_field('location', $sightID);
-        $item = [];
-        $item['id'] = $sightID;
-        $item['link'] = get_permalink($sightID);
-        $item['title'] = html_entity_decode(get_the_title($sightID));
-        $item['architects'] = $architectsIDs;
-        $item['coordinates'] = [
-            'lat' => doubleval($location['lat']),
-            'long' => doubleval($location['lng'])
-        ];
-        $item['address'] = html_entity_decode($location['address']);
-        $item['year'] = intval(get_field('established', $sightID));
         $imageObject = get_field('main_image', $sightID);
-        $images = getImageWithSizes($imageObject);
-        $item['images'] = $images;
-        $result[] = $item;
+        $result[] = [
+            'id' => $sightID,
+            'slug' => $sight->post_name,
+            'link' => get_permalink($sightID),
+            'title' => html_entity_decode(get_the_title($sightID)),
+            'architects' => $architectsIDs,
+            'coordinates' => [
+                'lat' => doubleval($location['lat']),
+                'long' => doubleval($location['lng'])
+            ],
+            'address' => html_entity_decode($location['address']),
+            'year' => intval(get_field('established', $sightID)),
+            'images' => getImageWithSizes($imageObject)
+        ];
+    }
+    return $result;
+}
+
+function getPostsByIDs($IDs) {
+    $result = [];
+    foreach ($IDs as $id) {
+        $post = get_post($id);
+
+        if ($post) {
+            $result[] = [
+                'id' => $post->ID,
+                'slug' => $post->post_name,
+                'title' => $post->post_title,
+                'author' => get_the_author_meta('display_name', $post->post_author),
+                'thumbnail' => get_the_post_thumbnail_url($post->ID, 'full'),
+                'permalink' => get_permalink($post->ID),
+            ];
+        }
     }
     return $result;
 }
@@ -121,3 +147,4 @@ function successResponse($data) {
     $response->header( 'Content-type', 'application/json; charset=utf-8' );
     return $response;
 }
+

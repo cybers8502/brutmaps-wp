@@ -1,1 +1,5 @@
-<?php wp_redirect(get_home_url());
+<?php get_header(); ?>
+
+  <div id="root"></div>
+
+<?php get_footer();

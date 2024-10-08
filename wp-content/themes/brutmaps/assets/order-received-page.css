@@ -1,0 +1,8 @@
+.woocommerce-order {
+    margin-inline: auto;
+
+    @media screen and (width >= 1024px) {
+        inline-size: min(1160px, 100%);
+        padding-inline: 16px;
+    }
+}

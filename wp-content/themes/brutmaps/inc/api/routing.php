@@ -11,15 +11,30 @@ require_once(ABSPATH . 'wp-admin/includes/media.php');
 //New endpoints registration
 add_action( 'rest_api_init', function () {
 
+	register_rest_route( BASE_URL, '/posts', array(
+		'methods' => 'GET',
+		'callback' => 'API_GET_POSTS',
+	) );
+
+    register_rest_route( BASE_URL, '/posts/(?P<identifier>[\w-]+)', array(
+        'methods' => 'GET',
+        'callback' => 'API_GET_POST_BY_ID',
+    ) );
+
 	register_rest_route( BASE_URL, '/sights', array(
 		'methods' => 'GET',
 		'callback' => 'API_GET_SIGHTS',
 	) );
 
-	register_rest_route( BASE_URL, '/sights/(?P<id>\d+)', array(
+    register_rest_route( BASE_URL, '/sights/(?P<identifier>[\w-]+)', array(
 		'methods' => 'GET',
 		'callback' => 'API_GET_SIGHT_BY_ID',
 	) );
+
+    register_rest_route( BASE_URL, '/products', array(
+        'methods' => 'GET',
+        'callback' => 'API_GET_PRODUCTS',
+    ) );
 
 	register_rest_route( BASE_URL, '/submit_sight', array(
 		'methods' => 'POST',

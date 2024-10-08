@@ -1,17 +1,19 @@
-<?php if( get_the_ID() == 1 ): ?>
+<?php if( is_front_page() ): ?>
     <div class="control-view js-control-view">
         <span>Map view</span>
 
-        <a href="#" class="control-view__btn">
+        <span class="control-view__btn">
             <img src="<?= DIRECT ?>img/icon-list-view.svg" alt="view"/>
-        </a>
+        </span>
 
     </div>
-<?php else: ?>
+<?php else:
+    $location = get_field('location');
+?>
     <div class="control-view">
         <span>Map view</span>
 
-        <a href="<?= get_permalink( 1 ) ?>" class="control-view__btn">
+        <a href="<?= get_home_url() ?>#12/<?= $location['lat'] ?>/<?= $location['lng'] ?>" class="control-view__btn">
             <img src="<?= DIRECT ?>img/icon-map-view.svg" alt="view"/>
         </a>
 

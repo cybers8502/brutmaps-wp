@@ -1,8 +1,55 @@
 <?php
 
+// - GET: /posts
+function API_GET_POSTS() {
+    $ids = getPosts('post');
+    $mainData = [
+        'posts' => getPostsByIDs($ids)
+    ];
+
+    return successResponse($mainData);
+}
+
+// - GET /posts/$id
+function API_GET_POST_BY_ID( $data ) {
+    $identifier = $data['identifier'];
+
+    if (is_numeric($identifier)) {
+        $postID = intval($identifier);
+        $post = get_post($postID);
+    } else {
+        $slug = sanitize_title($identifier);
+        $args = [
+            'name'        => $slug,
+            'post_type'   => 'post',
+            'post_status' => 'publish',
+            'numberposts' => 1
+        ];
+        $posts = get_posts($args);
+        $post = !empty($posts) && isset($posts[0]) ? $posts[0] : null;
+        $postID = $post ? $post->ID : null;
+    }
+
+    if (!is_null($post) && $post->post_status === 'publish' && $post->post_type == 'post') {
+        $mainData = [
+            'id'            => $postID,
+            'title'         => $post->post_title,
+            'content'       => apply_filters('the_content', $post->post_content),
+            'excerpt'       => $post->post_excerpt,
+            'date'          => $post->post_date,
+            'author'        => get_the_author_meta('display_name', $post->post_author),
+            'thumbnail'     => get_the_post_thumbnail_url($post->ID, 'full'),
+            'permalink'     => get_permalink($post->ID),
+        ];
+    } else {
+        return failureResponse('Sight does not exist');
+    }
+    return successResponse($mainData);
+}
+
 // - GET: /sights
 function API_GET_SIGHTS() {
-    $ids = getSights();
+    $ids = getPosts('sight');
     $lat = 40.6971494;
     $long = -74.2598626;
     $address = get_field('initial_center_for_users', 'options');
@@ -11,7 +58,7 @@ function API_GET_SIGHTS() {
         $long = doubleval($address['lng']);
     }
     $mainData = [
-        'sights' => [],
+        'sights' => getSightsSmallDataByIDs($ids),
         'settings' => [
             'default_center' => [
                 'coordinates' => [
@@ -22,14 +69,29 @@ function API_GET_SIGHTS() {
         ]
     ];
 
-    $mainData['sights'] = getSightsSmallDataByIDs($ids);
     return successResponse($mainData);
 }
 
 // - GET /sights/$id
 function API_GET_SIGHT_BY_ID( $data ) {
-    $sightID = intval($data['id']);
-    $sight = get_post($sightID);
+    $identifier = $data['identifier'];
+
+    if (is_numeric($identifier)) {
+        $sightID = intval($identifier);
+        $sight = get_post($sightID);
+    } else {
+        $slug = sanitize_title($identifier);
+        $args = [
+            'name'        => $slug,
+            'post_type'   => 'sight',
+            'post_status' => 'publish',
+            'numberposts' => 1
+        ];
+        $sights = get_posts($args);
+        $sight = !empty($sights) && isset($sights[0]) ? $sights[0] : null;
+        $sightID = $sight ? $sight->ID : null;
+    }
+
     if (!is_null($sight) && $sight->post_status === 'publish' && $sight->post_type == 'sight') {
         $location = get_field('location', $sightID);
         $galleryField = get_field('gallery', $sightID);
@@ -79,6 +141,59 @@ function API_GET_SIGHT_BY_ID( $data ) {
     } else {
         return failureResponse('Sight does not exist');
     }
+    return successResponse($mainData);
+}
+
+// - GET: /store
+function API_GET_PRODUCTS() {
+    if (!class_exists('WooCommerce')) {
+        return errorResponse('WooCommerce plugin is not activated.');
+    }
+
+    $args = [
+        'status' => 'publish',
+        'limit' => -1,
+    ];
+
+    $products = wc_get_products($args);
+
+    $product_data = [];
+    foreach ($products as $product) {
+
+        $image_id = $product->get_image_id();
+        $image = [
+            'id' => $image_id,
+            'src' => wp_get_attachment_url($image_id),
+            'name' => get_the_title($image_id)
+        ];
+
+        $images = array_map(function($image_id) {
+            return [
+                'id' => $image_id,
+                'src' => wp_get_attachment_url($image_id),
+                'name' => get_the_title($image_id)
+            ];
+        }, $product->get_gallery_image_ids());
+
+        $product_data[] = [
+            'id' => $product->get_id(),
+            'name' => $product->get_name(),
+            'price' => $product->get_price(),
+            'regular_price' => $product->get_regular_price(),
+            'sale_price' => $product->get_sale_price(),
+            'slug' => $product->get_slug(),
+            'description' => $product->get_description(),
+            'short_description' => $product->get_short_description(),
+            'image' => $image,
+            'images' => $images,
+            'categories' => wp_get_post_terms($product->get_id(), 'product_cat', ['fields' => 'names'])
+        ];
+    }
+
+    $mainData = [
+        'products' => $product_data
+    ];
+
     return successResponse($mainData);
 }
 
@@ -139,9 +254,7 @@ function API_POST_SIGHT ( $data ) {
     return $response;
 }
 
-
 // - HELPER FUNCTIONS
-
 function uploadFile($file) {
     $mimes = array(
         'bmp'  => 'image/bmp',
@@ -172,10 +285,10 @@ function uploadFile($file) {
     return $id;
 }
 
-function getSights() {
+function getPosts($type) {
     $args = array(
         'numberposts'   => -1,
-        'post_type'		=> 'sight',
+        'post_type'		=> $type,
         'orderby' 		=> 'title',
         'order' 		=> 'ASC',
         'fields'        => 'ids',
