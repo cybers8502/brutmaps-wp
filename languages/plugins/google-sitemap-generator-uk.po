@@ -1,0 +1,507 @@
+# Translation of Plugins - XML Sitemap Generator for Google - Stable (latest release) in Ukrainian
+# This file is distributed under the same license as the Plugins - XML Sitemap Generator for Google - Stable (latest release) package.
+msgid ""
+msgstr ""
+"PO-Revision-Date: 2020-02-04 20:29:10+0000\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : ((n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? 1 : 2);\n"
+"X-Generator: GlotPress/4.0.1\n"
+"Language: uk_UA\n"
+"Project-Id-Version: Plugins - XML Sitemap Generator for Google - Stable (latest release)\n"
+
+#: sitemap-core.php:651
+msgid "Comment Count"
+msgstr "Личільник коментарів"
+
+#: sitemap-core.php:661
+msgid "Uses the number of comments of the post to calculate the priority"
+msgstr "Використовує кількість коментарів до публікацій для калькуляції пріорітету"
+
+#: sitemap-core.php:719
+msgid "Comment Average"
+msgstr "Коментарів Середнє"
+
+#: sitemap-core.php:729
+msgid "Uses the average comment count to calculate the priority"
+msgstr "Використовує кількість коментарів у середньому для калькуляції пріорітету"
+
+#: sitemap-core.php:917
+msgid "Always"
+msgstr "Завжди"
+
+#: sitemap-core.php:918
+msgid "Hourly"
+msgstr "Щочасу"
+
+#: sitemap-core.php:919
+msgid "Daily"
+msgstr "Щоденно"
+
+#: sitemap-core.php:920
+msgid "Weekly"
+msgstr "Щонедільно"
+
+#: sitemap-core.php:921
+msgid "Monthly"
+msgstr "Щомісячно"
+
+#: sitemap-core.php:922
+msgid "Yearly"
+msgstr "Щорічно"
+
+#: sitemap-core.php:923
+msgid "Never"
+msgstr "Ніколи"
+
+#: class-googlesitemapgeneratorui.php:746
+msgid "Thank you very much for your donation. You help me to continue support and development of this plugin and other free software!"
+msgstr "Дякую вам дуже за ваше пожертвування. Ви допомагаете мені підтримувати та розробляти цій плагін та інше вільне програмне забеспечення."
+
+#: class-googlesitemapgeneratorui.php:746
+msgid "Hide this notice"
+msgstr "Приховати це повідомлення"
+
+#: class-googlesitemapgeneratorui.php:778
+msgid "No thanks, please don't bug me anymore!"
+msgstr "Ні, дякую, будь ласка, не турбуйте мене!"
+
+#: class-googlesitemapgeneratorui.php:547
+msgid "Configuration updated"
+msgstr "Конфігурація оновлена"
+
+#: class-googlesitemapgeneratorui.php:549
+msgid "Error while saving options"
+msgstr "Помилка при збереженні опцій"
+
+#: class-googlesitemapgeneratorui.php:556
+msgid "Error while saving pages"
+msgstr "Помилка при збереженні сторінок"
+
+#: class-googlesitemapgeneratorui.php:586
+msgid "The default configuration was restored."
+msgstr "Конфігурація за замовчуванням була відновлена."
+
+#: class-googlesitemapgeneratorui.php:1104
+msgid "About this Plugin:"
+msgstr "Про цей Плагін:"
+
+#: class-googlesitemapgeneratorui.php:1105
+msgid "Plugin Homepage"
+msgstr "Домашня сторінка Плагіну"
+
+#: class-googlesitemapgeneratorui.php:1106
+msgid "Suggest a Feature"
+msgstr "Замовити Функціонал"
+
+#: class-googlesitemapgeneratorui.php:1110
+msgid "Report a Bug"
+msgstr "Повідомити про помилку"
+
+#: class-googlesitemapgeneratorui.php:1301
+msgid "Basic Options"
+msgstr "Базові Опції"
+
+#: class-googlesitemapgeneratorui.php:1303
+#: class-googlesitemapgeneratorui.php:1361
+#: class-googlesitemapgeneratorui.php:1387
+#: class-googlesitemapgeneratorui.php:1391
+msgid "Learn more"
+msgstr "Дізнатись більше"
+
+#: class-googlesitemapgeneratorui.php:1351
+msgid "Add sitemap URL to the virtual robots.txt file."
+msgstr "Додати URL файлу Sitemap в віртуальний файл robots.txt ."
+
+#: class-googlesitemapgeneratorui.php:1361
+msgid "Advanced options:"
+msgstr "Додаткові опції:"
+
+#: class-googlesitemapgeneratorui.php:1364
+msgid "Try to increase the memory limit to:"
+msgstr "Спробуйте збільшити ліміт пам'яті:"
+
+#: class-googlesitemapgeneratorui.php:1367
+msgid "Try to increase the execution time limit to:"
+msgstr "Спробуйте збільшити ліміт часу виконання до:"
+
+#: class-googlesitemapgeneratorui.php:1378
+msgid "Include a XSLT stylesheet:"
+msgstr "Додати таблиці стилів XSLT:"
+
+#: class-googlesitemapgeneratorui.php:1379
+msgid "Full or relative URL to your .xsl file"
+msgstr "Повний або відносний URL до вашого. XSL-файлу"
+
+#: class-googlesitemapgeneratorui.php:1383
+msgid "Use default"
+msgstr "Використовувати параметри за замовчуванням"
+
+#: class-googlesitemapgeneratorui.php:1427
+#: class-googlesitemapgeneratorui.php:1776
+#: class-googlesitemapgeneratorui.php:1785
+msgid "Note"
+msgstr "Примітка"
+
+#: class-googlesitemapgeneratorui.php:1430
+#: class-googlesitemapgeneratorui.php:1497
+msgid "URL to the page"
+msgstr "URL сторінки"
+
+#: class-googlesitemapgeneratorui.php:1431
+msgid "Enter the URL to the page. Examples: http://www.foo.com/index.html or www.foo.com/home "
+msgstr "Введіть URL для сторінки. Приклади: http://www.foo.com/index.html or www.foo.com/home "
+
+#: class-googlesitemapgeneratorui.php:1434
+msgid "Choose the priority of the page relative to the other pages. For example, your homepage might have a higher priority than your imprint."
+msgstr "Виберіть пріоритет сторінки в порівнянні з іншими сторінками. Наприклад, ваша домашня сторінка, можливо, має більш високий пріоритет, ніж інші."
+
+#: class-googlesitemapgeneratorui.php:1436
+#: class-googlesitemapgeneratorui.php:1500
+msgid "Last Changed"
+msgstr "Останні Зміни"
+
+#: class-googlesitemapgeneratorui.php:1437
+msgid "Enter the date of the last change as YYYY-MM-DD (2005-12-31 for example) (optional)."
+msgstr "Введіть дату останнього зміни як РРРР-ММ-ДД (наприклад, 2005-12-31) (не обов'язково)."
+
+#: class-googlesitemapgeneratorui.php:1499
+msgid "Change Frequency"
+msgstr "Зміна частоти"
+
+#: class-googlesitemapgeneratorui.php:1501
+msgid "#"
+msgstr "№"
+
+#: class-googlesitemapgeneratorui.php:1513
+msgid "Add new page"
+msgstr "Додати нову сторінку"
+
+#: class-googlesitemapgeneratorui.php:1521
+msgid "Please select how the priority of each post should be calculated:"
+msgstr "Будь ласка, виберіть який пріоритет повинен бути розрахований для кожної публікації :"
+
+#: class-googlesitemapgeneratorui.php:1529
+msgid "Do not use automatic priority calculation"
+msgstr "Не робити автоматичну калькуляцію приорітету"
+
+#: class-googlesitemapgeneratorui.php:1529
+msgid "All posts will have the same priority which is defined in &quot;Priorities&quot;"
+msgstr "Всі публікацї, будуть мати такий же пріоритет, який визначений в &quot;пріоритети&quot;"
+
+#: class-googlesitemapgeneratorui.php:1539
+msgid "Sitemap Content"
+msgstr "Зміст мапи сайту"
+
+#: class-googlesitemapgeneratorui.php:1545
+msgid "Include homepage"
+msgstr "Включити домашні сторінки"
+
+#: class-googlesitemapgeneratorui.php:1551
+msgid "Include posts"
+msgstr "Включити публікації"
+
+#: class-googlesitemapgeneratorui.php:1575
+msgid "Include static pages"
+msgstr "Включити статичні сторінки"
+
+#: class-googlesitemapgeneratorui.php:1581
+msgid "Include categories"
+msgstr "Включити категорії"
+
+#: class-googlesitemapgeneratorui.php:1587
+msgid "Include archives"
+msgstr "Включити архіви"
+
+#: class-googlesitemapgeneratorui.php:1600
+msgid "Include tag pages"
+msgstr "Включити сторінки тегів"
+
+#: class-googlesitemapgeneratorui.php:1593
+msgid "Include author pages"
+msgstr "Включити сторінки авторів"
+
+#: class-googlesitemapgeneratorui.php:1712
+msgid "Excluded categories"
+msgstr "Виключити категорії"
+
+#: class-googlesitemapgeneratorui.php:1772
+msgid "Exclude posts"
+msgstr "Виключити публікації"
+
+#: class-googlesitemapgeneratorui.php:1774
+msgid "Exclude the following posts or pages:"
+msgstr "Виключити наступні публікації або сторінки:"
+
+#: class-googlesitemapgeneratorui.php:1774
+msgid "List of IDs, separated by comma"
+msgstr "Перелік ID, розділених комою"
+
+#: class-googlesitemapgeneratorui.php:1776
+msgid "Child posts won't be excluded automatically!"
+msgstr "Дочірні публікації не виключаються автоматично!"
+
+#: class-googlesitemapgeneratorui.php:1792
+#: class-googlesitemapgeneratorui.php:1875
+msgid "Homepage"
+msgstr "Домашня сторінка"
+
+#: class-googlesitemapgeneratorui.php:1804
+#: class-googlesitemapgeneratorui.php:1896
+msgid "Static pages"
+msgstr "Статичні сторінки"
+
+#: class-googlesitemapgeneratorui.php:1810
+#: class-googlesitemapgeneratorui.php:1902
+msgid "Categories"
+msgstr "Катергорії"
+
+#: class-googlesitemapgeneratorui.php:1842
+msgid "The current archive of this month (Should be the same like your homepage)"
+msgstr "Поточний архів за цей місяць (Повинен бути таким самим, як ваша головна сторінка)"
+
+#: class-googlesitemapgeneratorui.php:1848
+msgid "Older archives (Changes only if you edit an old post)"
+msgstr "Попередні архіви (змінються тільки тоді, коли ви редагуєте старі публікації)"
+
+#: class-googlesitemapgeneratorui.php:1855
+#: class-googlesitemapgeneratorui.php:1941
+msgid "Tag pages"
+msgstr "Сторінки тегів"
+
+#: class-googlesitemapgeneratorui.php:1870
+msgid "Priorities"
+msgstr "Пріоритети"
+
+#: class-googlesitemapgeneratorui.php:1882
+msgid "Posts (If auto calculation is disabled)"
+msgstr "Публікації (Якщо авторозрахунок відключено)"
+
+#: class-googlesitemapgeneratorui.php:1889
+msgid "Minimum post priority (Even if auto calculation is enabled)"
+msgstr "Мінімальний  пріоритет публікації (Навіть якщо автоматичний розрахунок було включено)"
+
+#: class-googlesitemapgeneratorui.php:1934
+msgid "Archives"
+msgstr "Архіви"
+
+#: class-googlesitemapgeneratorloader.php:311
+msgid "XML-Sitemap Generator"
+msgstr "XML-Генератор Мапи сайту"
+
+#: class-googlesitemapgeneratorloader.php:311
+msgid "XML-Sitemap"
+msgstr "XML-Мапа сайту"
+
+#: class-googlesitemapgeneratorloader.php:736
+msgid "Settings"
+msgstr "Налаштування"
+
+#: class-googlesitemapgeneratorui.php:1189
+msgid "Enable"
+msgstr "Увімкнути"
+
+#: class-googlesitemapgeneratorloader.php:737
+msgid "FAQ"
+msgstr "Часті питання"
+
+#: class-googlesitemapgeneratorui.php:1167
+msgid "Disable"
+msgstr "Відключено"
+
+#: class-googlesitemapgeneratorui.php:660
+msgid "All done!"
+msgstr "Все готово!"
+
+#: sitemap.php:345
+msgid "Your PHP version is too old for XML Sitemaps."
+msgstr "Ваша версія PHP застаріла для XML Sitemaps."
+
+#: class-googlesitemapgeneratorui.php:1681
+msgid "Further options"
+msgstr "Додаткові параметри"
+
+#: class-googlesitemapgeneratorui.php:1402
+msgid "Include sitemap in HTML format"
+msgstr "Включити мапу сайту в HTML форматі"
+
+#. translators: %s: search term
+#: class-googlesitemapgeneratorui.php:1632
+msgid "Include taxonomy pages for %s"
+msgstr "Включити сторінки таксономії для %s"
+
+#: class-googlesitemapgeneratorui.php:637
+msgid "Notify Search Engines about all sitemaps"
+msgstr "Повідомляти пошуковим системам про всі мапи сайту"
+
+#: class-googlesitemapgeneratorloader.php:738
+msgid "Support"
+msgstr "Підтримка"
+
+#: sitemap.php:333
+msgid "Your WordPress version is too old for XML Sitemaps."
+msgstr "Ваша версія WordPress застаріла для XML Sitemaps."
+
+#: class-googlesitemapgeneratorui.php:1284
+msgid "Webserver Configuration"
+msgstr "Конфігурація веб-сервера"
+
+#: sitemap-core.php:2896
+msgid "Don't show this anymore"
+msgstr "Не показувати це більше"
+
+#: class-googlesitemapgeneratorui.php:1686
+msgid "Include the last modification time."
+msgstr "Включити час останньої модифікації."
+
+#: class-googlesitemapgeneratorui.php:1186
+msgid "No support topics available or an error occurred while fetching them."
+msgstr "Немає тем підтримки або виникла помилок при їх завантаженні."
+
+#: class-googlesitemapgeneratorui.php:1163
+msgid "Recent Support Topics / News"
+msgstr "Останні теми підтримки / Новини"
+
+#: class-googlesitemapgeneratorui.php:1386
+msgid "Override the base URL of the sitemap:"
+msgstr "Перевизначити базову URL-адресу мапи сайту:"
+
+#: class-googlesitemapgeneratorui.php:1148
+msgid "Search engines haven't been notified yet"
+msgstr "Пошукові системи поки що не були повідомленні"
+
+#: class-googlesitemapgeneratorui.php:598
+msgid "The old files were successfully deleted."
+msgstr "Застарілі файли успішно видалені."
+
+#: class-googlesitemapgeneratorui.php:1798
+msgid "Posts"
+msgstr "Записи"
+
+#. translators: %s: search term
+#: class-googlesitemapgeneratorui.php:1667
+msgid "Include custom post type %s"
+msgstr "Включати користувацький тип записів %s"
+
+#: class-googlesitemapgeneratorui.php:1652
+msgid "Custom post types"
+msgstr "Користувацькі типи запису"
+
+#: class-googlesitemapgeneratorui.php:1617
+msgid "Custom taxonomies"
+msgstr "Користувацькі таксономії"
+
+#: class-googlesitemapgeneratorui.php:1540
+msgid "WordPress standard content"
+msgstr "Звичайний вміст WordPress"
+
+#: class-googlesitemapgeneratorui.php:1405
+msgid "(The required PHP XSL Module is not installed)"
+msgstr "(Необхідний модуль PHP XSL не встановлений)"
+
+#: class-googlesitemapgeneratorui.php:1189
+msgid "Support Topics have been disabled. Enable them to see useful information regarding this plugin. No Ads or Spam!"
+msgstr "Теми підтримки вимкнено. Увімкніть їх, щоб побачити корисну інформацію про цей плагін. Без реклами чи спаму!"
+
+#: class-googlesitemapgeneratorui.php:778
+msgid "Sure, but I already did!"
+msgstr "Звичайно, але я вже зробив!"
+
+#: class-googlesitemapgeneratorui.php:676
+#: class-googlesitemapgeneratorui.php:687
+msgid "Ping was executed, please see below for the result."
+msgstr "Пінг було виконано. Результат дивись нижче."
+
+#: class-googlesitemapgeneratorui.php:638
+msgid "The plugin is notifying the selected search engines about your main sitemap and all sub-sitemaps. This might take a minute or two."
+msgstr "Плагін повідомляє вибраним пошуковим системам про вашу основну мапу сайту та про всі під-мапи. Це може зайняти хвилину-дві."
+
+#: class-googlesitemapgeneratorui.php:596
+msgid "The old files could NOT be deleted. Please use an FTP program and delete them by yourself."
+msgstr "Старі файли НЕ вдалося видалити. Скористайтеся FTP програмою та видаліть їх самостійно."
+
+#: class-googlesitemapgeneratorui.php:1374
+msgid "Disable this option if you get garbled content or encoding errors in your sitemap."
+msgstr "Вимкніть цю опцію, якщо у вашій мапі сайту з’являється помилковий вміст або помилки кодування."
+
+#: class-googlesitemapgeneratorui.php:1372
+msgid "Try to automatically compress the sitemap if the requesting client supports it."
+msgstr "Спробуйте автоматично заархівувати мапу сайту, якщо запитуючий клієнт підтримує його."
+
+#: class-googlesitemapgeneratorui.php:1231
+msgid "%s was <b>successfully notified</b> about changes."
+msgstr "%s було <b>успішно повідомлено</b> про зміни."
+
+#: class-googlesitemapgeneratorui.php:1693
+msgid "This is highly recommended and helps the search engines to know when your content has changed. This option affects <i>all</i> sitemap entries."
+msgstr "Це настійно рекомендується і допомагає пошуковим системам дізнатися, коли змінився ваш вміст. Цей параметр впливає на <i>усі</i> записи мапи сайту."
+
+#: class-googlesitemapgeneratorui.php:1285
+msgid "Since you are using Nginx as your web-server, please configure the following rewrite rules in case you get 404 Not Found errors for your sitemap:"
+msgstr "Оскільки ви використовуєте Nginx, в якості свого веб-сервера, будь ласка, налаштуйте такі правила перезапису на випадок, якщо ви отримаєте помилки 404 Не Знайдені для вашої мапи сайту:"
+
+#. translators: %s: search term
+#: class-googlesitemapgeneratorui.php:1260
+msgid "If you encounter any problems with your sitemap you can use the <a href=\"%d\">debug function</a> to get more information."
+msgstr "Якщо у вас є якісь проблеми з вашою картою сайту, ви можете скористатися <a href=\"%d\">функцією налагодження</a> для отримання додаткової інформації."
+
+#: class-googlesitemapgeneratorui.php:1234
+msgid "It took %time% seconds to notify %name%, maybe you want to disable this feature to reduce the building time."
+msgstr "Потрібно повідомити %time% секунд, щоб повідомити %name%, можливо, ви хочете вимкнути цю функцію, щоб скоротити час створення."
+
+#. translators: %s: search term
+#: class-googlesitemapgeneratorui.php:1154
+msgid "Result of the last ping, started on %date%."
+msgstr "Результат останньої перевірки, початої %date%."
+
+#: class-googlesitemapgeneratorui.php:1114
+msgid "translator_url"
+msgstr "translator_url"
+
+#: class-googlesitemapgeneratorui.php:1112
+#: class-googlesitemapgeneratorui.php:1114
+msgid "translator_name"
+msgstr "translator_name"
+
+#: class-googlesitemapgeneratorui.php:1519
+msgid "Post Priority"
+msgstr "Пріоритет запису"
+
+#: class-googlesitemapgeneratorui.php:1507
+msgid "No pages defined."
+msgstr "Жодної сторінки не знайдено."
+
+#: class-googlesitemapgeneratorui.php:1433
+#: class-googlesitemapgeneratorui.php:1498
+msgid "Priority"
+msgstr "Пріоритет"
+
+#: class-googlesitemapgeneratorui.php:1117
+msgid "Sitemap Resources:"
+msgstr "Ресурси мапи сайту:"
+
+#: class-googlesitemapgeneratorui.php:1125
+msgid "Official Sitemaps FAQ"
+msgstr "Офіційні ЧаПи мапи сайту"
+
+#: class-googlesitemapgeneratorui.php:1974
+msgid "Reset options"
+msgstr "Скинути параметри"
+
+#: class-googlesitemapgeneratorui.php:1123
+msgid "Sitemaps Protocol"
+msgstr "Протокол мапи сайту"
+
+#: class-googlesitemapgeneratorui.php:1973
+msgid "Update options"
+msgstr "Оновити параметри"
+
+#: class-googlesitemapgeneratorui.php:1862
+#: class-googlesitemapgeneratorui.php:1949
+msgid "Author pages"
+msgstr "Сторінки автора"
+
+#: class-googlesitemapgeneratorui.php:554
+msgid "Pages saved"
+msgstr "Сторінки збережені"
