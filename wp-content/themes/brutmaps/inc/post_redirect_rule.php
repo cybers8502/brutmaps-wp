@@ -26,4 +26,3 @@ function custom_post_permalink($permalink, $post) {
 }
 
 add_filter('post_link', 'custom_post_permalink', 10, 2);
-

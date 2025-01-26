@@ -3,8 +3,8 @@ function add_files()
 {
 
     wp_deregister_script('jquery');
-    wp_enqueue_script('custom_module_script', get_template_directory_uri() . '/assets/index-Db5Vi8Yl.js', array(), null, true);
-    wp_enqueue_style('custom_style', get_template_directory_uri() . '/assets/index-aY6BY5b2.css', array(), null);
+    wp_enqueue_script('custom_module_script', get_template_directory_uri() . '/assets/index-D0MQ14te.js', array(), null, true);
+    wp_enqueue_style('custom_style', get_template_directory_uri() . '/assets/index-CWP1FeWQ.css', array(), null);
 
     switch (true) {
         case is_checkout():

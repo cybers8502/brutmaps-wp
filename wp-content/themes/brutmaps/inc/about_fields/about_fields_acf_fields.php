@@ -29,6 +29,7 @@ function get_about_acf_fields() {
         get_about_title_field(),
         get_about_main_image_field(),
         get_about_main_image_author_field(),
+//        get_main_image_author_field(),
         get_about_description_1_field(),
         get_about_gallery_repeater_field(),
         get_about_sub_text_field(),
@@ -37,7 +38,6 @@ function get_about_acf_fields() {
 }
 
 function get_about_gallery_repeater_field() {
-
     return array (
         'key' => 'field_about_gallery',
         'label' => 'Gallery',
@@ -109,6 +109,16 @@ function get_about_main_image_author_field() {
         )
     );
 }
+
+/*function get_main_image_author_field() {
+    return array (
+        'key' => 'field_object_image_author_text',
+        'label' => 'Author',
+        'name' => 'main_image_author_name',
+        'type' => 'text',
+        'required' => 0
+    );
+}*/
 
 function get_about_description_1_field() {
     return array (

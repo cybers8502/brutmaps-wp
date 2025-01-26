@@ -1,5 +1,7 @@
 <?php
 
+//TODO delete routings
+
 // - GET /about
 function API_GET_ABOUT_DATA() {
     $mainWrap = ['done' => true];

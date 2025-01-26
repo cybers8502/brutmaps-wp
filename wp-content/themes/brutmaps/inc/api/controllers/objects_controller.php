@@ -1,10 +1,22 @@
 <?php
 
 // - GET: /posts
-function API_GET_POSTS() {
-    $ids = getPosts('post');
+function API_GET_POSTS( $request ) {
+    $categories = $request->get_param('cat');
+
+    if ($categories && is_string($categories)) {
+        $categories = json_decode($categories, true);
+    }
+
+    if (!is_array($categories)) {
+        $categories = [];
+    }
+
+    $ids = getFilterdPostsIDbyCategories('post', $categories);
+
     $mainData = [
-        'posts' => getPostsByIDs($ids)
+        'posts' => getPostsByIDs($ids),
+        'categories' => $categories
     ];
 
     return successResponse($mainData);
@@ -31,10 +43,14 @@ function API_GET_POST_BY_ID( $data ) {
     }
 
     if (!is_null($post) && $post->post_status === 'publish' && $post->post_type == 'post') {
+        $content = apply_filters('the_content', $post->post_content);
+        $banners = extract_banners_from_content($content);
+
         $mainData = [
             'id'            => $postID,
             'title'         => $post->post_title,
-            'content'       => apply_filters('the_content', $post->post_content),
+            'content'       => $content,
+            'banners'       => $banners,
             'excerpt'       => $post->post_excerpt,
             'date'          => $post->post_date,
             'author'        => get_the_author_meta('display_name', $post->post_author),
@@ -58,7 +74,7 @@ function API_GET_SIGHTS() {
         $long = doubleval($address['lng']);
     }
     $mainData = [
-        'sights' => getSightsSmallDataByIDs($ids),
+        'featureCollection' => getSightsGeoJSONByIDs($ids),
         'settings' => [
             'default_center' => [
                 'coordinates' => [
@@ -119,13 +135,15 @@ function API_GET_SIGHT_BY_ID( $data ) {
         $architects = getCreatorsSmallDataByIDs($architectsIDs);
         $associatedPeople = getCreatorsSmallDataByIDs($associatedPeopleIDs);
         $author = get_field('main_image_author_id', $sightID);
+        $authorName = get_field('main_image_author_name', $sightID);
         $mainData = [
             'id'            => $sightID,
             'main_data'     => [
                 'title'     => html_entity_decode(get_the_title($sightID)),
                 'sub_title' => html_entity_decode($location['address']),
                 'image'     => html_entity_decode($mainImage),
-                'main_image_author' => getAuthorData($author)
+                'main_image_author' => getAuthorData($author),
+                'main_image_author_name' => $authorName
             ],
             'architects'           => $architects,
             'associated_people'    => $associatedPeople,
@@ -138,6 +156,8 @@ function API_GET_SIGHT_BY_ID( $data ) {
                 'long' => doubleval($location['lng'])
             ]
         ];
+//        $sights = getSightsSmallDataByIDs([$sightID]);
+//        $mergedData = array_merge($mainData, $sights[0]);
     } else {
         return failureResponse('Sight does not exist');
     }
@@ -184,6 +204,7 @@ function API_GET_PRODUCTS() {
             'slug' => $product->get_slug(),
             'description' => $product->get_description(),
             'short_description' => $product->get_short_description(),
+            'stripe' => get_field('stripe', $product->get_id()),
             'image' => $image,
             'images' => $images,
             'categories' => wp_get_post_terms($product->get_id(), 'product_cat', ['fields' => 'names'])
@@ -349,4 +370,22 @@ function createUpdateContributor($firstName, $lastName, $email, $link, $sightID)
         update_field('linked_sights', $linkedSights, $contributorID);
         update_field('contributor', $contributorID, $sightID);
     }
+}
+
+function extract_banners_from_content($content) {
+    $banners = [];
+
+    $pattern = '/<div\s+[^>]*data-banner[^>]*>(.*?)<\/div>/s';
+
+    preg_match_all($pattern, $content, $matches, PREG_SET_ORDER);
+
+    foreach ($matches as $match) {
+        $banners[] = [
+            'data-banner' => $match[1],
+            'html'        => $match[0],
+            'content'     => $match[2]
+        ];
+    }
+
+    return $banners;
 }

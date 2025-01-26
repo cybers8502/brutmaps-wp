@@ -38,5 +38,5 @@ function getSightsToWhichRelatedArchitectWithID($ID) {
 
     $ids = get_posts($sightsArgh);
 
-    return getSightsSmallDataByIDs($ids);
+    return getSightsGeoJSONByIDs($ids);
 }

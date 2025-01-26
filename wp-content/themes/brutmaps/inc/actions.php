@@ -30,7 +30,7 @@ function remove_menu_nonadmin () {
 
 // Add Google Map Key
 function my_acf_init() {
-    acf_update_setting('google_api_key', '***REMOVED-GOOGLE-API-KEY***' );
+    acf_update_setting('google_api_key', '***REMOVED-GOOGLE-API-KEY***' ); // credentials max.tkh.ua@gmail.com
 }
 
 add_action( 'acf/init', 'my_acf_init' );

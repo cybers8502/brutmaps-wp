@@ -1,6 +1,7 @@
 <?php
 
-function getSmartImage($imageID, $authorID) {
+function getSmartImage($imageID, $authorID)
+{
     $size = wp_get_attachment_image_src( $imageID, 'full' );
     if (!$size || count($size) < 3) {
         return null;
@@ -13,7 +14,8 @@ function getSmartImage($imageID, $authorID) {
     ];
 }
 
-function getAuthorData($authorID) {
+function getAuthorData($authorID)
+{
     if (!$authorID) {
         return null;
     }
@@ -29,7 +31,8 @@ function getAuthorData($authorID) {
     ];
 }
 
-function getImageWithSizes($imageObject) {
+function getImageWithSizes($imageObject)
+{
     $images = [
         'image_full' => PLACEHOLDER,
         'image_small' => PLACEHOLDER,
@@ -51,7 +54,32 @@ function getImageWithSizes($imageObject) {
     return $images;
 }
 
-function getCreatorsSmallDataByIDs($IDs) {
+function getSightImageURLs($sightID)
+{
+    $galleryField = get_field('gallery', $sightID);
+    $imageObject = get_field('main_image', $sightID);
+    $galleryURLs = [];
+
+    if ($imageObject) {
+        $galleryURLs[] = $imageObject['url'];
+    }
+
+    if ($galleryField && is_array($galleryField)) {
+        foreach ($galleryField as $item) {
+            $galleryURLs[] = wp_get_attachment_image_src( $item["gallery_image"], 'full' )[0];
+        }
+    }
+
+    if (empty($galleryURLs)) {
+        $galleryURLs[] = PLACEHOLDER;
+    }
+
+    return $galleryURLs;
+}
+
+
+function getCreatorsSmallDataByIDs($IDs)
+{
     $architects = [];
     if (is_array($IDs) && count($IDs) > 0) {
         foreach ($IDs as $architectID) {
@@ -76,41 +104,81 @@ function getCreatorsSmallDataByIDs($IDs) {
     return $architects;
 }
 
-function getSightsSmallDataByIDs($IDs) {
-    $result = [];
+function getSightsGeoJSONByIDs($IDs)
+{
+    $features = [];
+
     foreach ($IDs as $sightID) {
         $sight = get_post($sightID);
 
-        $architectsIDs = get_field('choose_architects', $sightID);
-        if (!$architectsIDs) {
-            $architectsIDs = [];
-        }
         $location = get_field('location', $sightID);
-        $imageObject = get_field('main_image', $sightID);
-        $result[] = [
-            'id' => $sightID,
-            'slug' => $sight->post_name,
-            'link' => get_permalink($sightID),
-            'title' => html_entity_decode(get_the_title($sightID)),
-            'architects' => $architectsIDs,
-            'coordinates' => [
-                'lat' => doubleval($location['lat']),
-                'long' => doubleval($location['lng'])
+        if (!$location || !isset($location['lat']) || !isset($location['lng'])) {
+            continue;
+        }
+
+        $features[] = [
+            'type' => 'Feature',
+            'id' => intval($sightID),
+            'geometry' => [
+                'type' => 'Point',
+                'coordinates' => [
+                    doubleval($location['lng']),
+                    doubleval($location['lat']),
+                ],
             ],
-            'address' => html_entity_decode($location['address']),
-            'year' => intval(get_field('established', $sightID)),
-            'images' => getImageWithSizes($imageObject)
+            'properties' => [
+                'id' => intval($sightID),
+                'slug' => $sight->post_name,
+                'title' => html_entity_decode(get_the_title($sightID)),
+                'address' => html_entity_decode($location['address']),
+                'year' => intval(get_field('established', $sightID)),
+                'images' => getSightImageURLs($sightID),
+            ],
         ];
     }
-    return $result;
+
+    return [
+        'type' => 'FeatureCollection',
+        'features' => $features,
+    ];
 }
 
-function getPostsByIDs($IDs) {
+function getFilterdPostsIDbyCategories($type, $categories = [])
+{
+    $args = [
+        'post_type' => $type,
+        'post_status' => 'publish',
+        'numberposts' => -1
+    ];
+
+    // Добавляем фильтрацию по категориям, если они переданы
+    if (!empty($categories)) {
+        $args['category_name'] = implode(',', $categories); // Используем WP Query для фильтрации по именам категорий
+    }
+
+    // Получаем посты по параметрам
+    $posts = get_posts($args);
+
+    // Возвращаем их ID
+    return wp_list_pluck($posts, 'ID');
+}
+
+function getPostsByIDs($IDs)
+{
     $result = [];
     foreach ($IDs as $id) {
         $post = get_post($id);
 
         if ($post) {
+            $categories = get_the_category($post->ID);
+            $category_names = [];
+
+            if (!empty($categories)) {
+                foreach ($categories as $category) {
+                    $category_names[] = $category->name;
+                }
+            }
+
             $result[] = [
                 'id' => $post->ID,
                 'slug' => $post->post_name,
@@ -118,13 +186,15 @@ function getPostsByIDs($IDs) {
                 'author' => get_the_author_meta('display_name', $post->post_author),
                 'thumbnail' => get_the_post_thumbnail_url($post->ID, 'full'),
                 'permalink' => get_permalink($post->ID),
+                'categories' => $category_names // Add categories to the result
             ];
         }
     }
     return $result;
 }
 
-function failureResponse($message) {
+function failureResponse($message)
+{
     $mainWrap = array(
         'done'    => false,
         'message' => $message
@@ -136,7 +206,8 @@ function failureResponse($message) {
     return $response;
 }
 
-function successResponse($data) {
+function successResponse($data)
+{
     $mainWrap = array(
         'done' => true,
         'data' => $data

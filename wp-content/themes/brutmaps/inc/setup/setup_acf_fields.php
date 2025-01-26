@@ -1,4 +1,5 @@
 <?php
+
 if( function_exists('acf_add_local_field_group') ):
     acf_add_local_field_group(array (
         'key' => 'setup',
@@ -26,9 +27,20 @@ endif;
 function get_setup_acf_fields() {
     return array(
         get_emails_repeater_field(),
+        get_setup_stripe_field(),
         get_setup_center_for_users_field(),
         get_setup_instagram_field(),
         get_setup_facebook_field()
+    );
+}
+
+function get_setup_stripe_field() {
+    return array (
+        'key' => 'field_setup_stripe',
+        'label' => 'Stripe link',
+        'name' => 'stripe',
+        'type' => 'url',
+        'required' => 0
     );
 }
 

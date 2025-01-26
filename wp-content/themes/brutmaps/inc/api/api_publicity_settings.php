@@ -1,5 +1,5 @@
 <?php
-// Publicity API endpoints setup
+
 add_filter( 'jwt_auth_default_whitelist', function ( $default_whitelist ) {
     // List of NON-Auth endpoints
     return array(

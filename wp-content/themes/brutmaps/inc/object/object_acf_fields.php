@@ -37,6 +37,7 @@ function get_sight_acf_fields() {
         get_tab_field('field_object_media','Media'),
         get_main_image_field(),
         get_main_image_author_select_field(),
+        get_main_image_author_field(),
         get_gallery_repeater_field(),
         get_tab_field('field_object_additional','Additional'),
         get_working_hours_field(),
@@ -141,6 +142,16 @@ function get_main_image_author_select_field() {
     );
 }
 
+function get_main_image_author_field() {
+    return array (
+        'key' => 'field_object_image_author_text',
+        'label' => 'Author',
+        'name' => 'main_image_author_name',
+        'type' => 'text',
+        'required' => 0
+    );
+}
+
 function get_source_field() {
     return array (
         'key' => 'field_object_source',
@@ -175,7 +186,6 @@ function get_main_content_field() {
 }
 
 function get_gallery_repeater_field() {
-
     return array (
         'key' => 'field_object_gallery',
         'label' => 'Gallery',
@@ -201,6 +211,13 @@ function get_gallery_repeater_field() {
                 'return_format' => 'id',
                 'multiple' => 0,
                 'post_type' => 'authors'
+            ),
+            array (
+                'key' => 'gallery_image_author',
+                'label' => 'Author',
+                'name' => 'gallery_image_author',
+                'type' => 'text',
+                'required' => 0,
             )
         )
     );

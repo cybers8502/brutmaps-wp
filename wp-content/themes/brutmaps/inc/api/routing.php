@@ -14,6 +14,13 @@ add_action( 'rest_api_init', function () {
 	register_rest_route( BASE_URL, '/posts', array(
 		'methods' => 'GET',
 		'callback' => 'API_GET_POSTS',
+        'args' => array(
+            'cat' => array(
+                'required' => false,
+                'type' => 'string',
+                'description' => 'Category filter'
+            ),
+        ),
 	) );
 
     register_rest_route( BASE_URL, '/posts/(?P<identifier>[\w-]+)', array(
@@ -36,7 +43,9 @@ add_action( 'rest_api_init', function () {
         'callback' => 'API_GET_PRODUCTS',
     ) );
 
-	register_rest_route( BASE_URL, '/submit_sight', array(
+    //TODO Delete routes
+
+	/*register_rest_route( BASE_URL, '/submit_sight', array(
 		'methods' => 'POST',
 		'callback' => 'API_POST_SIGHT',
 	) );
@@ -54,6 +63,6 @@ add_action( 'rest_api_init', function () {
     register_rest_route( BASE_URL, '/creators/(?P<id>\d+)', array(
         'methods' => 'GET',
         'callback' => 'API_GET_MY_PROFILE_BY_ID',
-    ) );
+    ) );*/
 
 } );
