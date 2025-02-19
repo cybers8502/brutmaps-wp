@@ -60,8 +60,10 @@ function getSightImageURLs($sightID)
     $imageObject = get_field('main_image', $sightID);
     $galleryURLs = [];
 
-    if ($imageObject) {
+    if (is_array($imageObject) && isset($imageObject['url'])) {
         $galleryURLs[] = $imageObject['url'];
+    } elseif (is_string($imageObject)) {
+        $galleryURLs[] = $imageObject;
     }
 
     if ($galleryField && is_array($galleryField)) {
@@ -76,7 +78,6 @@ function getSightImageURLs($sightID)
 
     return $galleryURLs;
 }
-
 
 function getCreatorsSmallDataByIDs($IDs)
 {
@@ -208,14 +209,49 @@ function failureResponse($message)
 
 function successResponse($data)
 {
-    $mainWrap = array(
+    return new WP_REST_Response(array(
+        'status' => 'success',
         'done' => true,
-        'data' => $data
-    );
-    $statusCode = 200;
-    $response = new WP_REST_Response($mainWrap);
-    $response->set_status($statusCode);
-    $response->header( 'Content-type', 'application/json; charset=utf-8' );
-    return $response;
+        'data' =>  $data,
+    ), 200);
 }
 
+function delete_user_account($user_id) {
+    require_once ABSPATH . 'wp-admin/includes/user.php';
+
+    delete_user_favorites($user_id);
+    delete_user_photo($user_id);
+    delete_user_posts($user_id);
+    delete_user_meta_data($user_id);
+
+    wp_delete_user($user_id);
+}
+
+function delete_user_meta_data($user_id) {
+    global $wpdb;
+    $wpdb->delete($wpdb->usermeta, array('user_id' => $user_id));
+}
+
+function delete_user_posts($user_id) {
+    $user_posts = get_posts(array(
+        'author' => $user_id,
+        'post_type' => 'any',
+        'numberposts' => -1
+    ));
+
+    foreach ($user_posts as $post) {
+        wp_delete_post($post->ID, true);
+    }
+}
+
+function delete_user_favorites($user_id) {
+    delete_user_meta($user_id, 'favorite_sights');
+}
+
+function delete_user_photo($user_id) {
+    $photo_id = get_user_meta($user_id, 'profile_photo', true);
+    if (!empty($photo_id)) {
+        wp_delete_attachment($photo_id, true);
+        delete_user_meta($user_id, 'profile_photo');
+    }
+}

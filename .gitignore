@@ -3,6 +3,8 @@
 wp-config.php
 .htaccess
 
+debug.log
+
 wp-content/themes/brutmaps/app/
 wp-content/uploads/
 wp-content/debug.log

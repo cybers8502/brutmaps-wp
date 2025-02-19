@@ -1,7 +1,7 @@
 <?php
 //Custom API requests
 
-define('BASE_URL', 'maps/data/v1/api/');
+define('BASE_URL', 'maps/data/v1/api');
 define('PLACEHOLDER', 'https://brutmaps.com/wp-content/uploads/2019/11/brutalist-architecture-7-1024x567.jpg');
 
 require_once(ABSPATH . 'wp-admin/includes/image.php');
@@ -21,48 +21,109 @@ add_action( 'rest_api_init', function () {
                 'description' => 'Category filter'
             ),
         ),
+        'permission_callback' => '__return_true'
 	) );
 
     register_rest_route( BASE_URL, '/posts/(?P<identifier>[\w-]+)', array(
         'methods' => 'GET',
         'callback' => 'API_GET_POST_BY_ID',
+        'permission_callback' => '__return_true'
     ) );
 
 	register_rest_route( BASE_URL, '/sights', array(
 		'methods' => 'GET',
 		'callback' => 'API_GET_SIGHTS',
+        'permission_callback' => '__return_true'
 	) );
 
     register_rest_route( BASE_URL, '/sights/(?P<identifier>[\w-]+)', array(
 		'methods' => 'GET',
 		'callback' => 'API_GET_SIGHT_BY_ID',
+        'permission_callback' => '__return_true'
 	) );
 
     register_rest_route( BASE_URL, '/products', array(
         'methods' => 'GET',
         'callback' => 'API_GET_PRODUCTS',
+        'permission_callback' => '__return_true'
     ) );
 
-    //TODO Delete routes
-
-	/*register_rest_route( BASE_URL, '/submit_sight', array(
-		'methods' => 'POST',
-		'callback' => 'API_POST_SIGHT',
-	) );
-
-	register_rest_route( BASE_URL, '/about', array(
-		'methods' => 'GET',
-		'callback' => 'API_GET_ABOUT_DATA',
-	) );
-
-    register_rest_route( BASE_URL, '/creators/(?P<id>\d+)', array(
+    register_rest_route(BASE_URL, '/user-countries', array(
         'methods' => 'GET',
-        'callback' => 'API_GET_CREATOR_BY_ID',
-    ) );
+        'callback' => 'API_GET_USER_COUNTRIES_LIST',
+        'permission_callback' => '__return_true'
+    ));
 
-    register_rest_route( BASE_URL, '/creators/(?P<id>\d+)', array(
+    register_rest_route(BASE_URL, '/registration', array(
+        'methods' => 'POST',
+        'callback' => 'API_POST_REGISTER_USER',
+        'permission_callback' => '__return_true'
+    ));
+
+    register_rest_route(BASE_URL, '/lost-password', array(
+        'methods' => 'POST',
+        'callback' => 'API_POST_LOST_PASSWORD',
+        'permission_callback' => '__return_true'
+    ));
+
+    register_rest_route(BASE_URL, '/reset-password', array(
+        'methods' => 'POST',
+        'callback' => 'API_POST_RESET_PASSWORD',
+        'permission_callback' => '__return_true',
+    ));
+
+    register_rest_route(BASE_URL, '/change-password', array(
+        'methods' => 'POST',
+        'callback' => 'API_POST_CHANGE_PASSWORD',
+        'permission_callback' => function () {
+            return is_user_logged_in();
+        },
+    ));
+
+    register_rest_route(BASE_URL, '/user-profile', array(
         'methods' => 'GET',
-        'callback' => 'API_GET_MY_PROFILE_BY_ID',
-    ) );*/
+        'callback' => 'API_GET_PROFILE',
+        'permission_callback' => function () {
+            return is_user_logged_in();
+        },
+    ));
+
+    register_rest_route(BASE_URL, '/edit-profile', array(
+        'methods' => 'POST',
+        'callback' => 'API_POST_EDIT_PROFILE',
+        'permission_callback' => function () {
+            return is_user_logged_in();
+        },
+    ));
+
+    register_rest_route(BASE_URL, '/delete-account', array(
+        'methods' => 'DELETE',
+        'callback' => 'API_DELETE_USER_ACCOUNT',
+        'permission_callback' => function () {
+            return is_user_logged_in();
+        },
+    ));
+
+    register_rest_route(BASE_URL, '/token/refresh', array(
+        'methods' => 'POST',
+        'callback' => 'API_POST_REFRESH_JWT_TOKEN',
+        'permission_callback' => '__return_true',
+    ));
+
+    register_rest_route(BASE_URL, '/favorites/toggle', array(
+        'methods' => 'POST',
+        'callback' => 'API_POST_TOGGLE_FAVORITE_SIGHT',
+        'permission_callback' => function () {
+            return is_user_logged_in();
+        },
+    ));
+
+    register_rest_route(BASE_URL, '/favorites', array(
+        'methods' => 'GET',
+        'callback' => 'API_GET_FAVORITE_SIGHT',
+        'permission_callback' => function () {
+            return is_user_logged_in();
+        },
+    ));
 
 } );

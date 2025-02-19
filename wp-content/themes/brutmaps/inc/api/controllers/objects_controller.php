@@ -148,6 +148,7 @@ function API_GET_SIGHT_BY_ID( $data ) {
             'architects'           => $architects,
             'associated_people'    => $associatedPeople,
             'year'          => intval(get_field('established', $sightID)),
+            'slug'          => $sight->post_name,
             'description'   => html_entity_decode(get_field('main_content', $sightID)),
             'image_gallery' => $gallery,
             'extra_data'    => html_entity_decode(get_field('source', $sightID)),
