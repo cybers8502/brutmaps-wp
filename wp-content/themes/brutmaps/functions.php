@@ -7,10 +7,21 @@ define( 'DIRECT', TEMPLATEURI.'/assets/' );
 require_once( TEMPLATEINC . '/actions.php' );
 require_once( TEMPLATEINC . '/ajax.php' );
 require_once( TEMPLATEINC . '/styles_and_scripts.php' );
-require_once( TEMPLATEINC . '/email.php' );
 require_once( TEMPLATEINC . '/post_redirect_rule.php' );
 require_once( TEMPLATEINC . '/shortcode.php' );
 
+// - API
+require_once( TEMPLATEINC . '/api/routing.php' );
+
+require_once( TEMPLATEINC . '/api/helper_functions.php' );
+
+require_once( TEMPLATEINC . '/api/controllers/objects_controller.php' );
+require_once( TEMPLATEINC . '/api/controllers/blog_controller.php' );
+require_once( TEMPLATEINC . '/api/controllers/store_controller.php' );
+require_once( TEMPLATEINC . '/api/controllers/user_profile_controller.php' );
+require_once( TEMPLATEINC . '/api/controllers/favorite_sights_controller.php' );
+
+// - ACF
 require_once( TEMPLATEINC . '/object/object_acf_fields.php' );
 require_once( TEMPLATEINC . '/object/object_taxonomy.php' );
 require_once( TEMPLATEINC . '/object/object_post_type.php' );
@@ -26,23 +37,6 @@ require_once( TEMPLATEINC . '/authors/author_acf_fields.php' );
 
 require_once( TEMPLATEINC . '/setup/setup_acf_register.php' );
 require_once( TEMPLATEINC . '/setup/setup_acf_fields.php' );
-//require_once( TEMPLATEINC . '/about_fields/about_fields_acf_fields.php' );
-//require_once( TEMPLATEINC . '/about_fields/about_acf_register.php' );
 
 require_once( TEMPLATEINC . '/creator/creator_acf_fields.php' );
 require_once( TEMPLATEINC . '/creator/creator_post_type.php' );
-
-//require_once( TEMPLATEINC . '/api/api_publicity_settings.php' );
-require_once( TEMPLATEINC . '/api/routing.php' );
-require_once( TEMPLATEINC . '/api/helper_functions.php' );
-
-require_once( TEMPLATEINC . '/api/controllers/objects_controller.php' );
-require_once( TEMPLATEINC . '/api/controllers/user_profile.php' );
-require_once( TEMPLATEINC . '/api/controllers/favorite_sights.php' );
-
-//TODO delete routings
-//require_once( TEMPLATEINC . '/api/controllers/about_controller.php' );
-//require_once( TEMPLATEINC . '/api/controllers/creators_controller.php' );
-
-//require_once( TEMPLATEINC . '/insta_graber.php' );
-

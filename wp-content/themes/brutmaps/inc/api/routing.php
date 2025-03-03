@@ -1,12 +1,8 @@
 <?php
-//Custom API requests
 
+//Custom API requests
 define('BASE_URL', 'maps/data/v1/api');
 define('PLACEHOLDER', 'https://brutmaps.com/wp-content/uploads/2019/11/brutalist-architecture-7-1024x567.jpg');
-
-require_once(ABSPATH . 'wp-admin/includes/image.php');
-require_once(ABSPATH . 'wp-admin/includes/file.php');
-require_once(ABSPATH . 'wp-admin/includes/media.php');
 
 //New endpoints registration
 add_action( 'rest_api_init', function () {
@@ -58,6 +54,12 @@ add_action( 'rest_api_init', function () {
         'methods' => 'POST',
         'callback' => 'API_POST_REGISTER_USER',
         'permission_callback' => '__return_true'
+    ));
+
+    register_rest_route(BASE_URL, '/check-email', array(
+        'methods' => 'POST',
+        'callback' => 'API_POST_CHECK_EMAIL_EXISTENCE',
+        'permission_callback' => '__return_true',
     ));
 
     register_rest_route(BASE_URL, '/lost-password', array(
@@ -125,5 +127,4 @@ add_action( 'rest_api_init', function () {
             return is_user_logged_in();
         },
     ));
-
 } );
