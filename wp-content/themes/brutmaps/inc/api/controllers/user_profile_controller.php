@@ -1,6 +1,7 @@
 <?php
 
-use services\MailchimpService;
+use Services\MailchimpService;
+use Services\UserDeletionService;
 
 // - GET: /user-profile
 function API_GET_PROFILE() {
@@ -18,6 +19,7 @@ function API_GET_PROFILE() {
     $photo_url = get_user_meta($user_id, 'profile_photo', true);
 
     $response = array(
+        'user_id'           => $user_id,
         'email'             => $email,
         'first_name'        => $first_name,
         'last_name'         => $last_name,
@@ -141,17 +143,30 @@ function API_GET_USER_COUNTRIES_LIST() {
     ]);
 }
 
-// - DELETE: /delete-account
-function API_DELETE_USER_ACCOUNT(WP_REST_Request $request) {
+/**
+ * DELETE: /delete-account
+ *
+ * @param WP_REST_Request $request
+ * @return WP_REST_Response|WP_Error
+ */
+function API_DELETE_USER_ACCOUNT(WP_REST_Request $request)
+{
     $user_id = get_current_user_id();
+
+    // Перевірка автентифікації
     if (!$user_id) {
-        return new WP_Error('unauthorized', 'User not authenticated.', array('status' => 401));
+        return new WP_Error('unauthorized', 'User not authenticated.', ['status' => 401]);
     }
 
-    delete_user_account($user_id);
+    try {
+        $deleteService = new UserDeletionService();
+        $deleteService->delete($user_id);
 
-    return rest_ensure_response([
-        'status' => 'success',
-        'message' => 'Account and all associated data deleted successfully.',
-    ]);
-};
+        return rest_ensure_response([
+            'status' => 'success',
+            'message' => 'Account and all associated data deleted successfully.',
+        ]);
+    } catch (Exception $e) {
+        return new WP_Error('delete_failed', 'Failed to delete account: ' . $e->getMessage(), ['status' => 500]);
+    }
+}

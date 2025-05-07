@@ -25,8 +25,8 @@ require_once( TEMPLATEINC . '/api/controllers/user_favorite_objects_controller.p
 require_once( TEMPLATEINC . '/api/helper_functions.php' );
 
 require_once( TEMPLATEINC . '/services/MailchimpService.php' );
+require_once( TEMPLATEINC . '/services/UserDeletionService.php' );
 require_once( TEMPLATEINC . '/services/jwt_auth.php' );
-require_once( TEMPLATEINC . '/services/delete_user.php' );
 
 // - ACF
 require_once( TEMPLATEINC . '/object/object_acf_fields.php' );

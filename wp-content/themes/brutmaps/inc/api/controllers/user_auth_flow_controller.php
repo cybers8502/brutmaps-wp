@@ -1,6 +1,6 @@
 <?php
 
-use services\MailchimpService;
+use Services\MailchimpService;
 
 // - POST: /login
 function API_POST_LOGIN_USER(WP_REST_Request $request) {
