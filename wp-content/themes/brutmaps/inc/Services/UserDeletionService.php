@@ -1,8 +1,7 @@
 <?php
 
-namespace Services;
+namespace Brut\Services;
 
-use Services\MailchimpService;
 use WP_User;
 
 class UserDeletionService
@@ -27,10 +26,7 @@ class UserDeletionService
         $this->deleteFavorites($user_id);
         $this->deleteProfilePhoto($user_id);
         $this->deleteMetaData($user_id);
-
-        // Відписуємо користувача з Mailchimp
-        $subscribeService = new MailchimpService();
-        $subscribeService->unsubscribe($user->user_email);
+        $this->unsubscribeUser($user->user_email);
 
         // Видаляємо користувача з бази WordPress
         wp_delete_user($user_id);
@@ -64,5 +60,16 @@ class UserDeletionService
             wp_delete_attachment((int)$photo_id, true);
             delete_user_meta($user_id, 'profile_photo');
         }
+    }
+
+    /**
+     * Видаляє профільне фото користувача, якщо воно є.
+     */
+
+    private function unsubscribeUser(int $user_email): void
+    {
+        // Відписуємо користувача з Mailchimp
+        $subscribeService = new MailchimpService();
+        $subscribeService->unsubscribe($user_email);
     }
 }
