@@ -59,7 +59,7 @@ class UserProfileController
         ];
 
         try {
-            $data['is_subscribed'] = (new MailchimpService())->isSubscribed($user->user_email);
+            $data['is_subscribed'] = MailchimpService::isSubscribed($user->user_email);
         } catch (\Exception $e) {
             error_log('Mailchimp error: ' . $e->getMessage());
         }

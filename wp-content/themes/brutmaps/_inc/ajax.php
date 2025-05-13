@@ -1,11 +1,32 @@
 <?php
 
+add_action('wp_ajax_get_sight','get_sight');
+add_action('wp_ajax_nopriv_get_sight', 'get_sight');
+
 add_action('wp_ajax_create_author_by_name','create_author_by_name');
 add_action('wp_ajax_nopriv_create_author_by_name', 'create_author_by_name');
+
+add_action('wp_ajax_get_instagram_data','get_instagram_data');
+add_action('wp_ajax_nopriv_get_instagram_data', 'get_instagram_data');
 
 add_action('wp_ajax_add_to_cart_book','add_to_cart_book');
 add_action('wp_ajax_nopriv_add_to_cart_book', 'add_to_cart_book');
 
+//Ajax Response to recipes by taxId
+function get_sight() {
+
+    $out = json_encode( API_GET_SIGHTS() );
+
+    echo $out;
+    exit;
+
+}
+
+//Ajax Get Instagram Data
+function get_instagram_data() {
+
+    exit;
+}
 
 function create_author_by_name() {
 

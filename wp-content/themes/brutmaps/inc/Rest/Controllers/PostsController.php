@@ -25,11 +25,11 @@ class PostsController
         ]);
     }
 
-    public function getPosts(WP_REST_Request $request)
+    public function getPosts(WP_REST_Request $request): \WP_REST_Response
     {
         $categories = RequestSanitizer::sanitizeJsonParam($request, 'cat');
 
-        $ids = ContentHelper::getFilterdPostsIDbyCategories('post', $categories);
+        $ids = ContentHelper::getFilteredPostsIDbyCategories('post', $categories);
 
         return ResponseHelper::success([
             'posts' => ContentHelper::getPostsByIDs($ids),
@@ -37,7 +37,7 @@ class PostsController
         ]);
     }
 
-    public function getPostByIdOrSlug(array $data)
+    public function getPostByIdOrSlug($data): \WP_Error|\WP_REST_Response
     {
         $identifier = $data['identifier'];
         $post = is_numeric($identifier)

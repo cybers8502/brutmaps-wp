@@ -3,6 +3,7 @@
 namespace Brut\Rest\Controllers;
 
 use Brut\Utils\ContentHelper;
+use Brut\Utils\MediaHelper;
 use Brut\Utils\PostHelper;
 use Brut\Utils\ResponseHelper;
 
@@ -25,7 +26,7 @@ class SightsController
 
     public function getSights(): \WP_REST_Response
     {
-        $ids = ContentHelper::getFilterdPostsIDbyCategories('sight');
+        $ids = ContentHelper::getFilteredPostsIDbyCategories('sight');
         $geoJson = ContentHelper::getSightsGeoJSONByIDs($ids);
 
         $center = get_field('initial_center_for_users', 'options');
@@ -45,7 +46,7 @@ class SightsController
         ]);
     }
 
-    public function getSightByIdOrSlug(array $data): \WP_REST_Response|\WP_Error
+    public function getSightByIdOrSlug($data): \WP_REST_Response|\WP_Error
     {
         $identifier = $data['identifier'];
         $post = is_numeric($identifier)
@@ -72,7 +73,7 @@ class SightsController
         foreach ($gallery as $item) {
             $img = $item['gallery_image'] ?? null;
             $author = $item['gallery_image_author_id'] ?? null;
-            $imgData = ContentHelper::getSmartImage($img, $author);
+            $imgData = MediaHelper::getSmartImage($img, $author);
             if ($imgData) {
                 $gallery_formatted[] = $imgData;
             }

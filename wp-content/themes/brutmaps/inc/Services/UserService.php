@@ -1,6 +1,8 @@
 <?php
 namespace Brut\Services;
 
+use Brut\Services\MailchimpService;
+
 class UserService {
     public static function updateRefreshToken(int $user_id): string {
         $token = wp_generate_uuid4();
@@ -17,7 +19,7 @@ class UserService {
         update_user_meta($user_id, 'last_name', $params['last_name']);
         update_user_meta($user_id, 'profile_photo', $params['avatar'] ?? '');
 
-        (new MailchimpService())->subscribe($params['email'], $params['first_name'], $params['last_name']);
+        MailchimpService::subscribe($params['email'], $params['first_name'], $params['last_name']);
 
         return $user_id;
     }
@@ -52,7 +54,7 @@ class UserService {
         }
 
         if (!empty($params['subscribe_to_newsletter'])) {
-            (new MailchimpService())->subscribe($email, $params['first_name'], $params['last_name']);
+            MailchimpService::subscribe($email, $params['first_name'], $params['last_name']);
         }
 
         return $user_id;

@@ -106,6 +106,57 @@ class AuthController
         ]);
     }
 
+    public function googleLoginAndRegistration(WP_REST_Request $request): \WP_Error|\WP_REST_Response
+    {
+        $params = $request->get_json_params();
+        $email = sanitize_email($params['email'] ?? '');
+        $user = get_user_by('email', $email);
+
+        if (!ValidatorHelper::isValidEmail($email)) {
+            return ResponseHelper::validationError('Invalid email');
+        }
+
+        if (RateLimiter::isLimited("email_" . md5($email), 3, 300)) {
+            return ResponseHelper::tooManyRequests();
+        }
+
+        if (!$user) {
+            $first_name = sanitize_text_field($request['first_name'] ?? '');
+            $last_name = sanitize_text_field($request['last_name'] ?? '');
+            $avatar_url = esc_url_raw($request['avatar'] ?? '');
+
+            $user_id = wp_create_user($email, wp_generate_password(), $email);
+            if (is_wp_error($user_id)) {
+                return ResponseHelper::serverError('User creation failed');
+            }
+
+            $user = new \WP_User($user_id);
+            $user->set_role('subscriber');
+
+            UserMetaHelper::updateMeta($user_id, [
+                'first_name' => $first_name,
+                'last_name' => $last_name,
+                'profile_photo' => $avatar_url,
+            ]);
+
+            try {
+                MailchimpService::subscribe($email, $first_name, $last_name);
+            } catch (\Exception $e) {
+                error_log('Mailchimp error: ' . $e->getMessage());
+            }
+        }
+
+        $access_token = JwtService::generate($user->ID);
+        $refresh_token = wp_generate_uuid4();
+        update_user_meta($user->ID, 'custom_refresh_token', $refresh_token);
+
+        return ResponseHelper::success([
+            'access_token'  => $access_token,
+            'refresh_token' => $refresh_token,
+            'user'          => ['email' => $user->user_email],
+        ]);
+    }
+
     public function registration(WP_REST_Request $request): \WP_Error|\WP_REST_Response
     {
         $params = $request->get_params();
@@ -152,7 +203,7 @@ class AuthController
 
         if ($subscribe) {
             try {
-                (new MailchimpService())->subscribe($email, $first_name, $last_name);
+                MailchimpService::subscribe($email, $first_name, $last_name);
             } catch (\Exception $e) {
                 error_log('Mailchimp subscribe error: ' . $e->getMessage());
             }
@@ -199,7 +250,7 @@ class AuthController
         ]);
 
         try {
-            (new MailchimpService())->subscribe($email, $first_name, $last_name);
+            MailchimpService::subscribe($email, $first_name, $last_name);
         } catch (\Exception $e) {
             error_log('Mailchimp error: ' . $e->getMessage());
         }

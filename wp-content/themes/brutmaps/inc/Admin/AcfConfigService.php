@@ -11,7 +11,7 @@ class AcfConfigService
 
     public function registerApiKey(): void
     {
-        $apiKey = defined('GOOGLE_MAPS_API_KEY')
+        $apiKey = defined('ACF_GOOGLE_MAP_KEY')
             ? ACF_GOOGLE_MAP_KEY
             : 'AIzaSyXXXXXXXXXXXXXXXXXXXXXXXXXXXX';
 

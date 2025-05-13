@@ -3,43 +3,10 @@
 namespace Brut\Utils;
 
 use WP_REST_Response;
+use Brut\Utils\MediaHelper;
 
 class ContentHelper
 {
-    public static function successResponse(array $data): WP_REST_Response
-    {
-        return new WP_REST_Response([
-            'status' => 'success',
-            'done' => true,
-            'data' => $data,
-        ], 200);
-    }
-
-    public static function failureResponse(string $message): WP_REST_Response
-    {
-        $response = new WP_REST_Response([
-            'done' => false,
-            'message' => $message,
-        ], 422);
-
-        $response->header('Content-type', 'application/json; charset=utf-8');
-        return $response;
-    }
-
-    public static function getSmartImage($imageID, $authorID = null): ?array
-    {
-        $size = wp_get_attachment_image_src($imageID, 'full');
-        if (!$size || count($size) < 3) {
-            return null;
-        }
-
-        return [
-            'source' => $size[0],
-            'width' => $size[1],
-            'height' => $size[2],
-            'author' => self::getAuthorData($authorID),
-        ];
-    }
 
     public static function getAuthorData($authorID): ?array
     {
@@ -50,16 +17,6 @@ class ContentHelper
             'second_name_author' => get_field('second_name_author', $authorID),
             'link' => get_field('link', $authorID),
             'instagram' => get_field('instagram', $authorID),
-        ];
-    }
-
-    public static function getImageWithSizes(array $imageObject): array
-    {
-        $placeholder = defined('PLACEHOLDER') ? PLACEHOLDER : '';
-        return [
-            'image_full' => $imageObject['url'] ?? $placeholder,
-            'image_small' => $imageObject['sizes']['thumbnail'] ?? $placeholder,
-            'image_medium' => $imageObject['sizes']['medium'] ?? $placeholder,
         ];
     }
 
@@ -87,7 +44,7 @@ class ContentHelper
         return !empty($urls) ? $urls : [PLACEHOLDER];
     }
 
-    public static function getCreatorsSmallDataByIDs(array $IDs): array
+    public static function getCreatorsSmallDataByIDs($IDs): array
     {
         $result = [];
 
@@ -106,7 +63,7 @@ class ContentHelper
                 'last_name' => html_entity_decode(get_field('last_name', $id)),
                 'name' => html_entity_decode(get_the_title($id)),
                 'description' => html_entity_decode(get_field('description', $id)),
-                'image' => self::getImageWithSizes($image),
+                'image' => MediaHelper::getImageWithSizes($image),
                 'main_image_author' => self::getAuthorData($author),
             ];
         }
@@ -148,7 +105,7 @@ class ContentHelper
         ];
     }
 
-    public static function getFilterdPostsIDbyCategories(string $type, array $categories = []): array
+    public static function getFilteredPostsIDbyCategories(string $type, array $categories = []): array
     {
         $args = [
             'post_type' => $type,

@@ -11,7 +11,6 @@ class ResponseHelper
     {
         return new WP_REST_Response([
             'status' => 'success',
-            'done'   => true,
             'message' => $message,
             'data'   => $data,
         ], $status);

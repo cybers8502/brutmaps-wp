@@ -13,11 +13,13 @@ use Brut\Rest\Controllers\UserProfileController;
 class ApiRouter
 {
 
-    public function __construct() {
+    public function __construct()
+    {
         add_action('rest_api_init', [$this, 'registerRoutes']);
     }
 
-    public function registerRoutes() {
+    public function registerRoutes(): void
+    {
         (new AuthController())->register();
         (new FavoritesController())->register();
         (new PasswordController())->register();

@@ -1,6 +1,6 @@
 <?php
 
-namespace Brut\Services;
+namespace Services;
 
 use Exception;
 
@@ -15,7 +15,7 @@ class MailchimpService
      * @return bool
      * @throws Exception
      */
-    public static function subscribe(string $email, string $firstName = '', string $lastName = ''): bool
+    public function subscribe(string $email, string $firstName = '', string $lastName = ''): bool
     {
         if (!is_email($email)) {
             throw new Exception('Invalid email address.');
@@ -54,7 +54,7 @@ class MailchimpService
      * @return bool
      * @throws Exception
      */
-    public static function unsubscribe(string $email): bool
+    public function unsubscribe(string $email): bool
     {
         if (!is_email($email)) {
             throw new Exception('Invalid email address.');
@@ -78,7 +78,7 @@ class MailchimpService
      * @param string $email
      * @return bool
      */
-    public static function isSubscribed(string $email): bool
+    public function isSubscribed(string $email): bool
     {
         if (!function_exists('mailchimp_get_subscriber_status')) {
             return false;

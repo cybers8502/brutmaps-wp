@@ -55,7 +55,7 @@ class AuthorsACFFieldsManager
             ],
             [
                 'key' => 'field_author_instagram',
-                'label' => 'Instagram',
+                'label' => 'Nickname',
                 'name' => 'instagram',
                 'type' => 'text',
             ],
