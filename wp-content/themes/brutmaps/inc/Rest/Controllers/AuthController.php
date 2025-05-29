@@ -24,7 +24,7 @@ class AuthController
 
         register_rest_route(BASE_URL, '/google-login', [
             'methods' => 'POST',
-            'callback' => [$this, 'googleLogin'],
+            'callback' => [$this, 'googleLoginAndRegistration'],
             'permission_callback' => '__return_true',
         ]);
 
@@ -43,6 +43,12 @@ class AuthController
         register_rest_route(BASE_URL, '/check-email', [
             'methods' => 'POST',
             'callback' => [$this, 'checkEmail'],
+            'permission_callback' => '__return_true',
+        ]);
+
+        register_rest_route(BASE_URL, '/google-auth', [
+            'methods' => 'POST',
+            'callback' => [$this, 'googleLoginAndRegistration'],
             'permission_callback' => '__return_true',
         ]);
     }

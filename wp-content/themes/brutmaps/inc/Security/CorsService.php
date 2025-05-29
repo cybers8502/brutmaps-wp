@@ -16,7 +16,7 @@ class CorsService
         $allowed = [
             'https://brutmaps.com',
             'https://brutmapsdev.cybers.pro',
-            'http://localhost:5173',
+            'http://localhost:3033',
         ];
 
         if (in_array($origin, $allowed)) {

@@ -77,13 +77,6 @@ class ThemeSetupOptionsACFFieldsManager
                 'required' => 0,
             ],
             [
-                'key' => 'field_setup_initial_center_for_users',
-                'label' => 'Initial center for users',
-                'name' => 'initial_center_for_users',
-                'type' => 'google_map',
-                'required' => 1,
-            ],
-            [
                 'key' => 'field_setup_notifiedUsers',
                 'label' => 'E-mails',
                 'name' => 'notifiedUsers',

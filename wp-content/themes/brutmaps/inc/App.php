@@ -6,11 +6,8 @@ class App
 {
     public function boot(): void
     {
-        new ThemeSetupService();
 
         new Assets\AssetManager();
-
-        new Rest\ApiRouter();
 
         new Security\CorsService();
 
@@ -21,11 +18,18 @@ class App
         new Ajax\Controllers\CartController();
 
         $this->bootAdmin();
+        $this->bootRestApi();
     }
 
-    public function bootAdmin(): void
+    private function bootAdmin(): void
     {
+        new Admin\ThemeSetupService();
+
         new Admin\AdminMenuManager();
+
+        new Admin\Dashboard\PopularArchitectsWidget();
+
+        new Admin\Filters\SightAdminFiltersService();
 
         (new Admin\AcfConfigService())->boot();
 
@@ -40,5 +44,10 @@ class App
         (new Admin\ACFFieldsManager\ProductACFFieldsManager())->boot();
         (new Admin\ACFFieldsManager\SightsACFFieldsManager())->boot();
         (new Admin\ACFFieldsManager\ThemeSetupOptionsACFFieldsManager())->boot();
+    }
+
+    private function bootRestApi(): void
+    {
+        new Rest\ApiRouter();
     }
 }

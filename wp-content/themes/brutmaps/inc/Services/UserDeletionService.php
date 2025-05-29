@@ -2,6 +2,7 @@
 
 namespace Brut\Services;
 
+use Exception;
 use WP_User;
 
 class UserDeletionService
@@ -64,12 +65,12 @@ class UserDeletionService
 
     /**
      * Видаляє профільне фото користувача, якщо воно є.
+     * @throws Exception
      */
 
     private function unsubscribeUser(int $user_email): void
     {
         // Відписуємо користувача з Mailchimp
-        $subscribeService = new MailchimpService();
-        $subscribeService->unsubscribe($user_email);
+        MailchimpService::unsubscribe($user_email);
     }
 }

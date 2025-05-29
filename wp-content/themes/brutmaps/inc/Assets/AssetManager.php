@@ -10,8 +10,8 @@ class AssetManager {
 
     public function enqueue() {
         wp_deregister_script('jquery');
-        wp_enqueue_script('custom_module_script', get_template_directory_uri() . '/assets/index-DZkkYL3S.js', [], null, true);
-        wp_enqueue_style('custom_style', get_template_directory_uri() . '/assets/index-BTmQNh23.css', [], null);
+        wp_enqueue_script('custom_module_script', get_template_directory_uri() . '/assets/index-DhGOH0jm.js', [], null, true);
+        wp_enqueue_style('custom_style', get_template_directory_uri() . '/assets/index-CT65bLT9.css', [], null);
 
         if (is_checkout()) {
             wp_enqueue_style('checkout_page_style', get_template_directory_uri() . '/assets/checkout-page.css', [], null);

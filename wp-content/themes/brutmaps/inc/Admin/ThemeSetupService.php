@@ -1,6 +1,6 @@
 <?php
 
-namespace Brut;
+namespace Brut\Admin;
 
 class ThemeSetupService
 {

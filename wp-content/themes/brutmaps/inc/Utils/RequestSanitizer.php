@@ -6,6 +6,14 @@ use WP_REST_Request;
 
 class RequestSanitizer
 {
+
+    public static function sanitizeArray(array $input): array
+    {
+        return array_values(array_filter($input, function ($item) {
+            return !empty($item) && trim($item) !== '';
+        }));
+    }
+
     public static function sanitizeStringParam(WP_REST_Request $request, string $key): string
     {
         return sanitize_text_field($request->get_param($key));

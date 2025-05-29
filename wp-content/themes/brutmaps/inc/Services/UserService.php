@@ -2,6 +2,7 @@
 namespace Brut\Services;
 
 use Brut\Services\MailchimpService;
+use Exception;
 
 class UserService {
     public static function updateRefreshToken(int $user_id): string {
@@ -10,6 +11,9 @@ class UserService {
         return $token;
     }
 
+    /**
+     * @throws Exception
+     */
     public static function createGoogleUser(array $params): int {
         $user_id = wp_create_user($params['email'], wp_generate_password(), $params['email']);
         $user = new \WP_User($user_id);
@@ -24,6 +28,9 @@ class UserService {
         return $user_id;
     }
 
+    /**
+     * @throws Exception
+     */
     public static function createRegisteredUser(array $params, array $files): int|\WP_Error {
         $email = sanitize_email($params['email']);
         if (email_exists($email)) {
