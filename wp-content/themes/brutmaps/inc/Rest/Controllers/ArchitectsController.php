@@ -138,7 +138,6 @@ class ArchitectsController
 
         $response = CacheService::getOrSet($cacheKey, function () use ($wpdb) {
             $popular = [];
-            $fallback = [];
 
             // Статистика переглядів
             $options = $wpdb->get_results("
@@ -152,54 +151,14 @@ class ArchitectsController
                 $popular[$id] = (int) $opt->option_value;
             }
 
-            // Архітектори з найбільшою кількістю обʼєктів (використовуємо meta_query)
-            $all_architects = get_posts([
-                'post_type' => 'architect',
-                'post_status' => 'publish',
-                'numberposts' => -1,
-                'fields' => 'ids',
-            ]);
-
-            foreach ($all_architects as $architectID) {
-                // Якщо вже у популярних — пропускаємо
-                if (isset($popular[$architectID])) {
-                    continue;
-                }
-
-                $linked = get_posts([
-                    'post_type' => 'sight',
-                    'post_status' => 'publish',
-                    'meta_query' => [
-                        [
-                            'key' => 'choose_architects',
-                            'value' => '"' . $architectID . '"',
-                            'compare' => 'LIKE'
-                        ]
-                    ],
-                    'fields' => 'ids',
-                ]);
-
-                if (count($linked) > 0) {
-                    $fallback[$architectID] = count($linked);
-                }
-            }
-
             // Комбінуємо та сортуємо
             arsort($popular);
-            arsort($fallback);
 
             $top = [];
 
             foreach (array_keys($popular) as $id) {
                 $top[] = self::mapArchitect($id, $popular[$id]);
                 if (count($top) >= 6) break;
-            }
-
-            if (count($top) < 6) {
-                foreach (array_keys($fallback) as $id) {
-                    $top[] = self::mapArchitect($id, $fallback[$id]);
-                    if (count($top) >= 6) break;
-                }
             }
 
             return $top;
