@@ -41,7 +41,7 @@ class TaxonomyController
 
         $data = CacheService::getOrSet($cacheKey, function () use ($taxonomy) {
             return TaxonomyService::getTerms($taxonomy);
-        }, DAY_IN_SECONDS);  // кеш на 1 день
+        }, HOUR_IN_SECONDS);
 
         return ResponseHelper::success($data);
     }

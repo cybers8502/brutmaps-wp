@@ -44,6 +44,16 @@ class ObjectsController
         $architectIDs = $request->get_param('architects') ?? [];
         $taxonomyTerms = $request->get_param('taxonomy_terms') ?? [];
 
+        $architectIDs = RequestSanitizer::sanitizeArray($architectIDs);
+        $taxonomyTerms = RequestSanitizer::sanitizeArray($taxonomyTerms);
+
+        // Додаємо бали популярності ДО кеш-блоку
+        if (!empty($architectIDs)) {
+            foreach ($architectIDs as $id) {
+                (new ArchitectStatsService)->incrementSearchCount($id);
+            }
+        }
+
         // Ключ кешу залежить від параметрів запиту
         $cacheKey = 'sights_cache_' . md5(json_encode([
                 'architects' => $architectIDs,
@@ -60,8 +70,6 @@ class ObjectsController
                 'tax_query'      => [],
             ];
 
-            $architectIDs = RequestSanitizer::sanitizeArray($architectIDs);
-
             if (!empty($architectIDs)) {
                 $meta_conditions = [];
 
@@ -71,9 +79,6 @@ class ObjectsController
                         'value'   => '"' . intval($id) . '"',
                         'compare' => 'LIKE',
                     ];
-
-                    // Додаємо балів популярності архітектору
-                    (new ArchitectStatsService)->incrementSearchCount($id);
                 }
 
                 $args['meta_query'] = [
@@ -81,8 +86,6 @@ class ObjectsController
                     ...$meta_conditions,
                 ];
             }
-
-            $taxonomyTerms = RequestSanitizer::sanitizeArray($taxonomyTerms);
 
             if (!empty($taxonomyTerms)) {
                 $args['tax_query'][] = [
