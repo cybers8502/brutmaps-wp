@@ -1,0 +1,63 @@
+{
+    "name": "cybers8502/brutmaps-wp",
+    "description": "Brutmaps WordPress site - core/plugins are not tracked in git (see .gitignore); this manages them via WPackagist instead",
+    "type": "project",
+    "license": "proprietary",
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://wpackagist.org"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/wp-graphql/wp-graphql-jwt-authentication",
+            "no-api": true
+        }
+    ],
+    "require": {
+        "php": ">=8.1",
+        "ext-dom": "*",
+        "vlucas/phpdotenv": "^5.6",
+        "composer/installers": "^2.3",
+        "wpackagist-plugin/all-in-one-wp-migration": "^7.94",
+        "wpackagist-plugin/google-listings-and-ads": "^2.9.13",
+        "wpackagist-plugin/google-site-kit": "^1.154.0",
+        "wpackagist-plugin/google-sitemap-generator": "^4.1.21",
+        "wpackagist-plugin/hotjar": "^1.0.16",
+        "wpackagist-plugin/integromat-connector": "^1.5.10",
+        "wpackagist-plugin/jetpack": "^14.7",
+        "wpackagist-plugin/jwt-auth": "^3.0.2",
+        "wpackagist-plugin/jwt-authentication-for-wp-rest-api": "^1.4.1",
+        "wpackagist-plugin/leadin": "^11.3.6",
+        "wpackagist-plugin/mailchimp-for-woocommerce": "^5.4",
+        "wpackagist-plugin/media-file-renamer": "^6.0.8",
+        "wpackagist-plugin/phoenix-media-rename": "^3.12.9",
+        "wpackagist-plugin/pinterest-for-woocommerce": "^1.4.20",
+        "wpackagist-plugin/post-views-counter": "^1.5.5",
+        "wpackagist-plugin/seo-by-rank-math": "^1.0.246",
+        "wpackagist-plugin/tiktok-for-business": "^1.3.1",
+        "wpackagist-plugin/woo-checkout-field-editor-pro": "^2.1.4",
+        "wpackagist-plugin/woocommerce": "^9.8.5",
+        "wpackagist-plugin/woocommerce-checkout-manager": "^7.7.0",
+        "wpackagist-plugin/woocommerce-payments": "^9.4.0",
+        "wpackagist-plugin/woocommerce-paypal-payments": "^3.0.6",
+        "wpackagist-plugin/woocommerce-services": "^3.0.2",
+        "wpackagist-plugin/wp-graphql": "^2.9.1",
+        "wpackagist-plugin/zapier": "^1.5.2",
+        "wp-graphql/wp-graphql-jwt-authentication": "0.7.0"
+    },
+    "extra": {
+        "installer-paths": {
+            "wp-content/plugins/{$name}/": [
+                "type:wordpress-plugin"
+            ]
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "composer/installers": true
+        }
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}

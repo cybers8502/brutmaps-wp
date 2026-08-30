@@ -150,12 +150,18 @@ artifacts that only produce churn when committed. Reproduce them instead of
 tracking them:
 
 - **WordPress core:** currently `6.8.2`. `wp core download --version=6.8.2`.
-- **Plugins:** see [`wp-content/plugins.lock.json`](wp-content/plugins.lock.json)
-  for the full list of installed plugins with version + source (wordpress.org,
-  vendor site, or license). Reinstall with `wp plugin install <slug> --version=X.Y.Z`
-  for anything on wordpress.org; licensed/vendor plugins per their `source`.
-  Regenerate the lock file after any plugin update:
-  `wp plugin list --format=json`.
+- **Plugins (25 of 27):** managed via Composer + [WPackagist](https://wpackagist.org)
+  (the wordpress.org plugin mirror as Composer packages) for 24 of them, plus one
+  GitHub-sourced plugin (`wp-graphql/wp-graphql-jwt-authentication`) via a VCS
+  repository. Run `composer install` to fetch them into `wp-content/plugins/`
+  (routed there by `composer/installers`). Bump a version with
+  `composer require wpackagist-plugin/<slug>:^X.Y.Z`.
+
+  The remaining 2 (`advanced-custom-fields-pro`, `woo-update-manager`) aren't on
+  wordpress.org/WPackagist (licensed/marketplace-only) and stay manual — see
+  [`wp-content/plugins.lock.json`](wp-content/plugins.lock.json) for every
+  plugin's slug/version/source, composer-managed or not. Regenerate it after
+  any plugin update: `wp plugin list --format=json`.
 
 Three plugins are project-written (not downloadable from anywhere) and stay
 tracked in this repo: `wp-content/plugins/acf-image-sidebar-meta`,
