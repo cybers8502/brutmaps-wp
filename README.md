@@ -70,3 +70,27 @@
  }
 ```
 ---
+
+---
+
+## Environment
+
+This repo does **not** track WordPress core (`wp-admin/`, `wp-includes/`, root
+core files) or vendor/public plugin code — both are identical, downloadable
+artifacts that only produce churn when committed. Reproduce them instead of
+tracking them:
+
+- **WordPress core:** currently `6.8.2`. `wp core download --version=6.8.2`.
+- **Plugins:** see [`wp-content/plugins.lock.json`](wp-content/plugins.lock.json)
+  for the full list of installed plugins with version + source (wordpress.org,
+  vendor site, or license). Reinstall with `wp plugin install <slug> --version=X.Y.Z`
+  for anything on wordpress.org; licensed/vendor plugins per their `source`.
+  Regenerate the lock file after any plugin update:
+  `wp plugin list --format=json`.
+
+Three plugins are project-written (not downloadable from anywhere) and stay
+tracked in this repo: `wp-content/plugins/acf-image-sidebar-meta`,
+`wp-content/plugins/gallery-limit`, `wp-content/plugins/cache-cleaner`.
+
+The theme (`wp-content/themes/brutmaps`) and media (`wp-content/uploads`) are
+each their own repo — `brutmaps-wp-theme` and `brutmaps-uploads`.

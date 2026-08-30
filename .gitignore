@@ -9,3 +9,32 @@ wp-content/themes/brutmaps/app/
 wp-content/uploads/
 wp-content/debug.log
 wp-content/themes/brutmaps/
+
+# WordPress core - identical for any install of a given version, auto-updates.
+# Pin the version in README.md / a manifest instead of tracking the code.
+wp-admin/
+wp-includes/
+index.php
+license.txt
+readme.html
+wp-activate.php
+wp-blog-header.php
+wp-comments-post.php
+wp-config-sample.php
+wp-cron.php
+wp-links-opml.php
+wp-load.php
+wp-login.php
+wp-mail.php
+wp-settings.php
+wp-signup.php
+wp-trackback.php
+xmlrpc.php
+
+# Vendor/public plugins (wordpress.org or vendor-distributed) - recorded in
+# wp-content/plugins.lock.json instead of tracking the code. Custom,
+# project-written plugins (not downloadable from anywhere) stay tracked.
+wp-content/plugins/*
+!wp-content/plugins/acf-image-sidebar-meta/
+!wp-content/plugins/gallery-limit/
+!wp-content/plugins/cache-cleaner/

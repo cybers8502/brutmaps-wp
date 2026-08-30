@@ -1,0 +1,145 @@
+{
+    "updated": "2026-08-30",
+    "plugins": [
+        {
+            "slug": "advanced-custom-fields-pro",
+            "version": "6.4.2",
+            "source": "https://www.advancedcustomfields.com/pro/ (licensed)"
+        },
+        {
+            "slug": "all-in-one-wp-migration",
+            "version": "7.94",
+            "source": "https://wordpress.org/plugins/all-in-one-wp-migration/"
+        },
+        {
+            "slug": "google-listings-and-ads",
+            "version": "2.9.13",
+            "source": "https://wordpress.org/plugins/google-listings-and-ads/"
+        },
+        {
+            "slug": "google-site-kit",
+            "version": "1.154.0",
+            "source": "https://wordpress.org/plugins/google-site-kit/"
+        },
+        {
+            "slug": "google-sitemap-generator",
+            "version": "4.1.21",
+            "source": "https://wordpress.org/plugins/google-sitemap-generator/"
+        },
+        {
+            "slug": "hotjar",
+            "version": "1.0.16",
+            "source": "https://wordpress.org/plugins/hotjar/"
+        },
+        {
+            "slug": "integromat-connector",
+            "version": "1.5.10",
+            "source": "https://www.make.com/en/integrations/wordpress"
+        },
+        {
+            "slug": "jetpack",
+            "version": "14.7",
+            "source": "https://wordpress.org/plugins/jetpack/"
+        },
+        {
+            "slug": "jwt-auth",
+            "version": "3.0.2",
+            "source": "https://wordpress.org/plugins/jwt-auth/"
+        },
+        {
+            "slug": "jwt-authentication-for-wp-rest-api",
+            "version": "1.4.1",
+            "source": "https://wordpress.org/plugins/jwt-authentication-for-wp-rest-api/"
+        },
+        {
+            "slug": "leadin",
+            "version": "11.3.6",
+            "source": "https://wordpress.org/plugins/leadin/"
+        },
+        {
+            "slug": "mailchimp-for-woocommerce",
+            "version": "5.4",
+            "source": "https://wordpress.org/plugins/mailchimp-for-woocommerce/"
+        },
+        {
+            "slug": "media-file-renamer",
+            "version": "6.0.8",
+            "source": "https://meowapps.com"
+        },
+        {
+            "slug": "phoenix-media-rename",
+            "version": "3.12.9",
+            "source": "https://www.eurosoftlab.com/en/phoenix-media-rename/"
+        },
+        {
+            "slug": "pinterest-for-woocommerce",
+            "version": "1.4.20",
+            "source": "https://wordpress.org/plugins/pinterest-for-woocommerce/"
+        },
+        {
+            "slug": "post-views-counter",
+            "version": "1.5.5",
+            "source": "https://wordpress.org/plugins/post-views-counter/"
+        },
+        {
+            "slug": "seo-by-rank-math",
+            "version": "1.0.246",
+            "source": "https://wordpress.org/plugins/seo-by-rank-math/"
+        },
+        {
+            "slug": "tiktok-for-business",
+            "version": "1.3.1",
+            "source": "https://wordpress.org/plugins/tiktok-for-business/"
+        },
+        {
+            "slug": "woo-checkout-field-editor-pro",
+            "version": "2.1.4",
+            "source": "https://wordpress.org/plugins/woo-checkout-field-editor-pro/"
+        },
+        {
+            "slug": "woo-update-manager",
+            "version": "1.0.3",
+            "source": "WooCommerce.com marketplace subscription"
+        },
+        {
+            "slug": "woocommerce",
+            "version": "9.8.5",
+            "source": "https://wordpress.org/plugins/woocommerce/"
+        },
+        {
+            "slug": "woocommerce-checkout-manager",
+            "version": "7.7.0",
+            "source": "https://wordpress.org/plugins/woocommerce-checkout-manager/"
+        },
+        {
+            "slug": "woocommerce-payments",
+            "version": "9.4.0",
+            "source": "https://wordpress.org/plugins/woocommerce-payments/"
+        },
+        {
+            "slug": "woocommerce-paypal-payments",
+            "version": "3.0.6",
+            "source": "https://wordpress.org/plugins/woocommerce-paypal-payments/"
+        },
+        {
+            "slug": "woocommerce-services",
+            "version": "3.0.2",
+            "source": "https://wordpress.org/plugins/woocommerce-services/"
+        },
+        {
+            "slug": "wp-graphql",
+            "version": "2.9.1",
+            "source": "https://wordpress.org/plugins/wp-graphql/"
+        },
+        {
+            "slug": "wp-graphql-jwt-authentication",
+            "version": "0.7.0",
+            "source": "https://github.com/wp-graphql/wp-graphql-jwt-authentication"
+        },
+        {
+            "slug": "zapier",
+            "version": "1.5.2",
+            "source": "https://wordpress.org/plugins/zapier/"
+        }
+    ]
+}
