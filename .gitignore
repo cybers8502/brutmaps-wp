@@ -43,3 +43,6 @@ wp-content/plugins/*
 SERVER.md
 _wp-config.php
 _S_wp-config.php
+
+# Auto-downloaded translation files
+wp-content/languages/
