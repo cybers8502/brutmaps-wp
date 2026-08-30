@@ -38,3 +38,8 @@ wp-content/plugins/*
 !wp-content/plugins/acf-image-sidebar-meta/
 !wp-content/plugins/gallery-limit/
 !wp-content/plugins/cache-cleaner/
+
+# Server access notes and wp-config.php backup copies
+SERVER.md
+_wp-config.php
+_S_wp-config.php
