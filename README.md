@@ -1,7 +1,20 @@
-# Brutmaps
+# Brutmaps — Backend
 
 WordPress site for Brutmaps. Application logic lives in the theme at
 `wp-content/themes/brutmaps/` (namespace `Brut\`, PSR-4 autoloaded).
+
+Part of a three-repo project:
+
+| Repo | Role |
+| --- | --- |
+| **`wp-brutmaps`** (this repo) | WordPress backend — REST (`/wp-json/v1`) + GraphQL (`/graphql`) API, content/admin |
+| [`r-brutmaps`](../r-brutmaps) | Web app (React/Vite) — public site, map, shop, account |
+| [`expo-brutmaps`](../expo-brutmaps) | Mobile app (Expo/React Native, iOS/Android) |
+
+Both clients consume this backend: most data (sights, architects, blog, shop,
+favorites, profile) over REST, auth (`login`, `register`, `googleAuth`,
+`checkEmail`, token refresh) over GraphQL. The API reference below is shared
+by both clients.
 
 ## Development
 
@@ -59,7 +72,9 @@ just the ones below.
 
 `login` and `refreshJwtAuthToken` are provided by the plugin. `register`,
 `googleAuth`, `checkEmail` and `logout` are the theme's own
-(`inc/GraphQL/AuthGraphQL.php`).
+(`inc/GraphQL/AuthGraphQL.php`). `uploadUserPhoto` is a separate,
+auth-independent mutation (`inc/GraphQL/MediaGraphQL.php`) that `register`'s
+`photoUrl` comes from.
 
 | Mutation | Arguments | Payload |
 | --- | --- | --- |
@@ -69,6 +84,15 @@ just the ones below.
 | `googleAuth` | `email!`, `firstName`, `lastName`, `avatar` | `authPayload { authToken refreshToken user }` (logs in or registers) |
 | `checkEmail` | `email!` | `result { exists message }` |
 | `logout` *(auth)* | — | `success` |
+| `uploadUserPhoto` | `fileBase64!`, `filename!` | `photoUrl` |
+
+`uploadUserPhoto` takes the image as a base64 string (an optional `data:`
+URI prefix is stripped if present) rather than a real multipart upload —
+GraphQL has no native file-upload support here, and this avoids adding one
+just for a single pre-registration photo. Replaces the old
+`POST /wp-json/v1/user/photo` REST route, now removed; the separate
+authenticated profile-photo replacement in `POST /profile/edit-profile`
+still takes a real multipart upload and is unaffected.
 
 ```graphql
 mutation {
@@ -119,7 +143,6 @@ invalidating every outstanding refresh token for that user (an already-issued
 | GET | `/taxonomies` | taxonomies |
 | GET | `/user/favorites` | user favorites *(auth)* |
 | POST | `/user/favorites/toggle` | add/remove favorite *(auth)* |
-| POST | `/user/photo` | profile photo upload (multipart `photo`) |
 | GET | `/profile/user-profile` | user profile *(auth)* |
 | POST | `/profile/edit-profile` | edit profile *(auth)* |
 | GET | `/profile/user-countries` | country list |

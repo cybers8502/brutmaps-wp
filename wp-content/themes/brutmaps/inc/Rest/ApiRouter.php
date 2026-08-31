@@ -9,7 +9,6 @@ use Brut\Rest\Controllers\PostsController;
 use Brut\Rest\Controllers\ProductsController;
 use Brut\Rest\Controllers\ObjectsController;
 use Brut\Rest\Controllers\TaxonomyController;
-use Brut\Rest\Controllers\UserPhotoController;
 use Brut\Rest\Controllers\UserProfileController;
 
 class ApiRouter
@@ -28,7 +27,6 @@ class ApiRouter
         (new ProductsController())->register();
         (new ObjectsController())->register();
         (new TaxonomyController())->register();
-        (new UserPhotoController())->register();
         (new UserProfileController())->register();
     }
 }
