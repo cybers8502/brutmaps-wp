@@ -3,7 +3,6 @@
 namespace Brut\Rest;
 
 use Brut\Rest\Controllers\ArchitectsController;
-use Brut\Rest\Controllers\PostsController;
 use Brut\Rest\Controllers\ProductsController;
 use Brut\Rest\Controllers\ObjectsController;
 use Brut\Rest\Controllers\TaxonomyController;
@@ -19,7 +18,6 @@ class ApiRouter
     public function registerRoutes(): void
     {
         (new ArchitectsController())->register();
-        (new PostsController())->register();
         (new ProductsController())->register();
         (new ObjectsController())->register();
         (new TaxonomyController())->register();

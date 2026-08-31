@@ -16,5 +16,6 @@ class GraphQLRegistrar
         (new MediaGraphQL())->registerTypes();
         (new ProfileGraphQL())->registerTypes();
         (new FavoritesGraphQL())->registerTypes();
+        (new PostsGraphQL())->registerTypes();
     }
 }
