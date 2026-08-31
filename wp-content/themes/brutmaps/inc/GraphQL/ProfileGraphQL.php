@@ -4,6 +4,7 @@ namespace Brut\GraphQL;
 
 use Brut\Security\RateLimiter;
 use Brut\Services\MailchimpService;
+use Brut\Services\UserDeletionService;
 use Brut\Utils\UserMetaHelper;
 use Brut\Utils\ValidatorHelper;
 use GraphQL\Error\UserError;
@@ -119,6 +120,14 @@ class ProfileGraphQL
                 'success' => ['type' => 'Boolean'],
             ],
             'mutateAndGetPayload' => [$this, 'resolveResetPassword'],
+        ]);
+
+        register_graphql_mutation('deleteAccount', [
+            'inputFields'         => [],
+            'outputFields'        => [
+                'success' => ['type' => 'Boolean'],
+            ],
+            'mutateAndGetPayload' => [$this, 'resolveDeleteAccount'],
         ]);
     }
 
@@ -281,6 +290,19 @@ class ProfileGraphQL
         }
 
         wp_set_password($new_password, $user->ID);
+
+        return ['success' => true];
+    }
+
+    public function resolveDeleteAccount(): array
+    {
+        if (!is_user_logged_in()) {
+            throw new UserError('You must be logged in to delete your account.');
+        }
+
+        $user_id = get_current_user_id();
+
+        (new UserDeletionService())->delete($user_id);
 
         return ['success' => true];
     }

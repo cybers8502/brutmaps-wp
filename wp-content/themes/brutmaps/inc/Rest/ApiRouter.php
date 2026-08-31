@@ -3,7 +3,6 @@
 namespace Brut\Rest;
 
 use Brut\Rest\Controllers\ArchitectsController;
-use Brut\Rest\Controllers\UserProfileController;
 
 class ApiRouter
 {
@@ -15,6 +14,5 @@ class ApiRouter
     public function registerRoutes(): void
     {
         (new ArchitectsController())->register();
-        (new UserProfileController())->register();
     }
 }
