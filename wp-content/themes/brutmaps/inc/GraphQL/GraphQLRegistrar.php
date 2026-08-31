@@ -14,5 +14,6 @@ class GraphQLRegistrar
         (new AuthGraphQL())->registerTypes();
         (new ObjectsGraphQL())->registerTypes();
         (new MediaGraphQL())->registerTypes();
+        (new ProfileGraphQL())->registerTypes();
     }
 }

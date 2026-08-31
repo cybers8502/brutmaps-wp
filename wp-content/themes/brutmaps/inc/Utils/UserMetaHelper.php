@@ -29,9 +29,22 @@ class UserMetaHelper
         }
     }
 
+    /**
+     * `profile_photo` meta holds either a raw URL (set by the register/editProfile
+     * GraphQL mutations, which only ever receive an uploaded photo's URL) or a
+     * legacy attachment ID (set by the old REST edit-profile endpoint).
+     */
     public static function getProfilePhotoUrl(int $user_id): ?string
     {
-        $photo_id = get_user_meta($user_id, 'profile_photo', true);
-        return $photo_id ? wp_get_attachment_url((int) $photo_id) : null;
+        $photo = get_user_meta($user_id, 'profile_photo', true);
+        if (!$photo) {
+            return null;
+        }
+
+        if (is_numeric($photo)) {
+            return wp_get_attachment_url((int) $photo) ?: null;
+        }
+
+        return $photo;
     }
 }
