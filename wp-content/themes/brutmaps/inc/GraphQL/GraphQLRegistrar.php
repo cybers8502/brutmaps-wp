@@ -18,5 +18,6 @@ class GraphQLRegistrar
         (new FavoritesGraphQL())->registerTypes();
         (new PostsGraphQL())->registerTypes();
         (new ArchitectsGraphQL())->registerTypes();
+        (new TaxonomyGraphQL())->registerTypes();
     }
 }

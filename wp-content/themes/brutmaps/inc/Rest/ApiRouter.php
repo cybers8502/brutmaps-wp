@@ -5,7 +5,6 @@ namespace Brut\Rest;
 use Brut\Rest\Controllers\ArchitectsController;
 use Brut\Rest\Controllers\ProductsController;
 use Brut\Rest\Controllers\ObjectsController;
-use Brut\Rest\Controllers\TaxonomyController;
 use Brut\Rest\Controllers\UserProfileController;
 
 class ApiRouter
@@ -20,7 +19,6 @@ class ApiRouter
         (new ArchitectsController())->register();
         (new ProductsController())->register();
         (new ObjectsController())->register();
-        (new TaxonomyController())->register();
         (new UserProfileController())->register();
     }
 }
