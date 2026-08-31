@@ -2,7 +2,6 @@
 
 namespace Brut\Utils;
 
-use Brut\Rest\Controllers\ArchitectsController;
 use DOMDocument;
 use DOMException;
 
