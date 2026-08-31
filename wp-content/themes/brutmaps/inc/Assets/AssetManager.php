@@ -14,8 +14,8 @@ class AssetManager
     public function enqueue()
     {
         wp_deregister_script('jquery');
-        wp_enqueue_script('custom_module_script', get_template_directory_uri() . '/publish/index-DgGZThV3.js', [], null, true);
-        wp_enqueue_style('custom_style', get_template_directory_uri() . '/publish/index-sWoPalDL.css', [], null);
+        wp_enqueue_script('custom_module_script', get_template_directory_uri() . '/publish/assets/index-DgGZThV3.js', [], null, true);
+        wp_enqueue_style('custom_style', get_template_directory_uri() . '/publish/assets/index-sWoPalDL.css', [], null);
 
         if (is_checkout()) {
             wp_enqueue_style('checkout_page_style', get_template_directory_uri() . '/publish/checkout-page.css', [], null);
