@@ -20,7 +20,6 @@ class App
         new Ajax\Controllers\CartController();
 
         $this->bootAdmin();
-        $this->bootRestApi();
         $this->bootGraphQL();
     }
 
@@ -48,11 +47,6 @@ class App
         (new Admin\ACFFieldsManager\ProductACFFieldsManager())->boot();
         (new Admin\ACFFieldsManager\SightsACFFieldsManager())->boot();
         (new Admin\ACFFieldsManager\ThemeSetupOptionsACFFieldsManager())->boot();
-    }
-
-    private function bootRestApi(): void
-    {
-        new Rest\ApiRouter();
     }
 
     private function bootGraphQL(): void
