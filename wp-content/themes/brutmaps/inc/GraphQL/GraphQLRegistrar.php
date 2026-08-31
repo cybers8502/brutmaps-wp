@@ -19,5 +19,6 @@ class GraphQLRegistrar
         (new PostsGraphQL())->registerTypes();
         (new ArchitectsGraphQL())->registerTypes();
         (new TaxonomyGraphQL())->registerTypes();
+        (new ProductsGraphQL())->registerTypes();
     }
 }
