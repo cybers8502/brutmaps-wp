@@ -4,6 +4,7 @@ namespace Brut\Rest\Controllers;
 
 use Brut\Services\ArchitectStatsService;
 use Brut\Services\CacheService;
+use Brut\Services\FavoritesService;
 use Brut\Utils\ContentHelper;
 use Brut\Utils\PostHelper;
 use Brut\Utils\RequestSanitizer;
@@ -96,10 +97,7 @@ class ObjectsController
             // Фільтруємо за вподобаннями користувача
             $categoriesMap = [];
             if ($user_id) {
-                $preferences = get_user_meta($user_id, 'sight_preferences', true);
-                if (!is_array($preferences)) {
-                    $preferences = array_fill_keys(FavoritesController::CATEGORIES, []);
-                }
+                $preferences = FavoritesService::getPreferences($user_id);
 
                 // Побудуємо: [sightId => category]
                 foreach ($preferences as $category => $idsInCategory) {

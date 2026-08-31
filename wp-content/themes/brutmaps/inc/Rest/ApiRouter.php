@@ -3,7 +3,6 @@
 namespace Brut\Rest;
 
 use Brut\Rest\Controllers\ArchitectsController;
-use Brut\Rest\Controllers\FavoritesController;
 use Brut\Rest\Controllers\PostsController;
 use Brut\Rest\Controllers\ProductsController;
 use Brut\Rest\Controllers\ObjectsController;
@@ -20,7 +19,6 @@ class ApiRouter
     public function registerRoutes(): void
     {
         (new ArchitectsController())->register();
-        (new FavoritesController())->register();
         (new PostsController())->register();
         (new ProductsController())->register();
         (new ObjectsController())->register();
