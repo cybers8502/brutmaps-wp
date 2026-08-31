@@ -4,9 +4,9 @@ namespace Brut\Services;
 
 /**
  * Reads/writes the `sight_preferences` user meta: sight IDs bucketed into
- * favorite/want_to_go/visited/hidden. Shared by FavoritesGraphQL, the
- * sightsMap resolvers (ObjectsGraphQL/ObjectsController) that filter out
- * hidden sights and annotate the rest with their category.
+ * favorite/want_to_go/visited/hidden. Shared by FavoritesGraphQL and the
+ * sightsMap resolver (ObjectsGraphQL) that filters out hidden sights and
+ * annotates the rest with their category.
  */
 class FavoritesService
 {
