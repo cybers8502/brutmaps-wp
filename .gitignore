@@ -1,5 +1,12 @@
 .idea/
+
+# OS files
 .DS_Store
+
+# Composer
+vendor/
+
+# WordPress config with credentials
 wp-config.php
 .htaccess
 
@@ -8,7 +15,6 @@ debug.log
 wp-content/themes/brutmaps/app/
 wp-content/uploads/
 wp-content/debug.log
-wp-content/themes/brutmaps/
 
 # WordPress core - identical for any install of a given version, auto-updates.
 # Pin the version in README.md / a manifest instead of tracking the code.
@@ -31,6 +37,8 @@ wp-signup.php
 wp-trackback.php
 xmlrpc.php
 
+!wp-content/themes/brutmaps/index.php
+
 # Vendor/public plugins (wordpress.org or vendor-distributed) - recorded in
 # wp-content/plugins.lock.json instead of tracking the code. Custom,
 # project-written plugins (not downloadable from anywhere) stay tracked.
@@ -44,5 +52,16 @@ SERVER.md
 _wp-config.php
 _S_wp-config.php
 
+# Database dumps
+*.sql
+*.sql.gz
+
 # Auto-downloaded translation files
 wp-content/languages/
+publish/
+
+# PHP tooling caches
+.phpunit.cache/
+.phpunit.result.cache
+.php-cs-fixer.cache
+.phpcs.cache

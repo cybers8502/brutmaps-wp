@@ -167,5 +167,5 @@ Three plugins are project-written (not downloadable from anywhere) and stay
 tracked in this repo: `wp-content/plugins/acf-image-sidebar-meta`,
 `wp-content/plugins/gallery-limit`, `wp-content/plugins/cache-cleaner`.
 
-The theme (`wp-content/themes/brutmaps`) and media (`wp-content/uploads`) are
-each their own repo — `brutmaps-wp-theme` and `brutmaps-uploads`.
+The theme (`wp-content/themes/brutmaps`) is tracked in this repo. Media
+(`wp-content/uploads`) is still its own repo — `brutmaps-uploads`.
