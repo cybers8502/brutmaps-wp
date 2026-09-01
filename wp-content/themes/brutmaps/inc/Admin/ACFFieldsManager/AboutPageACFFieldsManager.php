@@ -22,6 +22,10 @@ class AboutPageACFFieldsManager
             'menu_slug'  => 'about-page',
             'capability' => 'edit_posts',
             'redirect'   => false,
+            // Without this ACF appends options pages after the whole admin
+            // menu (near Settings/ACF), where content editors won't think
+            // to look — put it with the other content, right after Pages.
+            'position'   => 25,
         ]);
     }
 
