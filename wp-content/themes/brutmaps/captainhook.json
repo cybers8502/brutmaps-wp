@@ -9,7 +9,7 @@
                 "action": "\\CaptainHook\\App\\Hook\\PHP\\Action\\Linting"
             },
             {
-                "action": "vendor/bin/phpcs -q {$STAGED_FILES|of-type:php}",
+                "action": "wp-content/themes/brutmaps/vendor/bin/phpcs -q --standard=wp-content/themes/brutmaps/phpcs.xml {$STAGED_FILES|of-type:php}",
                 "conditions": [
                     {
                         "exec": "\\CaptainHook\\App\\Hook\\Condition\\FileStaged\\OfType",
@@ -18,7 +18,7 @@
                 ]
             },
             {
-                "action": "vendor/bin/phpstan analyse --no-progress --memory-limit=1G {$STAGED_FILES|of-type:php}",
+                "action": "wp-content/themes/brutmaps/vendor/bin/phpstan analyse --configuration=wp-content/themes/brutmaps/phpstan.neon --no-progress --memory-limit=1G {$STAGED_FILES|of-type:php}",
                 "conditions": [
                     {
                         "exec": "\\CaptainHook\\App\\Hook\\Condition\\FileStaged\\OfType",
@@ -27,7 +27,7 @@
                 ]
             },
             {
-                "action": "vendor/bin/phpunit",
+                "action": "wp-content/themes/brutmaps/vendor/bin/phpunit --configuration=wp-content/themes/brutmaps/phpunit.xml",
                 "conditions": [
                     {
                         "exec": "\\CaptainHook\\App\\Hook\\Condition\\FileStaged\\OfType",
@@ -41,7 +41,7 @@
         "enabled": true,
         "actions": [
             {
-                "action": "composer check"
+                "action": "cd wp-content/themes/brutmaps && composer check"
             }
         ]
     }
