@@ -36,15 +36,21 @@ class AboutGraphQL
             $portrait = get_field('portrait', 'option');
             $body     = get_field('body', 'option');
 
+            $countryTerms = wp_count_terms([
+                'taxonomy'   => 'country',
+                'hide_empty' => true,
+            ]);
+
             return [
                 'founderName'     => get_field('founderName', 'option'),
                 'founderRole'     => get_field('founderRole', 'option'),
                 'portraitUrl'     => $portrait['url'] ?? null,
                 'portraitAlt'     => $portrait['alt'] ?? null,
                 'body'            => $body ? apply_filters('the_content', $body) : null,
-                'buildingsCount'  => (int) get_field('statBuildings', 'option') ?: null,
-                'countriesCount'  => (int) get_field('statCountries', 'option') ?: null,
-                'architectsCount' => (int) get_field('statArchitects', 'option') ?: null,
+                // buildings/architects/countries are live counts, not editable content.
+                'buildingsCount'  => (int) wp_count_posts('sight')->publish ?: null,
+                'architectsCount' => (int) wp_count_posts('architect')->publish ?: null,
+                'countriesCount'  => is_wp_error($countryTerms) ? null : ((int) $countryTerms ?: null),
                 'launchYear'      => (int) get_field('statLaunchYear', 'option') ?: null,
             ];
         }, HOUR_IN_SECONDS);

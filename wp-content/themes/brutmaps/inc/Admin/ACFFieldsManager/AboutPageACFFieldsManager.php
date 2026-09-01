@@ -85,32 +85,12 @@ class AboutPageACFFieldsManager
                 'required' => 0,
             ],
             [
-                'key'      => 'field_about_statBuildings',
-                'label'    => 'Buildings count',
-                'name'     => 'statBuildings',
-                'type'     => 'number',
-                'required' => 0,
-            ],
-            [
-                'key'      => 'field_about_statCountries',
-                'label'    => 'Countries count',
-                'name'     => 'statCountries',
-                'type'     => 'number',
-                'required' => 0,
-            ],
-            [
-                'key'      => 'field_about_statArchitects',
-                'label'    => 'Architects count',
-                'name'     => 'statArchitects',
-                'type'     => 'number',
-                'required' => 0,
-            ],
-            [
-                'key'      => 'field_about_statLaunchYear',
-                'label'    => 'Launch year',
-                'name'     => 'statLaunchYear',
-                'type'     => 'number',
-                'required' => 0,
+                'key'          => 'field_about_statLaunchYear',
+                'label'        => 'Launch year',
+                'name'         => 'statLaunchYear',
+                'type'         => 'number',
+                'required'     => 0,
+                'instructions' => 'Buildings/countries/architects counts are computed live and not editable here.',
             ],
         ];
     }

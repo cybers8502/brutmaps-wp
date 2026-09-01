@@ -8,6 +8,7 @@ class SightsPostTypeRegistrar
     {
         add_action('init', [$this, 'registerPostType']);
         add_action('init', [$this, 'registerTaxonomy']);
+        add_action('init', [$this, 'registerCountryTaxonomy']);
     }
 
     public function registerPostType(): void
@@ -63,6 +64,28 @@ class SightsPostTypeRegistrar
             'show_in_rest'          => true,
             'rewrite'               => true,
             'show_admin_column'     => false,
+        ]);
+    }
+
+    public function registerCountryTaxonomy(): void
+    {
+        register_taxonomy('country', ['sight'], [
+            'labels' => [
+                'name'          => 'Countries',
+                'singular_name' => 'Country',
+                'search_items'  => 'Search Countries',
+                'all_items'     => 'All Countries',
+                'edit_item'     => 'Edit Country',
+                'update_item'   => 'Update Country',
+                'add_new_item'  => 'Add New Country',
+                'new_item_name' => 'New Country Name',
+                'menu_name'     => 'Country',
+            ],
+            'hierarchical'      => false,
+            'public'            => true,
+            'show_in_rest'      => true,
+            'rewrite'           => true,
+            'show_admin_column' => true,
         ]);
     }
 }
