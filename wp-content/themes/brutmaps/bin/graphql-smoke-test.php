@@ -77,6 +77,9 @@ $queries = [
     'sightsCount (custom RootQuery field)' => [
         'query' => '{ sightsCount }',
     ],
+    'sightsList (custom RootQuery field)' => [
+        'query' => '{ sightsList(perPage: 1) { totalItems items { id } } }',
+    ],
     'architects (custom RootQuery field)' => [
         'query' => '{ architects { id } }',
     ],

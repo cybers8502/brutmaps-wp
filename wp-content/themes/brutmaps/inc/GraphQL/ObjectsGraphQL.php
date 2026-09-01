@@ -23,6 +23,7 @@ class ObjectsGraphQL
         $this->registerSightsMapTypes();
         $this->registerSightDetailTypes();
         $this->registerSightsImagesTypes();
+        $this->registerSightsListTypes();
         $this->registerQueries();
     }
 
@@ -175,8 +176,48 @@ class ObjectsGraphQL
         ]);
     }
 
+    private function registerSightsListTypes(): void
+    {
+        register_graphql_object_type('SightListItem', [
+            'description' => 'Summary of a sight for the /objects listing page.',
+            'fields'      => [
+                'id'              => ['type' => 'Integer'],
+                'slug'            => ['type' => 'String'],
+                'title'           => ['type' => 'String'],
+                'image'           => ['type' => 'BrutImage'],
+                'address'         => ['type' => 'String'],
+                'establishedYear' => ['type' => 'Integer'],
+                'country'         => ['type' => 'String'],
+                'architects'      => ['type' => ['list_of' => 'Architect']],
+            ],
+        ]);
+
+        register_graphql_object_type('SightsListResult', [
+            'description' => 'A page of the filtered, sorted /objects listing.',
+            'fields'      => [
+                'items'       => ['type' => ['list_of' => 'SightListItem']],
+                'currentPage' => ['type' => 'Integer'],
+                'totalPages'  => ['type' => 'Integer'],
+                'totalItems'  => ['type' => 'Integer'],
+            ],
+        ]);
+    }
+
     private function registerQueries(): void
     {
+        register_graphql_field('RootQuery', 'sightsList', [
+            'type'        => 'SightsListResult',
+            'description' => 'Paginated, filtered and sorted list of sights for the /objects page.',
+            'args'        => [
+                'countries'  => ['type' => ['list_of' => 'String']],
+                'architects' => ['type' => ['list_of' => 'ID']],
+                'sortBy'     => ['type' => 'String'],
+                'page'       => ['type' => 'Integer'],
+                'perPage'    => ['type' => 'Integer'],
+            ],
+            'resolve'     => [$this, 'resolveSightsList'],
+        ]);
+
         register_graphql_field('RootQuery', 'sightsMap', [
             'type'        => 'SightsMapResult',
             'description' => 'Get all sights as a GeoJSON FeatureCollection',
@@ -296,6 +337,82 @@ class ObjectsGraphQL
         return CacheService::getOrSet('sights_count', function () {
             return (int) (wp_count_posts('sight')->publish ?? 0);
         }, HOUR_IN_SECONDS);
+    }
+
+    public function resolveSightsList($root, array $args): array
+    {
+        $countries  = RequestSanitizer::sanitizeArray($args['countries'] ?? []);
+        $architects = RequestSanitizer::sanitizeArray($args['architects'] ?? []);
+        $sortBy     = ($args['sortBy'] ?? 'recent') === 'oldest' ? 'oldest' : 'recent';
+        $page       = max(1, (int) ($args['page'] ?? 1));
+        $perPage    = max(1, min(100, (int) ($args['perPage'] ?? 24)));
+
+        $cacheKey = 'sights_list_' . md5(json_encode(compact('countries', 'architects', 'sortBy', 'page', 'perPage')));
+
+        return CacheService::getOrSet($cacheKey, function () use ($countries, $architects, $sortBy, $page, $perPage) {
+            $queryArgs = [
+                'post_type'      => 'sight',
+                'post_status'    => 'publish',
+                'posts_per_page' => $perPage,
+                'paged'          => $page,
+                'orderby'        => 'date',
+                'order'          => $sortBy === 'oldest' ? 'ASC' : 'DESC',
+                'fields'         => 'ids',
+                'tax_query'      => [],
+                'meta_query'     => [],
+            ];
+
+            if (!empty($countries)) {
+                $queryArgs['tax_query'][] = [
+                    'taxonomy' => 'country',
+                    'field'    => 'slug',
+                    'terms'    => $countries,
+                    'operator' => 'IN',
+                ];
+            }
+
+            if (!empty($architects)) {
+                $meta_conditions = [];
+                foreach ($architects as $id) {
+                    $meta_conditions[] = [
+                        'key'     => 'choose_architects',
+                        'value'   => '"' . intval($id) . '"',
+                        'compare' => 'LIKE',
+                    ];
+                }
+                $queryArgs['meta_query'][] = ['relation' => 'OR', ...$meta_conditions];
+            }
+
+            $query = new \WP_Query($queryArgs);
+            $items = array_map([$this, 'mapSightListItem'], $query->posts);
+
+            return [
+                'items'       => $items,
+                'currentPage' => $page,
+                'totalPages'  => (int) $query->max_num_pages,
+                'totalItems'  => (int) $query->found_posts,
+            ];
+        }, HOUR_IN_SECONDS);
+    }
+
+    private function mapSightListItem(int $id): array
+    {
+        $post          = get_post($id);
+        $location      = get_field('location', $id);
+        $established   = get_field('established', $id);
+        $countryTerms  = get_the_terms($id, 'country');
+        $architectIds  = get_field('choose_architects', $id) ?: [];
+
+        return [
+            'id'              => $id,
+            'slug'            => $post->post_name,
+            'title'           => html_entity_decode(get_the_title($id)),
+            'image'           => ContentHelper::getPostThumbnailInformationById($id),
+            'address'         => $location['address'] ?? null,
+            'establishedYear' => $established ? (int) $established : null,
+            'country'         => (!empty($countryTerms) && !is_wp_error($countryTerms)) ? $countryTerms[0]->name : null,
+            'architects'      => array_map(fn($aid) => ContentHelper::mapArchitect((int) $aid), (array) $architectIds),
+        ];
     }
 
     /**
