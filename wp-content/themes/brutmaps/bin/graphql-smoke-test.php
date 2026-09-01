@@ -74,6 +74,9 @@ $queries = [
     'sightsImages (custom RootQuery field)' => [
         'query' => '{ sightsImages(perPage: 1) { currentPage } }',
     ],
+    'sightsCount (custom RootQuery field)' => [
+        'query' => '{ sightsCount }',
+    ],
     'architects (custom RootQuery field)' => [
         'query' => '{ architects { id } }',
     ],

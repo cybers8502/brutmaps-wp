@@ -196,6 +196,12 @@ class ObjectsGraphQL
             'resolve'     => [$this, 'resolveSight'],
         ]);
 
+        register_graphql_field('RootQuery', 'sightsCount', [
+            'type'        => 'Int',
+            'description' => 'Total number of published sights.',
+            'resolve'     => [$this, 'resolveSightsCount'],
+        ]);
+
         register_graphql_field('RootQuery', 'sightsImages', [
             'type'        => 'SightsImagesResult',
             'description' => 'Get paginated sight preview images',
@@ -283,6 +289,13 @@ class ObjectsGraphQL
         ]));
 
         return CacheService::getOrSet($cacheKey, $getFilteredObjects);
+    }
+
+    public function resolveSightsCount(): int
+    {
+        return CacheService::getOrSet('sights_count', function () {
+            return (int) (wp_count_posts('sight')->publish ?? 0);
+        }, HOUR_IN_SECONDS);
     }
 
     /**
