@@ -2,36 +2,53 @@
 
 namespace Brut\Admin\ACFFieldsManager;
 
+use WP_Post;
+
 class AboutPageACFFieldsManager
 {
+    private const PAGE_SLUG = 'about';
+
     public function boot(): void
     {
-        add_action('acf/init', [$this, 'registerOptionsPage']);
+        add_action('init', [$this, 'ensurePageExists']);
         add_action('acf/init', [$this, 'registerFieldGroup']);
     }
 
-    public function registerOptionsPage(): void
+    /**
+     * The About page is real WP content (not an options page) specifically
+     * so it gets normal Page treatment — shows up under Pages, and gets a
+     * Rank Math SEO meta box, unlike an ACF options page.
+     */
+    public function ensurePageExists(): void
     {
-        if (!function_exists('acf_add_options_page')) {
+        if (self::getPage()) {
             return;
         }
 
-        acf_add_options_page([
-            'page_title' => __('About Page', 'brut'),
-            'menu_title' => __('About Page', 'brut'),
-            'menu_slug'  => 'about-page',
-            'capability' => 'edit_posts',
-            'redirect'   => false,
-            // Without this ACF appends options pages after the whole admin
-            // menu (near Settings/ACF), where content editors won't think
-            // to look — put it with the other content, right after Pages.
-            'position'   => 25,
+        wp_insert_post([
+            'post_title'  => 'About',
+            'post_name'   => self::PAGE_SLUG,
+            'post_type'   => 'page',
+            'post_status' => 'publish',
         ]);
+    }
+
+    public static function getPage(): ?WP_Post
+    {
+        $page = get_page_by_path(self::PAGE_SLUG);
+
+        return $page instanceof WP_Post ? $page : null;
     }
 
     public function registerFieldGroup(): void
     {
         if (!function_exists('acf_add_local_field_group')) {
+            return;
+        }
+
+        $page = self::getPage();
+
+        if (!$page) {
             return;
         }
 
@@ -42,9 +59,9 @@ class AboutPageACFFieldsManager
             'location'              => [
                 [
                     [
-                        'param'    => 'options_page',
+                        'param'    => 'page',
                         'operator' => '==',
-                        'value'    => 'about-page',
+                        'value'    => $page->ID,
                     ],
                 ],
             ],
