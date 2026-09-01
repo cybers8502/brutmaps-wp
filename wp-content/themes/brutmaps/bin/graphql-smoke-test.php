@@ -93,6 +93,9 @@ $queries = [
     'userCountries (custom RootQuery field)' => [
         'query' => '{ userCountries { code } }',
     ],
+    'aboutPage (custom RootQuery field)' => [
+        'query' => '{ aboutPage { founderName buildingsCount } }',
+    ],
     'products (WooGraphQL RootQuery field)' => [
         'query' => '{ products(first: 1) { nodes { id } } }',
     ],

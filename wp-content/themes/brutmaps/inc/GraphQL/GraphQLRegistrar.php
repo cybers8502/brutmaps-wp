@@ -11,6 +11,7 @@ class GraphQLRegistrar
 
     public function register(): void
     {
+        (new AboutGraphQL())->registerTypes();
         (new AuthGraphQL())->registerTypes();
         (new ObjectsGraphQL())->registerTypes();
         (new MediaGraphQL())->registerTypes();

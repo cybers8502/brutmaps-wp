@@ -40,6 +40,7 @@ class App
         (new Admin\PostTypes\ContributorPostTypeRegistrar())->boot();
         (new Admin\PostTypes\SightsPostTypeRegistrar())->boot();
 
+        (new Admin\ACFFieldsManager\AboutPageACFFieldsManager())->boot();
         (new Admin\ACFFieldsManager\ArchitectACFFieldsManager())->boot();
         (new Admin\ACFFieldsManager\AttachmentACFFieldsManager())->boot();
         (new Admin\ACFFieldsManager\AuthorsACFFieldsManager())->boot();
