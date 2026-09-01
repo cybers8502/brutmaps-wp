@@ -58,7 +58,7 @@
         }
     },
     "scripts": {
-        "lint": "parallel-lint --colors inc functions.php",
+        "lint": "parallel-lint --colors inc functions.php bin",
         "phpcs": "phpcs -q",
         "phpcbf": "phpcbf",
         "phpstan": "phpstan analyse --memory-limit=1G",
@@ -68,6 +68,7 @@
             "@phpstan",
             "@test",
             "@phpcs"
-        ]
+        ],
+        "smoke-test": "wp eval-file bin/graphql-smoke-test.php --path=../../.."
     }
 }

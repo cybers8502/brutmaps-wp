@@ -80,7 +80,13 @@ class PostsGraphQL
 
     private function registerQueries(): void
     {
-        register_graphql_field('RootQuery', 'posts', [
+        // Named `blogPosts`/`blogPost`, not `posts`/`post` — WPGraphQL core
+        // already registers `RootQuery.posts` (a Relay-style connection of
+        // WP `post`-type posts) and `RootQuery.post(id)`, and a same-named
+        // field here silently loses to the core one instead of overriding
+        // it, making this field unreachable. See TaxonomyGraphQL.php for the
+        // same issue with the `taxonomy` field.
+        register_graphql_field('RootQuery', 'blogPosts', [
             'type'        => 'BlogPostsResult',
             'description' => 'Paginated blog posts, optionally filtered by category slug/ID.',
             'args'        => [
@@ -91,7 +97,7 @@ class PostsGraphQL
             'resolve'     => [$this, 'resolvePosts'],
         ]);
 
-        register_graphql_field('RootQuery', 'post', [
+        register_graphql_field('RootQuery', 'blogPost', [
             'type'        => 'BlogPost',
             'description' => 'A single blog post by ID or slug.',
             'args'        => [

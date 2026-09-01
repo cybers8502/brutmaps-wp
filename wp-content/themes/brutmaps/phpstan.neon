@@ -3,6 +3,7 @@ parameters:
     paths:
         - inc
         - functions.php
+        - bin
     bootstrapFiles:
         - phpstan-bootstrap.php
     scanFiles:
