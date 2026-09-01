@@ -44,7 +44,8 @@
         "wpackagist-plugin/woocommerce-services": "^3.0.2",
         "wpackagist-plugin/wp-graphql": "^2.9.1",
         "wpackagist-plugin/zapier": "^1.5.2",
-        "wp-graphql/wp-graphql-jwt-authentication": "0.7.0"
+        "wp-graphql/wp-graphql-jwt-authentication": "0.7.0",
+        "wp-graphql/wp-graphql-woocommerce": "^0.21.2"
     },
     "extra": {
         "installer-paths": {
