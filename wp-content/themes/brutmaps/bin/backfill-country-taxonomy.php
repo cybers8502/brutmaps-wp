@@ -48,11 +48,14 @@ foreach ($ids as $id) {
     }
 
     $url = add_query_arg([
-        'format'        => 'jsonv2',
-        'lat'           => $location['lat'],
-        'lon'           => $location['lng'],
-        'zoom'          => 3,
-        'addressdetails' => 1,
+        'format'          => 'jsonv2',
+        'lat'             => $location['lat'],
+        'lon'             => $location['lng'],
+        'zoom'            => 3,
+        'addressdetails'  => 1,
+        // Without this Nominatim returns the country's local-language name
+        // (e.g. "España") instead of English ("Spain").
+        'accept-language' => 'en',
     ], 'https://nominatim.openstreetmap.org/reverse');
 
     $response = wp_remote_get($url, [
