@@ -20,7 +20,12 @@ class TaxonomyGraphQL
             ],
         ]);
 
-        register_graphql_field('RootQuery', 'taxonomy', [
+        // Named `sightTaxonomy`, not `taxonomy` — WPGraphQL core already
+        // registers a `RootQuery.taxonomy(id: ID!)` field (looks up a
+        // taxonomy *definition*, e.g. "category", by its WPGraphQL name),
+        // and a same-named field here silently loses to it instead of
+        // overriding it, making this field unreachable.
+        register_graphql_field('RootQuery', 'sightTaxonomy', [
             'type'        => ['list_of' => 'TaxonomyTerm'],
             'description' => 'Top-level terms (with their children nested) of the given taxonomy.',
             'args'        => [
