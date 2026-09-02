@@ -60,6 +60,14 @@ _S_wp-config.php
 wp-content/languages/
 publish/
 
+# Server-specific auth/infra files (not the same across environments)
+/.htpasswd
+/.well-known/
+
+# Plugin runtime data (backups, firewall cache) - not source, not portable
+wp-content/ai1wm-backups/
+wp-content/jetpack-waf/
+
 # PHP tooling caches
 .phpunit.cache/
 .phpunit.result.cache
