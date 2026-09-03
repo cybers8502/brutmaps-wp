@@ -222,13 +222,16 @@ class ContentHelper
     public static function mapArchitect(int $id, int $count = 0): array
     {
         return [
-            'id'         => $id,
-            'count'      => $count,
-            'title'      => html_entity_decode(get_the_title($id)),
-            'first_name' => get_field('first_name', $id),
-            'last_name'  => get_field('last_name', $id),
-            'full_name'  => trim(get_field('first_name', $id) . ' ' . get_field('last_name', $id)),
-            'image'      => ContentHelper::getPostThumbnailInformationById($id),
+            'id'          => $id,
+            'count'       => $count,
+            'title'       => html_entity_decode(get_the_title($id)),
+            'slug'        => get_post_field('post_name', $id),
+            'first_name'  => get_field('first_name', $id),
+            'last_name'   => get_field('last_name', $id),
+            'full_name'   => trim(get_field('first_name', $id) . ' ' . get_field('last_name', $id)),
+            'description' => get_field('description', $id) ?: null,
+            'wiki_link'   => get_field('wiki_link', $id) ?: null,
+            'image'       => ContentHelper::getPostThumbnailInformationById($id),
         ];
     }
 

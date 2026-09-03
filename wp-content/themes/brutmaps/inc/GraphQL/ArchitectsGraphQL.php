@@ -5,6 +5,7 @@ namespace Brut\GraphQL;
 use Brut\Services\ArchitectStatsService;
 use Brut\Services\CacheService;
 use Brut\Utils\ContentHelper;
+use Brut\Utils\PostHelper;
 use GraphQL\Error\UserError;
 
 class ArchitectsGraphQL
@@ -20,13 +21,16 @@ class ArchitectsGraphQL
         register_graphql_object_type('Architect', [
             'description' => 'An architect and their linked sights.',
             'fields'      => [
-                'id'        => ['type' => 'Int'],
-                'count'     => ['type' => 'Int'],
-                'title'     => ['type' => 'String'],
-                'firstName' => ['type' => 'String', 'resolve' => fn($a) => $a['first_name'] ?? null],
-                'lastName'  => ['type' => 'String', 'resolve' => fn($a) => $a['last_name'] ?? null],
-                'fullName'  => ['type' => 'String', 'resolve' => fn($a) => $a['full_name'] ?? null],
-                'image'     => ['type' => 'BrutImage'],
+                'id'          => ['type' => 'Int'],
+                'count'       => ['type' => 'Int'],
+                'title'       => ['type' => 'String'],
+                'slug'        => ['type' => 'String'],
+                'firstName'   => ['type' => 'String', 'resolve' => fn($a) => $a['first_name'] ?? null],
+                'lastName'    => ['type' => 'String', 'resolve' => fn($a) => $a['last_name'] ?? null],
+                'fullName'    => ['type' => 'String', 'resolve' => fn($a) => $a['full_name'] ?? null],
+                'description' => ['type' => 'String'],
+                'wikiLink'    => ['type' => 'String', 'resolve' => fn($a) => $a['wiki_link'] ?? null],
+                'image'       => ['type' => 'BrutImage'],
             ],
         ]);
     }
@@ -41,9 +45,9 @@ class ArchitectsGraphQL
 
         register_graphql_field('RootQuery', 'architect', [
             'type'        => 'Architect',
-            'description' => 'A single architect by ID.',
+            'description' => 'Get a single architect by ID or slug.',
             'args'        => [
-                'id' => ['type' => ['non_null' => 'Int']],
+                'identifier' => ['type' => ['non_null' => 'String']],
             ],
             'resolve'     => [$this, 'resolveArchitect'],
         ]);
@@ -76,29 +80,30 @@ class ArchitectsGraphQL
                 'fields'      => 'ids',
             ]);
 
-            return array_map(fn($id) => ContentHelper::mapArchitect($id), $architects);
+            $counts = $this->getArchitectSightCounts();
+
+            return array_map(fn($id) => ContentHelper::mapArchitect($id, $counts[$id] ?? 0), $architects);
         });
     }
 
     public function resolveArchitect($root, array $args): array
     {
-        $id = (int) $args['id'];
+        $identifier = $args['identifier'];
+        $post = is_numeric($identifier)
+            ? PostHelper::getPublishedPost((int) $identifier, 'architect')
+            : PostHelper::getPostBySlug($identifier, 'architect');
 
-        $data = CacheService::getOrSet("architect_{$id}", function () use ($id) {
-            $post = get_post($id);
-
-            if (!$post || $post->post_type !== 'architect' || $post->post_status !== 'publish') {
-                return null;
-            }
-
-            return ContentHelper::mapArchitect($id);
-        });
-
-        if (!$data) {
+        if (!$post) {
             throw new UserError('Architect not found');
         }
 
-        return $data;
+        $id = $post->ID;
+
+        return CacheService::getOrSet("architect_{$id}", function () use ($id) {
+            $counts = $this->getArchitectSightCounts();
+
+            return ContentHelper::mapArchitect($id, $counts[$id] ?? 0);
+        });
     }
 
     public function resolvePopularArchitects(): array
@@ -106,8 +111,7 @@ class ArchitectsGraphQL
         global $wpdb;
 
         return CacheService::getOrSet('architects_popular', function () use ($wpdb) {
-            $popular  = [];
-            $fallback = [];
+            $popular = [];
 
             $options = $wpdb->get_results("
                 SELECT option_name, option_value
@@ -120,35 +124,7 @@ class ArchitectsGraphQL
                 $popular[$id] = (int) $opt->option_value;
             }
 
-            $all_architects = get_posts([
-                'post_type'   => 'architect',
-                'post_status' => 'publish',
-                'numberposts' => -1,
-                'fields'      => 'ids',
-            ]);
-
-            foreach ($all_architects as $architectID) {
-                if (isset($popular[$architectID])) {
-                    continue;
-                }
-
-                $linked = get_posts([
-                    'post_type'   => 'sight',
-                    'post_status' => 'publish',
-                    'meta_query'  => [
-                        [
-                            'key'     => 'choose_architects',
-                            'value'   => '"' . $architectID . '"',
-                            'compare' => 'LIKE',
-                        ],
-                    ],
-                    'fields'      => 'ids',
-                ]);
-
-                if (count($linked) > 0) {
-                    $fallback[$architectID] = count($linked);
-                }
-            }
+            $fallback = $this->getArchitectSightCounts();
 
             arsort($popular);
             arsort($fallback);
@@ -163,7 +139,13 @@ class ArchitectsGraphQL
             }
 
             if (count($top) < 6) {
+                $alreadyPicked = array_column($top, 'id');
+
                 foreach (array_keys($fallback) as $id) {
+                    if (in_array($id, $alreadyPicked, true)) {
+                        continue;
+                    }
+
                     $top[] = ContentHelper::mapArchitect($id, $fallback[$id]);
                     if (count($top) >= 6) {
                         break;
@@ -183,8 +165,42 @@ class ArchitectsGraphQL
             throw new UserError('Missing query param');
         }
 
-        $posts = ArchitectStatsService::searchArchitectsByQuery($query);
+        $posts  = ArchitectStatsService::searchArchitectsByQuery($query);
+        $counts = $this->getArchitectSightCounts();
 
-        return array_map(fn($post) => ContentHelper::mapArchitect($post->ID), $posts);
+        return array_map(fn($post) => ContentHelper::mapArchitect($post->ID, $counts[$post->ID] ?? 0), $posts);
+    }
+
+    /**
+     * Number of published sights linked to each architect, keyed by architect post ID.
+     * Computed with a single query instead of one per architect.
+     */
+    private function getArchitectSightCounts(): array
+    {
+        global $wpdb;
+
+        $rows = $wpdb->get_col($wpdb->prepare("
+            SELECT pm.meta_value
+            FROM $wpdb->postmeta pm
+            INNER JOIN $wpdb->posts p ON p.ID = pm.post_id
+            WHERE pm.meta_key = %s AND p.post_type = %s AND p.post_status = 'publish'
+        ", 'choose_architects', 'sight'));
+
+        $counts = [];
+
+        foreach ($rows as $serialized) {
+            $architectIDs = maybe_unserialize($serialized);
+
+            if (!is_array($architectIDs)) {
+                continue;
+            }
+
+            foreach ($architectIDs as $architectID) {
+                $architectID          = (int) $architectID;
+                $counts[$architectID] = ($counts[$architectID] ?? 0) + 1;
+            }
+        }
+
+        return $counts;
     }
 }
