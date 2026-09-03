@@ -73,6 +73,16 @@ class ArchitectACFFieldsManager
                 'wrapper' => ['width' => '33'],
             ],
             [
+                'key' => 'field_architect_hidden',
+                'label' => 'Hidden',
+                'name' => 'hidden',
+                'type' => 'true_false',
+                'instructions' => 'Hide from the /architects listing, search and popular architects (e.g. placeholder entries like "Architect Unknown"). The architect page itself stays reachable by direct link.',
+                'required' => 0,
+                'ui' => 1,
+                'wrapper' => ['width' => '33'],
+            ],
+            [
                 'key' => 'field_architect_description',
                 'label' => 'Description',
                 'name' => 'description',

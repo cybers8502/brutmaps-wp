@@ -78,6 +78,7 @@ class ArchitectsGraphQL
                 'orderby'     => 'title',
                 'order'       => 'ASC',
                 'fields'      => 'ids',
+                'meta_query'  => [$this->notHiddenMetaClause()],
             ]);
 
             $counts = $this->getArchitectSightCounts();
@@ -132,6 +133,10 @@ class ArchitectsGraphQL
             $top = [];
 
             foreach (array_keys($popular) as $id) {
+                if ($this->isHidden($id)) {
+                    continue;
+                }
+
                 $top[] = ContentHelper::mapArchitect($id, $popular[$id]);
                 if (count($top) >= 6) {
                     break;
@@ -142,7 +147,7 @@ class ArchitectsGraphQL
                 $alreadyPicked = array_column($top, 'id');
 
                 foreach (array_keys($fallback) as $id) {
-                    if (in_array($id, $alreadyPicked, true)) {
+                    if (in_array($id, $alreadyPicked, true) || $this->isHidden($id)) {
                         continue;
                     }
 
@@ -166,9 +171,24 @@ class ArchitectsGraphQL
         }
 
         $posts  = ArchitectStatsService::searchArchitectsByQuery($query);
+        $posts  = array_filter($posts, fn($post) => !$this->isHidden($post->ID));
         $counts = $this->getArchitectSightCounts();
 
         return array_map(fn($post) => ContentHelper::mapArchitect($post->ID, $counts[$post->ID] ?? 0), $posts);
+    }
+
+    private function isHidden(int $id): bool
+    {
+        return (bool) get_field('hidden', $id);
+    }
+
+    private function notHiddenMetaClause(): array
+    {
+        return [
+            'relation' => 'OR',
+            ['key' => 'hidden', 'compare' => 'NOT EXISTS'],
+            ['key' => 'hidden', 'value' => '1', 'compare' => '!='],
+        ];
     }
 
     /**
