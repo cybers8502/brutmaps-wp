@@ -34,7 +34,10 @@ class ArchitectPostTypeRegistrar
             'publicly_queryable' => true,
             'show_in_rest' => true,
             'capability_type' => 'post',
-            'rewrite' => ['with_front' => true],
+            // Matches the frontend's /architects/:slug detail route (plural,
+            // like the /architects listing page), not the default singular
+            // "architect" base WordPress would otherwise use.
+            'rewrite' => ['slug' => 'architects', 'with_front' => true],
         ]);
     }
 }
