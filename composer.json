@@ -40,7 +40,7 @@
         "wpackagist-plugin/woocommerce": "^9.8.5",
         "wpackagist-plugin/woocommerce-checkout-manager": "^7.7.0",
         "wpackagist-plugin/woocommerce-payments": "^9.4.0",
-        "wpackagist-plugin/woocommerce-paypal-payments": "^3.0.6",
+        "wpackagist-plugin/woocommerce-paypal-payments": "^4.1.2",
         "wpackagist-plugin/woocommerce-services": "^3.0.2",
         "wpackagist-plugin/wp-graphql": "^2.9.1",
         "wpackagist-plugin/zapier": "^1.5.2",

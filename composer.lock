@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8c38aed0e24c7bf9cbcb3a83b83f7c7c",
+    "content-hash": "0c813537b1d8994d4136af5e6b1f2fa2",
     "packages": [
         {
             "name": "composer/installers",
@@ -1227,15 +1227,15 @@
         },
         {
             "name": "wpackagist-plugin/woocommerce-paypal-payments",
-            "version": "3.4.1",
+            "version": "4.1.2",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/woocommerce-paypal-payments/",
-                "reference": "tags/3.4.1"
+                "reference": "tags/4.1.2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/woocommerce-paypal-payments.3.4.1.zip"
+                "url": "https://downloads.wordpress.org/plugin/woocommerce-paypal-payments.4.1.2.zip"
             },
             "require": {
                 "composer/installers": "^1.0 || ^2.0"
